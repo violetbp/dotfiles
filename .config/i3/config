@@ -47,6 +47,9 @@ bindsym $mod+Return exec kitty
 # kill focused window
 bindsym $mod+Shift+q kill
 
+#battery
+exec --no-startup-id /home/vboysepe/.config/i3/i3-battery-popup -L 95
+
 
 # bindsym Mod1+Tab exec --no-startup-id rofi -modi combi -combi-modi window -show combi
 exec_always --no-startup-id i3-cycle-focus.py --history 2
