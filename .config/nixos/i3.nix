@@ -16,11 +16,11 @@
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
-	    rofi
-        dmenu
-        i3status
-	    i3lock
-	    #i3blocks
+		rofi
+		dmenu
+		i3status
+		i3lock
+		i3blocks
       ];
     };
   };

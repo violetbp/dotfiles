@@ -9,9 +9,12 @@
     [ # Include the results of the hardware scan.
      # ./hardware-configuration.nix
      #./plasma.nix
+     ./programs.nix
      ./i3.nix
      #<nixos-hardware/lenovo/thinkpad/t460s>
     ];
+
+  environment.pathsToLink = [ "/libexec" ];
 
 
   #  xdg.portal.enable = true;
@@ -25,12 +28,33 @@
     allowUnfree = true;
   };
 
+  fonts.fonts = with pkgs; [
+    # Serif fonts
+    #roboto ttf_bitstream_vera
+    #liberation_ttf dejavu_fonts
+
+    # Mono fonts
+    #(nerdfonts.override { fonts = [ 
+    #  "FantasqueSansMono" 
+    #]; })
+
+    # Emoji
+    noto-fonts-emoji
+    #openmoji-color
+  ];
+
+  fonts.fontconfig = {
+    defaultFonts = {
+      #emoji = [ "Noto Emoji" ];
+      #emoji = [ "OpenMoji Color" ];
+    };
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.grub.useOSProber = true;
   boot.loader.efi.canTouchEfiVariables = true;
   
-  networking.hostName = "tassadar"; # Define your hostname.
   networking.networkmanager.enable = true; # enables wireless support via networkmanager (nmcli and nmtui)
 
   services.openssh = {
@@ -82,60 +106,7 @@
     extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" "lxd" ]; # Enable ‘sudo’ for the user.
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  
-    (import (fetchTarball "channel:nixos-unstable") {}).tdesktop
-    #tdesktop need to fetch unstable
-    anki
-    ansible
-    arandr    # gui diplay manager
-    bashmount
-    cinnamon.nemo
-    discord
-    efibootmgr
-    emacs
-    firefox
-    gcc
-    git
-    google-chrome
-    gparted
-    htop
-    jdk17_headless
-    kate
-    kitty
-    krb5
-    lutris
-    libreoffice
-    maim #screenshots
-    multimc
-    nano
-    neofetch
-    networkmanagerapplet
-    nix-prefetch-scripts
-    ntfs3g
-    openconnect
-    nnn
-    p3x-onenote
-    pavucontrol # gui sound manager from pulseaudio
-    plex-media-player
-    slack
-    stow  
-    syslinux
-    tmux
-    usbutils
-    vim # MEOW MEOW
-    vscode
-    wget
-    which
-    xclip
-    zoom-us
-  ];
-
-
-
-  # Some programs need SUID wrappers, can be configured further or are
+ # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
