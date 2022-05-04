@@ -49,6 +49,7 @@
     wget
     which
     xclip
+    zerotierone
     zoom-us
     zip
   ];
