@@ -6,12 +6,10 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-     # ./hardware-configuration.nix
+    [ 
      #./plasma.nix
      ./programs.nix
      ./i3.nix
-     #<nixos-hardware/lenovo/thinkpad/t460s>
     ];
 
   environment.pathsToLink = [ "/libexec" ];
@@ -27,6 +25,10 @@
   nixpkgs.config = {
     allowUnfree = true;
   };
+  
+  services.openafsClient.enable = true;
+  services.openafsClient.cellName = "cs.cmu.edu";
+  
 
   fonts.fonts = with pkgs; [
     # Serif fonts
@@ -56,6 +58,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
   
   networking.networkmanager.enable = true; # enables wireless support via networkmanager (nmcli and nmtui)
+  networking.search = [ "alias.cs.cmu.edu" "cs.cmu.edu" "ri.cmu.edu cmu.edu" ];
+
+
 
   services.openssh = {
     #enable = true;

@@ -3,11 +3,13 @@
 {  # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  
+    (import "/home/vboysepe/.config/nixos/remctl.nix")
     (import (fetchTarball "channel:nixos-unstable") {}).tdesktop
     #tdesktop need to fetch unstable
     anki
     ansible
+    autoconf
+    automake
     arandr    # gui diplay manager
     bashmount
     cinnamon.nemo
