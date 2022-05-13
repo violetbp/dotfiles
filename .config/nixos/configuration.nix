@@ -5,12 +5,11 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ 
-     #./plasma.nix
-     ./programs.nix
-     ./i3.nix
-    ];
+  imports = [ 
+    #./plasma.nix
+    ./programs.nix
+    ./i3.nix
+  ];
 
   environment.pathsToLink = [ "/libexec" ];
 
@@ -18,9 +17,9 @@
   #  xdg.portal.enable = true;
   #  services.flatpak.enable = true;
   environment.shellAliases = {
-      ffxiv = "lutris lutris:rungameid/1";
-      bloons = "lutris lutris:rungameid/2";
-    };
+    ffxiv = "lutris lutris:rungameid/1";
+    bloons = "lutris lutris:rungameid/2";
+  };
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -84,12 +83,9 @@
   # Container/VM
   virtualisation.lxd.enable = true;
   
-
-  
   # Enable CUPS to print documents.
-    services.printing.enable = true;
-    services.printing.drivers = [ pkgs.hplip ];
-
+  services.printing.enable = true;
+  services.printing.drivers = [ pkgs.hplip ];
 
   # Enable sound.
   sound.enable = true;
@@ -97,7 +93,6 @@
 
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
-
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
@@ -111,7 +106,9 @@
     extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" "lxd" ]; # Enable ‘sudo’ for the user.
   };
 
- # Some programs need SUID wrappers, can be configured further or are
+  programs.steam.enable = true;
+
+  # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
@@ -125,19 +122,16 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-
-  programs.steam.enable = true;
-
- # nixpkgs.config.packageOverrides = pkgs: {
- #   steam = pkgs.steam.override {
- #     extraPkgs = pkgs: [
- #       #libgdiplus
- #       #harfbuzz
- #       pango
- #       libthai
- #     ];
- #   };
- # };
+  # nixpkgs.config.packageOverrides = pkgs: {
+  #   steam = pkgs.steam.override {
+  #     extraPkgs = pkgs: [
+  #       #libgdiplus
+  #       #harfbuzz
+  #       pango
+  #       libthai
+  #     ];
+  #   };
+  # };
 
 
 
