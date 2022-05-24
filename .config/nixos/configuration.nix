@@ -27,7 +27,11 @@
   
   services.openafsClient.enable = true;
   services.openafsClient.cellName = "cs.cmu.edu";
-  
+
+  networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
+
+
+  #services.xserver.xlock.enable=true;  
 
   fonts.fonts = with pkgs; [
     # Serif fonts
