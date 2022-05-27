@@ -10,3 +10,6 @@ alias config='/run/current-system/sw/bin/git --git-dir=$HOME/.cfg/ --work-tree=$
 
 alias ka='kinit vboysepe/admin'
 alias kr='kinit vboysepe/root'
+
+alias chpkg='nano .config/nixos/programs.nix'
+alias chcfg='nano .config/nixos/configuration.nix'
