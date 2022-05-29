@@ -13,6 +13,8 @@
 
   environment.pathsToLink = [ "/libexec" ];
 
+    hardware.sensor.iio.enable = true;
+
 
   #  xdg.portal.enable = true;
   #  services.flatpak.enable = true;

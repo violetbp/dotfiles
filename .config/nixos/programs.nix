@@ -19,7 +19,9 @@
     emacs
     firefox
     gcc
+    glib
     git
+    
     google-chrome
     gjs
     gparted
@@ -43,6 +45,7 @@
     pavucontrol # gui sound manager from pulseaudio
     plex-media-player
     slack
+    signal-desktop
     stow  
     syslinux
     tmux
