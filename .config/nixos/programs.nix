@@ -5,6 +5,7 @@
   environment.systemPackages = with pkgs; [
     (import "/home/vboysepe/.config/nixos/remctl.nix")
     (import (fetchTarball "channel:nixos-unstable") {}).tdesktop
+    (import (fetchTarball "channel:nixos-unstable") {}).polymc
     #tdesktop need to fetch unstable
     anki
     ansible
@@ -20,6 +21,7 @@
     gcc
     git
     google-chrome
+    gjs
     gparted
     htop
     jdk17_headless
@@ -29,13 +31,13 @@
     lutris
     libreoffice
     maim #screenshots
-    multimc
     nano
     neofetch
     networkmanagerapplet
     nix-prefetch-scripts
     ntfs3g
     openconnect
+    ncdu
     nnn
     p3x-onenote
     pavucontrol # gui sound manager from pulseaudio

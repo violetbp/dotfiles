@@ -122,7 +122,7 @@ bindsym $mod+a focus parent
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
-set $ws2 "2"
+set $ws2 "2 msg"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
@@ -210,3 +210,9 @@ bar {
 
 set $refresh_i3status killall -SIGUSR1 i3status
 
+
+##==================================================##
+#           *** Workspace specific settings ***                     #
+##=================================================##
+assign [class="telegram-desktop"] $ws2
+assign [class="discord"] $ws2
