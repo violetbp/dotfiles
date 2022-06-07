@@ -44,11 +44,14 @@
     p3x-onenote
     pavucontrol # gui sound manager from pulseaudio
     plex-media-player
+    screen
     slack
     signal-desktop
     stow  
     syslinux
     tmux
+    udiskie
+    udisks2
     usbutils
     unzip
     vim
