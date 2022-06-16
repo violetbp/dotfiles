@@ -48,18 +48,19 @@ bindsym $mod+Return exec kitty
 bindsym $mod+Shift+q kill
 
 #battery
-exec --no-startup-id /home/vboysepe/.config/i3/i3-battery-popup -L 95
+exec --no-startup-id /home/vboysepe/.config/i3/i3-battery-popup -L 95z
 
 
-# bindsym Mod1+Tab exec --no-startup-id rofi -modi combi -combi-modi window -show combi
-exec_always --no-startup-id i3-cycle-focus.py --history 2
-bindsym $mod1+Tab exec --no-startup-id i3-cycle-focus.py --switch
+#alt tab menu it works I guess
+bindsym Mod1+Tab exec --no-startup-id rofi -modi combi -combi-modi window -show combi
+
+
+# exec_always --no-startup-id i3-cycle-focus.py --history 2
+# bindsym $mod1+Tab exec --no-startup-id i3-cycle-focus.py --switch
 
 #screenshot
 bindsym $mod+Shift+s exec maim -s | xclip -selection clipboard -t image/png
 
-#ff
-bindsym #mod+Shift+f exec lutris lutris:rungameid/1 &
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec --no-startup-id dmenu_run
@@ -216,3 +217,5 @@ set $refresh_i3status killall -SIGUSR1 i3status
 ##=================================================##
 assign [class="telegram-desktop"] $ws2
 assign [class="discord"] $ws2
+exec telegram-desktop
+exec discord

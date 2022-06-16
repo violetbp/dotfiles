@@ -36,6 +36,16 @@
 
   networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
 
+  systemd.services.zerotier = {
+    description = "Start up zerotier";
+    serviceConfig = {
+      Type = "forking";
+      ExecStart = ''${pkgs.screen}/bin/screen -dmS zerotier ${pkgs.zerotierone}/bin/zerotier-one'';         
+      ExecStop = ''${pkgs.screen}/bin/screen -S zerotier -X quit'';
+    };
+    wantedBy = [ "multi-user.target" ]; 
+    after = [ "network-online.target" ]; # starts after login
+  };
 
   #services.xserver.xlock.enable=true;  
 
