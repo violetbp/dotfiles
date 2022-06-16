@@ -6,14 +6,18 @@
 
 {
   imports = [ 
-    #./plasma.nix
     ./programs.nix
-    ./i3.nix
+    #./i3.nix
   ];
 
   environment.pathsToLink = [ "/libexec" ];
 
-    hardware.sensor.iio.enable = true;
+  hardware.sensor.iio.enable = true;
+
+  # hibernation?
+  # boot.kernelParams = [  "resume=/dev/mapper/nixos--vg-root"];# "resume_offset=450560" ];
+  swapDevices = [ { device = "/var/swapfile"; size = 16384; } ];
+  boot.resumeDevice = "/dev/mapper/nixos--vg-root";
 
 
   #  xdg.portal.enable = true;
@@ -68,8 +72,8 @@
 
 
   services.openssh = {
-    enable = true;
-    #enable = false;
+    #enable = true;
+    enable = false;
     permitRootLogin = "no"; 
   };
 

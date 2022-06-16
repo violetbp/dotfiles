@@ -1,5 +1,10 @@
 {config, pkgs, ... }:
 {
+  imports = [ 
+    #./plasma.nix
+    ./i3.nix
+  ];
+
   networking.hostName = "karax";
   programs.light.enable = true;
 
@@ -16,6 +21,11 @@
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp2s0.useDHCP = true;
 
+
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "vboysepe" ];
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+  
   services.actkbd = {
     enable = true;
     bindings = [

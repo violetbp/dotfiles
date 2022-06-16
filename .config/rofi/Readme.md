@@ -1,1 +1,1 @@
-rofi themes from https://github.com/adi1090x/rofi
+rofi themes from https://github.com/adi1090x/rofi, they're very pretty! 
