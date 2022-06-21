@@ -2,6 +2,9 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ 
+    ./i3.nix
+  ];
   
   networking.hostName = "tassadar"; # Define your hostname.
 
