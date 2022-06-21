@@ -1,12 +1,3 @@
 XTerm*background:white
 XTerm*foreground:white
 xterm*font:     -*-basis33-*-*-*-*-0-200-*-*-*-*-*-*
-
-! ------------------------------------------------------------------------------
-! ROFI Color theme
-! ------------------------------------------------------------------------------
-rofi.color-enabled: true
-rofi.color-window: #14161F, #14161F, #14161F
-rofi.color-normal: #14161F, #f3f4f5, #14161F, #E53935, #f3f4f5
-rofi.color-active: #0039ff, #68ba50, #0039ff, #4f80ff, #68ba50
-rofi.color-urgent: #0039ff, #14161F, #0039ff, #4f80ff, #14161F
