@@ -7,7 +7,6 @@
 {
   imports = [ 
     ./programs.nix
-    #./i3.nix
   ];
 
   environment.pathsToLink = [ "/libexec" ];
@@ -37,6 +36,9 @@
   services.openafsClient.enable = true;
   services.openafsClient.cellName = "cs.cmu.edu";
 
+  virtualisation.docker.enable = true;
+  
+  # google cast firewall rules
   networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
 
   systemd.services.zerotier = {
@@ -81,6 +83,7 @@
   
   networking.networkmanager.enable = true; # enables wireless support via networkmanager (nmcli and nmtui)
   networking.search = [ "alias.cs.cmu.edu" "cs.cmu.edu" "ri.cmu.edu cmu.edu" ];
+  systemd.services.NetworkManager-wait-online.enable = false;
 
 
 
