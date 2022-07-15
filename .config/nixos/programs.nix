@@ -44,6 +44,7 @@
     p3x-onenote
     pavucontrol # gui sound manager from pulseaudio
     plex-media-player
+    samba
     screen
     slack
     signal-desktop

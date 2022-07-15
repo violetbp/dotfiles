@@ -30,7 +30,10 @@
   nixpkgs.config = {
     allowUnfree = true;
   };
-  
+
+  # this enables network fileshares such as samba to be used with nemo but doesnt seem to work :(
+  services.gvfs.enable = true;
+
   services.openafsClient.enable = true;
   services.openafsClient.cellName = "cs.cmu.edu";
 
