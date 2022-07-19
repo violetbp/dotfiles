@@ -10,6 +10,11 @@
     #./i3.nix
   ];
 
+
+
+systemd.targets.network-online.wantedBy = pkgs.lib.mkForce []; # Normally ["multi-user.target"]
+systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # Normally ["network-online.target"]
+
   environment.pathsToLink = [ "/libexec" ];
 
   hardware.sensor.iio.enable = true;

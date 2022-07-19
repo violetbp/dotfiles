@@ -54,6 +54,7 @@
     udisks2
     usbutils
     unzip
+    vlc
     vim
     vscode
     wget
