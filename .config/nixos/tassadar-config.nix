@@ -4,6 +4,7 @@
 {
   imports = [ 
     ./i3.nix
+#    ./kubernetes.nix
   ];
   
   networking.hostName = "tassadar"; # Define your hostname.
