@@ -7,7 +7,6 @@
 {
   imports = [ 
     ./programs.nix
-    #./i3.nix
   ];
 
 
@@ -39,6 +38,9 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
   services.openafsClient.enable = true;
   services.openafsClient.cellName = "cs.cmu.edu";
 
+  virtualisation.docker.enable = true;
+  
+  # google cast firewall rules
   networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
 
   systemd.services.zerotier = {
@@ -83,6 +85,7 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
   
   networking.networkmanager.enable = true; # enables wireless support via networkmanager (nmcli and nmtui)
   networking.search = [ "alias.cs.cmu.edu" "cs.cmu.edu" "ri.cmu.edu cmu.edu" ];
+  systemd.services.NetworkManager-wait-online.enable = false;
 
 
 
@@ -93,7 +96,8 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
   };
 
   # Set your time zone.
-  time.timeZone = "America/New_York";
+#  time.timeZone = "America/New_York";
+  time.timeZone = "US/Pacific";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
