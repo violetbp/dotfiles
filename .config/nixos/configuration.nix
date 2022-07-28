@@ -96,8 +96,8 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
   };
 
   # Set your time zone.
-#  time.timeZone = "America/New_York";
-  time.timeZone = "US/Pacific";
+  time.timeZone = "America/New_York";
+#  time.timeZone = "US/Pacific";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
