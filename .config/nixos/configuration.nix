@@ -91,6 +91,8 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
   networking.extraHosts =
   ''
     10.147.19.164 nova
+    10.241.172.176 artemis
+    10.241.172.176 plex
   '';
   systemd.services.NetworkManager-wait-online.enable = false;
 
