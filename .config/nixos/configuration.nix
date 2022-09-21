@@ -15,7 +15,7 @@
 
   # hibernation?
   # boot.kernelParams = [  "resume=/dev/mapper/nixos--vg-root"];# "resume_offset=450560" ];
-  swapDevices = [ { device = "/var/swapfile"; size = 16384; } ];
+  # this is unnessicary i have lvm swap?? swapDevices = [ { device = "/var/swapfile"; size = 16384; } ];
   boot.resumeDevice = "/dev/mapper/nixos--vg-root";
 
 
