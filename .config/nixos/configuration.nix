@@ -85,6 +85,10 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
   
   networking.networkmanager.enable = true; # enables wireless support via networkmanager (nmcli and nmtui)
   networking.search = [ "alias.cs.cmu.edu" "cs.cmu.edu" "ri.cmu.edu cmu.edu" ];
+  networking.extraHosts =
+  ''
+    10.147.19.164 nova
+  '';
   systemd.services.NetworkManager-wait-online.enable = false;
 
 
