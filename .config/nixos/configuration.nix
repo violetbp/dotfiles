@@ -20,7 +20,7 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
 
   # hibernation?
   # boot.kernelParams = [  "resume=/dev/mapper/nixos--vg-root"];# "resume_offset=450560" ];
-  swapDevices = [ { device = "/var/swapfile"; size = 16384; } ];
+  # this is unnessicary i have lvm swap?? swapDevices = [ { device = "/var/swapfile"; size = 16384; } ];
   boot.resumeDevice = "/dev/mapper/nixos--vg-root";
 
 
@@ -34,7 +34,10 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
   nixpkgs.config = {
     allowUnfree = true;
   };
-  
+
+  # this enables network fileshares such as samba to be used with nemo but doesnt seem to work :(
+  services.gvfs.enable = true;
+
   services.openafsClient.enable = true;
   services.openafsClient.cellName = "cs.cmu.edu";
 

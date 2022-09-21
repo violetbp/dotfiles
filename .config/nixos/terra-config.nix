@@ -30,9 +30,9 @@
   networking.interfaces.enp4s0.useDHCP = true;
   networking.interfaces.wlp1s0.useDHCP = true;
 
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "vboysepe" ];
-  virtualisation.virtualbox.host.enableExtensionPack = true;
+#  virtualisation.virtualbox.host.enable = true;
+#  users.extraGroups.vboxusers.members = [ "vboysepe" ];
+#  virtualisation.virtualbox.host.enableExtensionPack = true;
 
   #amd gpu shit idk
   boot.initrd.kernelModules = [ "amdgpu" ];
