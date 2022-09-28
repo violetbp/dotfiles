@@ -22,7 +22,7 @@
   networking.interfaces.wlp4s0.useDHCP = true;
 
 
-  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enable = false;
   users.extraGroups.vboxusers.members = [ "vboysepe" ];
   virtualisation.virtualbox.host.enableExtensionPack = true;
   

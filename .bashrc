@@ -21,5 +21,7 @@ alias cmuvpn='sudo openconnect --protocol=anyconnect --user=vboysepe --authgroup
 alias umvpn='sudo openconnect --protocol=anyconnect --authgroup="Campus VPN" umvpn3.umnet.umich.edu'
 
 
+alias df='df -h'
+
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
