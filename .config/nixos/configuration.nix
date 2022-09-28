@@ -9,10 +9,11 @@
     ./programs.nix
   ];
 
+  #nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 
-systemd.targets.network-online.wantedBy = pkgs.lib.mkForce []; # Normally ["multi-user.target"]
-systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # Normally ["network-online.target"]
+  systemd.targets.network-online.wantedBy = pkgs.lib.mkForce []; # Normally ["multi-user.target"]
+  systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # Normally ["network-online.target"]
 
   environment.pathsToLink = [ "/libexec" ];
 
@@ -46,16 +47,34 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
   # google cast firewall rules
   networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
 
-  systemd.services.zerotier = {
-    description = "Start up zerotier";
-    serviceConfig = {
-      Type = "forking";
-      ExecStart = ''${pkgs.screen}/bin/screen -dmS zerotier ${pkgs.zerotierone}/bin/zerotier-one'';         
-      ExecStop = ''${pkgs.screen}/bin/screen -S zerotier -X quit'';
-    };
-    wantedBy = [ "multi-user.target" ]; 
-    after = [ "network-online.target" ]; # starts after login
+  services.zerotierone = {
+    enable = true;
+    package = with pkgs; zerotierone.overrideAttrs (old: {
+      cargoDeps = rustPlatform.importCargoLock {
+        lockFile = fetchurl {
+          url = "https://raw.githubusercontent.com/zerotier/ZeroTierOne/${old.version}/zeroidc/Cargo.lock";
+          sha256 = "sha256-pn7t7udZ8A72WC9svaIrmqXMBiU2meFIXv/GRDPYloc=";
+        };
+        outputHashes = {
+          "jwt-0.16.0" = "sha256-P5aJnNlcLe9sBtXZzfqHdRvxNfm6DPBcfcKOVeLZxcM=";
+        };
+      };
+    });
   };
+
+
+
+
+  # systemd.services.zerotier = {
+  #   description = "Start up zerotier";
+  #   serviceConfig = {
+  #     Type = "forking";
+  #     ExecStart = ''${pkgs.screen}/bin/screen -dmS zerotier ${pkgs.zerotierone}/bin/zerotier-one'';         
+  #     ExecStop = ''${pkgs.screen}/bin/screen -S zerotier -X quit'';
+  #   };
+  #   wantedBy = [ "multi-user.target" ]; 
+  #   after = [ "network-online.target" ]; # starts after login
+  # };
 
   #services.xserver.xlock.enable=true;  
 
@@ -111,7 +130,7 @@ systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # No
   services.xserver.enable = true;
 
   # Container/VM
-  virtualisation.lxd.enable = true;
+  virtualisation.lxd.enable = false;
   
   # Enable CUPS to print documents.
   services.printing.enable = true;
