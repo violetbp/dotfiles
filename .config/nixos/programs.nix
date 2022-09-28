@@ -1,17 +1,18 @@
-{ config, pkgs, ... }:
+##
+## Programs etc, that can be specified easily
+##
 
-{  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+{ config, pkgs, ... }: {
+  programs.steam.enable = true;
   environment.systemPackages = with pkgs; [
     (import "/home/vboysepe/.config/nixos/remctl.nix")
-    (import (fetchTarball "channel:nixos-unstable") {}).tdesktop
+    (import (fetchTarball "channel:nixos-unstable") {}).tdesktop #tdesktop need to fetch unstable
     (import (fetchTarball "channel:nixos-unstable") {}).polymc
-    #tdesktop need to fetch unstable
     anki
     ansible
-    autoconf
-    automake
     arandr    # gui diplay manager
+    autoconf  # make i think?
+    automake
     bashmount
     cinnamon.nemo
     discord
@@ -19,50 +20,50 @@
     emacs
     firefox
     gcc
-    glib
     git
-    
-    google-chrome
     gjs
+    glib
+    google-chrome
     gparted
     htop
     jdk17_headless
     kate
     kitty
     krb5
-    lutris
     libreoffice
+    lutris
     maim #screenshots
     nano
+    ncdu
     neofetch
     networkmanagerapplet
     nix-prefetch-scripts
-    ntfs3g
-    openconnect
-    ncdu
     nnn
+    ntfs3g
+    nushell
+    openconnect
     p3x-onenote
     pavucontrol # gui sound manager from pulseaudio
     plex-media-player
     samba
     screen
-    slack
     signal-desktop
+    slack
     stow  
     syslinux
     tmux
     udiskie
     udisks2
-    usbutils
     unzip
-    vlc
+    usbutils
     vim
+    vlc
     vscode
     wget
     which
     xclip
     zerotierone
-    zoom-us
     zip
+    zoom-us
   ];
 }
