@@ -4,7 +4,7 @@ alias nixpurge-old='sudo nix-collect-garbage --delete-older-than 4d'
 alias nixgenerations='sudo nix-env -p /nix/var/nix/profiles/system --list-generations'
 
 alias nixupgrade='sudo nixos-rebuild --impure --flake /home/vboysepe/.config/nixos switch'
-##sudo nixos-rebuild switch --upgrade'
+alias nixupgradeext='sudo nixos-rebuild --impure --builders "ssh://vboysepe@triforce.fac.cs.cmu.edu?ssh-key=/home/vboysepe/.ssh/id_rsa x86_64-linux" --flake /home/vboysepe/.config/nixos switch'
 alias nixupdate='sudo nixos-rebuild switch'
 
 
@@ -20,6 +20,10 @@ alias chcfg='nano .config/nixos/configuration.nix'
 alias cmuvpn='sudo openconnect --protocol=anyconnect --user=vboysepe --authgroup="Campus VPN" vpn.cmu.edu'
 alias umvpn='sudo openconnect --protocol=anyconnect --authgroup="Campus VPN" umvpn3.umnet.umich.edu'
 
+alias updateChannel='sudo nix-channel --remove nixos 
+sudo nix-channel --add https://nixos.org/channels/nixos-22.05 nixos
+sudo nix-channel --list
+sudo nix-channel --update'
 
 alias df='df -h'
 

@@ -62,7 +62,7 @@
     wget
     which
     xclip
-#    zerotierone
+    #zerotierone specified elsewhere
     zip
     zoom-us
   ];
