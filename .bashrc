@@ -1,10 +1,11 @@
 #eval "$(thefuck --alias)"
 
-alias nixpurge-old='sudo nix-collect-garbage --delete-older-than 4d'
+alias nixpurge-old='sudo nix-collect-garbage --delete-older-than 3d'
 alias nixgenerations='sudo nix-env -p /nix/var/nix/profiles/system --list-generations'
 
 alias nixupgrade='sudo nixos-rebuild --impure --flake /home/vboysepe/.config/nixos switch'
-alias nixupgradeext='sudo nixos-rebuild --impure --builders "ssh://vboysepe@triforce.fac.cs.cmu.edu?ssh-key=/home/vboysepe/.ssh/id_rsa x86_64-linux" --flake /home/vboysepe/.config/nixos switch'
+alias nixupgradeext='sudo nixos-rebuild --impure --builders "ssh://root@triforce.fac.cs.cmu.edu x86_64-linux,i686-linux /home/vboysepe/.ssh/id_rsa 200" --max-jobs 0 --flake /home/vboysepe/.config/nixos switch'
+alias nixupgradeext8='sudo nixos-rebuild --impure --builders "ssh://root@triforce.fac.cs.cmu.edu x86_64-linux,i686-linux /home/vboysepe/.ssh/id_rsa 8" --max-jobs 2 --flake /home/vboysepe/.config/nixos switch'
 alias nixupdate='sudo nixos-rebuild switch'
 
 
