@@ -3,14 +3,14 @@
 
 {
   imports = [ 
+#    ./xmonad.nix
     ./i3.nix
 #    ./kubernetes.nix
   ];
   
   networking.hostName = "tassadar"; # Define your hostname.
 
-  
-    boot.initrd.luks.devices = {
+  boot.initrd.luks.devices = {
     root = {
       device = "/dev/sda2";
       preLVM = true;
@@ -19,8 +19,6 @@
 
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp4s0.useDHCP = true;
-
-
 
   programs.light.enable = true;
   services.actkbd = {

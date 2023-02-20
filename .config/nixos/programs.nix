@@ -3,11 +3,13 @@
 ##
 
 { config, pkgs, ... }: {
-  programs.steam.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
+  
   environment.systemPackages = with pkgs; [
     (import "/home/vboysepe/.config/nixos/remctl.nix")
     (import (fetchTarball "channel:nixos-unstable") {}).tdesktop #tdesktop need to fetch unstable
-    (import (fetchTarball "channel:nixos-unstable") {}).polymc
+    prismlauncher
     anki
     ansible
     arandr    # gui diplay manager
@@ -33,11 +35,13 @@
     libreoffice
     lutris
     maim #screenshots
+    #mlocate service
     nano
     ncdu
     neofetch
     networkmanagerapplet
     nix-prefetch-scripts
+    nixfmt
     nnn
     ntfs3g
     nushell
@@ -47,6 +51,7 @@
     plex-media-player
     samba
     screen
+    service-wrapper
     signal-desktop
     slack
     stow  
@@ -66,4 +71,30 @@
     zip
     zoom-us
   ];
+  
+  programs.steam.enable = true;
+
+  services.zerotierone = {
+    enable = true;
+    package = with pkgs; zerotierone.overrideAttrs (old: {
+      cargoDeps = rustPlatform.importCargoLock {
+        lockFile = fetchurl {
+          url = "https://raw.githubusercontent.com/zerotier/ZeroTierOne/${old.version}/zeroidc/Cargo.lock";
+          sha256 = "sha256-pn7t7udZ8A72WC9svaIrmqXMBiU2meFIXv/GRDPYloc=";
+        };
+        outputHashes = {
+          "jwt-0.16.0" = "sha256-P5aJnNlcLe9sBtXZzfqHdRvxNfm6DPBcfcKOVeLZxcM=";
+        };
+      };
+    });
+  };
+    
+  services.locate = {
+    enable = true;
+    locate = pkgs.mlocate;
+    interval = "hourly";
+    #services.locate.localuser = null;
+  };
+
+
 }
