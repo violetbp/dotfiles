@@ -7,7 +7,7 @@
   environment.systemPackages = with pkgs; [
     (import "/home/vboysepe/.config/nixos/remctl.nix")
     (import (fetchTarball "channel:nixos-unstable") {}).tdesktop #tdesktop need to fetch unstable
-    (import (fetchTarball "channel:nixos-unstable") {}).polymc
+    #(import (fetchTarball "channel:nixos-unstable") {}).polymc
     anki
     ansible
     arandr    # gui diplay manager
