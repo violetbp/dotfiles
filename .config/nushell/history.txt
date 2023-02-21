@@ -12,3 +12,19 @@ config-nu
 config nu
 nixos-generate -f iso -c configuration.nix
 nix-shell -p nixos-generators
+mkdir torrents
+mv *.torrent torrents/
+ls torrents
+ls
+mkdir vita
+mv *.vpk vita
+mv *.wad vita
+ls vita
+mv *.WAD vita
+ls
+nano .bashrc
+nano ../.bashrc
+nano .config/nushell/config.nu
+config nu
+ls
+config add .config/nushell/*
