@@ -1,0 +1,14 @@
+ls
+ls where # = 1
+ls WHERE name = 4
+ls 
+WHERE
+ls |where name = Desktop
+ls |where name == Desktop
+ls |where name > Desktop
+ls |where name > n
+du
+config-nu
+config nu
+nixos-generate -f iso -c configuration.nix
+nix-shell -p nixos-generators
