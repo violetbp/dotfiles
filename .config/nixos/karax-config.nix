@@ -1,8 +1,11 @@
 {config, pkgs, ... }:
 {
   imports = [ 
-    #./plasma.nix
-    ./i3.nix
+    #`./plasma.nix    
+    
+    ./windowManager/i3.nix
+    ./windowManager/sway.nix
+    ./windowManager/hypr.nix
   ];
 
   networking.hostName = "karax";

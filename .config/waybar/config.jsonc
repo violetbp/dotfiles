@@ -1,0 +1,123 @@
+[{
+  "layer": "top",
+  "position": "bottom",
+  "spacing": 0,
+  "modules-left": [
+    "niri/workspaces",
+    "wlr/taskbar",
+    "niri/window"
+  ],
+  "modules-right": [
+    "tray",
+//    "cpu",
+//    "memory",
+    "network",
+    "pulseaudio",
+    "battery",
+    "backlight",
+    "power-profiles-daemon",
+    "custom/notification",
+    "clock"
+  ],
+  "niri/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "format-icons": {
+      "chat": "󰭹",
+      "osrs": "󰞇",
+      "gaming": "󰊖",
+      "steam": "",
+    }
+  },
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "tooltip-format": "{title}",
+    "icon-size": 24,
+    "on-click": "activate",
+  },
+  "tray": {
+    "spacing": 10,
+  },
+  "clock": {
+    "timezone": "America/Los_Angeles",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "format-alt": "{:%Y-%m-%d}",
+  },
+  "cpu": {
+    "format": "{usage}% ",
+    "tooltip": false,
+  },
+  "memory": {
+    "format": "{}% ",
+  },
+  "network": {
+    "family": "ipv4",
+    "format-icons": ["󰣴", "󰣶", "󰣸", "󰣺"],
+    "format-ethernet": "{ipaddr}/{cidr} ",
+    "tooltip-format": "{ifname} via {gwaddr}",
+    "format-linked": "{ifname} (No IP) 󰣻",
+    "format-disconnected": "Disconnected 󰣾",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+  },
+  "battery": {
+    "format-icons": [
+      "", "", "", ""
+    ],
+    "format": "{capacity}% @ {power:.3}W {icon}",
+  },
+	"power-profiles-daemon": {
+	  "format": "{icon}",
+	  "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+	  "tooltip": true,
+	  "format-icons": {
+	    "default": "",
+	    "performance": "",
+	    "balanced": "",
+	    "power-saver": ""
+	  }
+	},
+  "backlight": { "reverse-scrolling": true },
+
+  "pulseaudio": {
+    "format": "{volume}% {icon} {format_source}",
+    "on-click": "pavucontrol",
+    "format-muted": " {format_source}",
+    "format-source": "{volume}% ",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        "",
+        ""
+      ],
+    },
+  },
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{} {icon}",
+    "format-icons": {
+      "notification": "<span foreground='red'><sup></sup></span>",
+      "none": "",
+      "dnd-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-none": "",
+      "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "inhibited-none": "",
+      "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-inhibited-none": ""
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+},
+
+]

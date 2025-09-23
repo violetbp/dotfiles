@@ -1,12 +1,12 @@
 { pkgs, ... }:
 
 {
-
   imports = [ 
-    ./i3.nix
+    ./windowManager.nix
   ];
 
- ### T495 specific stuff
+   -### T495 specific stuff
+  networking.hostName = "terra"; # Define your hostname.
 
   boot.initrd.luks.devices = {
     root = {
@@ -14,7 +14,6 @@
       preLVM = true;
     };
   };
-  networking.hostName = "terra"; # Define your hostname.
 
 
   programs.light.enable = true;

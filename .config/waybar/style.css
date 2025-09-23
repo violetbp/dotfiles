@@ -1,0 +1,140 @@
+@define-color text #cfcfcf;
+@define-color bg rgba(30, 30, 30, 0.5);
+@define-color fg #a466c8;
+/* @define-color fg #ed4082; */
+/* @define-color fg-alt #a466c8;*/
+@define-color fg-alt #d6316e;
+@define-color fg-notif #ffffff;
+@define-color fg-select #af6fcf;
+
+/* @define-color fg-select #f58b40;*/
+
+/* Root */
+#waybar {
+	font-family: RecMonoDuotone Nerd Font;
+	font-size: 15px;
+	background-color: rgba(0, 0, 0, 0);
+
+	color: @text;
+}
+
+#waybar > .horizontal {
+	margin: .5em .2em;
+}
+
+/* Disable some default styling on buttons */
+button {
+	color: @text;
+	padding: 0;
+	border: none;
+	font-size: 1em;
+	transition: none;
+	min-height: 0;
+}
+
+button:hover {
+	background: none;
+	box-shadow: none;
+	text-shadow: none;
+	transition: none;
+}
+
+image {
+	-gtk-icon-effect: none;
+	-gtk-icon-shadow: none;
+}
+
+/* All modules */
+.module {
+	margin: 0 .3em;
+	border-radius: .5em;
+	padding: .4em .8em;
+	box-shadow: 0 0 .2em 0 rgba(0, 0, 0, 0.5);
+
+	background-color: @bg;
+	min-height: 30px;
+}
+
+/* Workspaces and taskbar */
+#workspaces,
+#taskbar {
+	padding: .2em;
+}
+
+#workspaces button,
+#taskbar button {
+	padding: 0 .4em;
+	border-radius: .5em;
+}
+
+#taskbar button box {
+	padding: .2em;
+}
+
+#workspaces button:not(:last-child),
+#taskbar button:not(:last-child) {
+	margin-right: .2em;
+}
+
+#workspaces button.active,
+#taskbar button.active {
+	background-color: @fg;
+}
+
+#workspaces button.active:not(.current_output) {
+	background-color: @bg;
+}
+
+#workspaces button.urgent {
+	background-color: @fg-notif;
+	color: @red;
+}
+
+#workspaces button:hover,
+#taskbar button:hover {
+	color: @base;
+	background-color: @fg-select;
+}
+
+/* Other modules */
+#cpu {
+	padding-right: 1em;
+}
+
+#memory {
+	padding-right: 1em;
+}
+
+#network {
+}
+
+#pulseaudio {
+}
+
+#battery {
+}
+
+#battery.charging,
+#battery.plugged {
+	color: @green;
+}
+  
+@keyframes blink {
+	to {
+		color: @fg-notif;
+	}
+}
+
+#battery.critical:not(.charging) {
+	color: @fg-notif;
+	animation-name: blink;
+	animation-duration: 0.5s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
+#clock {
+}
+
+

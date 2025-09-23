@@ -1,10 +1,13 @@
 { config, pkgs, ... }:
 let
-  kubeMasterIP = "10.1.1.2";
-  kubeMasterHostname = "api.kube";
+  kubeMasterIP = "10.147.19.111";
+  kubeMasterHostname = "tassadar";
   kubeMasterAPIServerPort = 6443;
 in
 {
+  virtualisation.docker.enable = true;
+
+
   # resolve master hostname
   networking.extraHosts = "${kubeMasterIP} ${kubeMasterHostname}";
 
