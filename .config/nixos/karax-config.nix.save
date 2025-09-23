@@ -3,9 +3,9 @@
   imports = [ 
     #`./plasma.nix    
     
-    #./windowManager/i3.nix
-    ./windowManager/niri.nix
-    # ./windowManager/hypr.nix
+    ./windowManager/i3.nix
+    ./windowManager/sway.nix
+    ./windowManager/hypr.nix
   ];
 
   networking.hostName = "karax";
@@ -25,9 +25,9 @@
   networking.interfaces.wlp2s0.useDHCP = true;
 
 
-  # virtualisation.virtualbox.host.enable = false;
-  # users.extraGroups.vboxusers.members = [ "vboysepe" ];
-  # virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.virtualbox.host.enable = false;
+  users.extraGroups.vboxusers.members = [ "vboysepe" ];
+  virtualisation.virtualbox.host.enableExtensionPack = true;
   
   services.actkbd = {
     enable = true;

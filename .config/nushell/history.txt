@@ -15,3 +15,136 @@ nano .config/nushell/config.nu
 config nu
 ls
 config add .config/nushell/*
+nixupgrade
+ssh artemis
+scp Downloads/g_bWpvfUWOjkSl4b.mp4 artemis:mnt/user/media/preroll/pika.mp4
+scp Downloads/g_bWpvfUWOjkSl4b.mp4 artemis:/mnt/user/media/preroll/pika.mp4
+nano .config/nixos/configuration.nix
+nixupgrade
+neofetch
+nix repl
+sudo nix-channel --list
+nano .config/nixos/configuration.nix
+nano .config/nixos/programs.nix
+hexchat
+ssh marvel
+ssh root@marvel
+config pull
+ssh root@zagara
+ssh marvel
+ssh vorazun
+nixupdate
+hto
+nano .config/nixos/configuration.nix
+nano .config/nixos/programs.nix
+cd /afs/cmu.edu
+cd /afs/cs.cmu.edu
+cd  /afs/cs/user/km44/public/ 
+sudo zerotier-cli list
+sudo zerotier-cli info
+service 
+service zerotier restart
+service zerotier-one restart
+service zerotierone restart
+ssh root@locus
+ssh vorazun
+ssh root@locus
+service zerotierone status
+service zerotierone restart
+git clone https://github.com/OpenDGLab/OpenDGLab-Desktop.git
+cd OpenDGLab-Desktop/
+ls
+ mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel ..
+service zerotierone restart
+ssh root@locus
+service zerotierone restart
+nix-shell -p transmission-qt
+transmission-qt 
+sudo transmission-qt 
+transmission-qt
+ssh triforce
+ssh root@zagara
+ssh root@marvel
+ssh root@zagara
+/sbin/rmmod hid_multitouch && /sbin/modprobe hid_multitouch
+/sbin/rmmod hid_multitouch and /sbin/modprobe hid_multitouch
+modprobe hid_multitouch
+sudo modprobe hid_multitouch
+cat /etc/nixos/hardware-configuration.nix
+ssh vorazun
+ssh root@zagara
+sudo service zerotier restart
+sudo service zerotier-one restart
+sudo systemctl zerotier-one restart
+sudo systemctl restart zerotier-one
+xlock
+lock
+nixupdate
+ssh root@babel-cluster.lti.cs.cmu.edu
+ssh root@locus
+ssh locus
+ssh vorazun
+ssh root@locus
+ssh vorazun
+ssh vorazun
+ssh root@locus
+service zerotierone restart
+history
+nano .config/nixos/configuration.nix
+ssh root@artemis
+modprove
+modprobe
+modprobe -h
+modprobe hid_multitouch
+lsmod
+lsmod |grep hid
+lsmod |grep touch
+lsmod |grep screen\
+lsmod |grep screen
+lsmod |grep screan
+lsmod |grep hid
+cat /proc/cpuinfo
+service zerotierone restart
+ssh orlana
+ssh artemis
+ssh 10.147.19.56
+ssh nova
+service zerotierone restart
+ssh nova
+ssh root@zagara
+lsblk
+history
+dhcpdump -i enp8s0
+ssh head1.condo.cs.cmu.edu
+ssh root@head1.condo.cs.cmu.edu
+ka
+less /proc/bus/input/devices
+cat /proc/bus/input/devices
+cat /proc/bus/input/devices |grep wacom
+cat /proc/bus/input/devices |grep -i wacom
+cat /proc/bus/input/devices |grep Wacom
+ssh nova
+service zerotierone restart
+ssh no
+ssh nova
+ssh nova
+sudo systemctl restart zerotier-one
+sudo systemctl restart zerotierone
+reboot
+nix-shell -p adb
+nano .config/nixos/configuration.nix
+nano .config/nixos/p
+nano .config/nixos/programs.nix 
+sudo nixupdate
+nixupdate
+poweroff
+exit
+lsblk
+cat /proc/meminfo
+starfish
+exit
+df
+exit
+ssh root@locus

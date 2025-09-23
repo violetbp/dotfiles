@@ -9,9 +9,10 @@
   programs.adb.enable = true;
   
   environment.systemPackages = with pkgs; [
-    (import "/home/vboysepe/.config/nixos/remctl.nix")
+    #(import "/home/vboysepe/.config/nixos/remctl.nix")
     (import (fetchTarball "channel:nixos-unstable") {}).tdesktop #tdesktop need to fetch unstable
     #(import (fetchTarball "channel:nixos-unstable") {}).polymc
+    bat
     prismlauncher
     anki
     ansible
@@ -19,7 +20,7 @@
     autoconf  # make i think?
     automake
     bashmount
-    cinnamon.nemo
+    nemo
     discord
     efibootmgr
     emacs
@@ -32,7 +33,7 @@
     gparted
     htop
     jdk17_headless
-    kate
+    kdePackages.kate
     kitty
     krb5
     libreoffice
@@ -51,7 +52,7 @@
     openconnect
     p3x-onenote
     pavucontrol # gui sound manager from pulseaudio
-    plex-media-player
+    plex-desktop
     samba
     screen
     service-wrapper
@@ -60,7 +61,7 @@
     stow  
     syslinux
     tmux
-    transmission-qt
+    transmission_3-qt
     udiskie
     udisks2
     unzip
@@ -89,24 +90,29 @@
     playerctl
     imagemagick
 
-    betterlockscreen
-    brightnessctl
-    playerctl
-    imagemagick
 
-    eww-wayland # Bar and Widgets
+    #eww-wayland # Bar and Widgets
+    pamixer # volume
   #  hyprland    # git # Wayland Compositor/WM
   #  nerd-fonts-mononoki       # Font for bar text and icons
   #  nerd-fonts-jetbrains-mono # Font for bar text and icons
-    rofi-wayland # For search utility, since no Wayland utilities can handle custom Rofi modi (that I know of)
-    dunst       # Notification Daemon
-    trayer      # Systray Utility
-    mpvpaper    # Video Backgrounds
-    macchina    # (Optional) Fetch Script
-    socat       # Socket utility for eww workspace module
+#    dunst       # Notification Daemon
+#    trayer      # Systray Utility
+#   mpvpaper    # Video Backgrounds
+#    macchina    # (Optional) Fetch Script
+#    socat       # Socket utility for eww workspace module
+    swaybg
   #  geticons    # CLI tool for locating icons
+    xwayland-satellite 
+
+
   ];
-  
+  fonts.packages = with pkgs; [
+    
+    nerd-fonts.recursive-mono
+  ];
+  #environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   programs.steam.enable = true;
 
   services.zerotierone = {
@@ -128,7 +134,6 @@
     enable = true;
     package = pkgs.mlocate;
     interval = "hourly";
-    localuser = null;
   };
 
 

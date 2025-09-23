@@ -7,11 +7,12 @@
 {
   imports = [ 
     ./programs.nix
-    ./starship.ds
+    ./starship.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1"; # Apply Wayland flags to Electron apps where necessary
 
   systemd.targets.network-online.wantedBy = pkgs.lib.mkForce []; # Normally ["multi-user.target"]
   systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # Normally ["network-online.target"]
@@ -36,12 +37,12 @@
   # this enables network fileshares such as samba to be used with nemo but doesnt seem to work :(
   services.gvfs.enable = true;
 
-  services.openafsClient.enable = true;
-  services.openafsClient.cellName = "cs.cmu.edu";
+  # services.openafsClient.enable = true;
+  # services.openafsClient.cellName = "cs.cmu.edu";
 
-  # Container/VM
-  virtualisation.lxd.enable = false;
-  virtualisation.docker.enable = true;
+  # # Container/VM
+  # virtualisation.lxd.enable = false;
+  # virtualisation.docker.enable = true;
   
   # google cast firewall rules
   networking.firewall.allowedUDPPortRanges = [ { from = 32768; to = 60999; } ];
@@ -57,7 +58,7 @@
   
   ###### Networking ######
   networking.networkmanager.enable = true; # enables wireless support via networkmanager (nmcli and nmtui)
-  networking.search = [ "alias.cs.cmu.edu" "cs.cmu.edu" "ri.cmu.edu cmu.edu" ];
+  # networking.search = [ "alias.cs.cmu.edu" "cs.cmu.edu" "ri.cmu.edu cmu.edu" ];
   systemd.services.NetworkManager-wait-online.enable = false;
   networking.extraHosts =
   ''
@@ -77,13 +78,13 @@
     #enable = true;
     enable = false;
     settings = {
-	permitRootLogin = "no"; 
+	    permitRootLogin = "no"; 
     };
   };
 
   # Set your time zone.
-  time.timeZone = "America/New_York";
-  #time.timeZone = "US/Pacific";
+  # time.timeZone = "America/New_York";
+  time.timeZone = "US/Pacific";
 
   
   # Enable CUPS to print documents.
@@ -91,16 +92,28 @@
   services.printing.drivers = [ pkgs.hplip ];
 
   ###### Sound ######
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    extraConfig = {
+      pipewire."99-silent-bell.conf" = {
+        "context.properties" = {
+          "module.x11.bell" = false;
+        };
+      };
+    };
+  };
 
   ###### BT ######
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
-  services.xserver.libinput.touchpad.naturalScrolling = true;
+  services.libinput.enable = true;
+  services.libinput.touchpad.naturalScrolling = true;
 
   ###### User ######
   users.users.vboysepe = {
@@ -111,6 +124,6 @@
     extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" "lxd" "mlocate" "adbusers" ]; # Enable ‘sudo’ for the user.
   };
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 }
 
