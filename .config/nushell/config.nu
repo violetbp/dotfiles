@@ -236,7 +236,11 @@ let light_theme = {
 #     carapace $spans.0 nushell $spans | from json
 # }
 
+<<<<<<< HEAD
+  
+=======
 
+>>>>>>> e899d06517d26e7929bb0f81a29e35fc6734801c
 # The default config record. This is where much of your global configuration is setup.
 let-env config = {
   external_completer: $nothing # check 'carapace_completer' above to as example
