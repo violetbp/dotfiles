@@ -13,10 +13,9 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1"; # Apply Wayland flags to Electron apps where necessary
 
-  systemd.targets.network-online.wantedBy = pkgs.lib.mkForce []; # Normally ["multi-user.target"]
-  systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # Normally ["network-online.target"]
+ # systemd.targets.network-online.wantedBy = pkgs.lib.mkForce []; # Normally ["multi-user.target"]
+ # systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # Normally ["network-online.target"]
 
   environment.pathsToLink = [ "/libexec" ];
 
@@ -70,10 +69,6 @@
     192.168.1.245 orlanahome
   '';
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
 
   services.openssh = {
     #enable = true;
@@ -110,7 +105,14 @@
 
   ###### BT ######
   services.blueman.enable = true;
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
+    };
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;

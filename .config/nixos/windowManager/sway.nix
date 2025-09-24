@@ -53,18 +53,10 @@ in
     swayidle
     grim # screenshot functionality
     slurp # screenshot functionality
-    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     bemenu # wayland clone of dmenu
     mako # notification system developed by swaywm maintainer
     wdisplays # tool to configure displays
   ];
-
-  #i should reenable this soon
-  # services.pipewire = {
-  #   enable = true;
-  #   alsa.enable = true;
-  #   pulse.enable = true;
-  # };
 
 
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces

@@ -12,18 +12,19 @@
     #(import "/home/vboysepe/.config/nixos/remctl.nix")
     (import (fetchTarball "channel:nixos-unstable") {}).tdesktop #tdesktop need to fetch unstable
     #(import (fetchTarball "channel:nixos-unstable") {}).polymc
-    bat
-    prismlauncher
     anki
     ansible
     arandr    # gui diplay manager
     autoconf  # make i think?
     automake
     bashmount
-    nemo
+    bat
+    
+    brightnessctl
     discord
     efibootmgr
     emacs
+    feh # image viewer
     firefox
     gcc
     git
@@ -32,27 +33,31 @@
     google-chrome
     gparted
     htop
+    imagemagick
     jdk17_headless
+    jq
     kdePackages.kate
     kitty
     krb5
     libreoffice
     lutris
     maim #screenshots
-    #mlocate defined in service
     nano
     ncdu
+    nemo
     neofetch
     networkmanagerapplet
     nix-prefetch-scripts
     nixfmt
     nnn
     ntfs3g
-  #  nushell
     openconnect
     p3x-onenote
+    pamixer # volume
     pavucontrol # gui sound manager from pulseaudio
+    playerctl
     plex-desktop
+    prismlauncher
     samba
     screen
     service-wrapper
@@ -71,63 +76,24 @@
     vscode
     wget
     which
+    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     xclip
-    #zerotierone specified elsewhere
     zip
     zoom-us
-
-
-    bspwm
-    sxhkd
-    #picom-ibhagwan-git
-    calcurse
-    #todotxt
-    feh
-    jq
-    
-    betterlockscreen
-    brightnessctl
-    playerctl
-    imagemagick
-
-
-    #eww-wayland # Bar and Widgets
-    pamixer # volume
-  #  hyprland    # git # Wayland Compositor/WM
-  #  nerd-fonts-mononoki       # Font for bar text and icons
-  #  nerd-fonts-jetbrains-mono # Font for bar text and icons
-#    dunst       # Notification Daemon
-#    trayer      # Systray Utility
-#   mpvpaper    # Video Backgrounds
-#    macchina    # (Optional) Fetch Script
-#    socat       # Socket utility for eww workspace module
-    swaybg
   #  geticons    # CLI tool for locating icons
-    xwayland-satellite 
-
+  #  nushell
+  #  mlocate defined in service
+  #  zerotierone specified elsewhere
 
   ];
   fonts.packages = with pkgs; [
-    
     nerd-fonts.recursive-mono
   ];
-  #environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   programs.steam.enable = true;
 
   services.zerotierone = {
     enable = true;
-#    package = with pkgs; zerotierone.overrideAttrs (old: {
-#      cargoDeps = rustPlatform.importCargoLock {
-#        lockFile = fetchurl {
-#          url = "https://raw.githubusercontent.com/zerotier/ZeroTierOne/${old.version}/zeroidc/Cargo.lock";
-#          sha256 = "sha256-pn7t7udZ8A72WC9svaIrmqXMBiU2meFIXv/GRDPYloc=";
-#        };
-#        outputHashes = {
-#          "jwt-0.16.0" = "sha256-P5aJnNlcLe9sBtXZzfqHdRvxNfm6DPBcfcKOVeLZxcM=";
-#        };
-#      };
- #   });
   };
     
   services.locate = {
