@@ -12,7 +12,7 @@
 /* Root */
 #waybar {
 	font-family: RecMonoDuotone Nerd Font;
-	font-size: 15px;
+	font-size: 13px;
 	background-color: rgba(0, 0, 0, 0);
 
 	color: @text;
@@ -52,7 +52,7 @@ image {
 	box-shadow: 0 0 .2em 0 rgba(0, 0, 0, 0.5);
 
 	background-color: @bg;
-	min-height: 30px;
+	min-height: 10px;
 }
 
 /* Workspaces and taskbar */
@@ -76,8 +76,8 @@ image {
 	margin-right: .2em;
 }
 
-#workspaces button.active,
-#taskbar button.active {
+#workspaces button.focused,
+#taskbar button.focused {
 	background-color: @fg;
 }
 

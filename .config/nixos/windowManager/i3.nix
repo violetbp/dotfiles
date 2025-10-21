@@ -2,6 +2,7 @@
 
 {
 #i3 shit
+  # programs.light.enable = true; probably need this? idk it was in another file
 
   environment.pathsToLink = [ "/libexec" ];
   

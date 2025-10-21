@@ -4,7 +4,7 @@
   "spacing": 0,
   "modules-left": [
     "niri/workspaces",
-    "wlr/taskbar",
+    "niri/taskbar",
     "niri/window"
   ],
   "modules-right": [
@@ -29,10 +29,10 @@
       "steam": "",
     }
   },
-  "wlr/taskbar": {
+  "niri/taskbar": {
     "format": "{icon}",
     "tooltip-format": "{title}",
-    "icon-size": 24,
+    "icon-size": 50,
     "on-click": "activate",
   },
   "tray": {

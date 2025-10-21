@@ -1,18 +1,15 @@
 {config, pkgs, ... }:
 {
-  imports = [ 
-    #`./plasma.nix    
-    
-    #./windowManager/i3.nix
+  imports = [   
     ./windowManager/niri.nix
-    # ./windowManager/hypr.nix
   ];
 
   networking.hostName = "karax";
-  programs.light.enable = true;
 
-  hardware.sensor.iio.enable = true;
-
+  #IIO stands for the Industrial I/O subsystem of the Linux Kernel
+  #I dont actually think this machine has one anymore ()
+  hardware.sensor.iio.enable = true; 
+ 
   
   boot.initrd.luks.devices = {
     root = {
@@ -20,10 +17,6 @@
       preLVM = true;
     };
   };
-
-  networking.interfaces.enp0s31f6.useDHCP = true;
-  networking.interfaces.wlp2s0.useDHCP = true;
-
 
   # virtualisation.virtualbox.host.enable = false;
   # users.extraGroups.vboxusers.members = [ "vboysepe" ];

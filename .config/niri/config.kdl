@@ -15,7 +15,7 @@ input {
             // For example:
             // layout "us,ru"
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
-
+            options "compose:ralt,ctrl:nocaps"
             // If this section is empty, niri will fetch xkb settings
             // from org.freedesktop.locale1. You can control these using
             // localectl set-x11-keymap.
@@ -67,6 +67,14 @@ input {
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
     // focus-follows-mouse max-scroll-amount="0%"
+}
+
+cursor {
+    xcursor-theme "whitesur_cursors"
+    xcursor-size 48
+
+    hide-when-typing
+    hide-after-inactive-ms 1000
 }
 
 // You can configure outputs by their name, which you can find
@@ -359,6 +367,28 @@ window-rule {
     open-floating true
 }
 
+// Open the Firefox picture-in-picture player as floating by default.
+window-rule {
+    // This app-id regular expression will work for both:
+    // - host Firefox (app-id is "firefox")
+    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
+    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+// Open the Firefox picture-in-picture player as floating by default.
+window-rule {
+    match app-id=r#"zen$"#  title="^Extension:.*"
+    open-floating true
+}
+window-rule {
+    // This app-id regular expression will work for both:
+    // - host Firefox (app-id is "firefox")
+    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
+    match app-id=r#"zen$"# 
+    default-column-width { proportion 1.0; }
+
+}
+
 window-rule {
 // open steam notifications in the corner
     match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
@@ -367,9 +397,15 @@ window-rule {
 window-rule {
     match app-id=r#"^org\.telegram\.desktop$"#
     match at-startup=true
-
-
+    default-column-width { proportion 0.6; }
 }
+
+window-rule {
+    match app-id=r#"^org\.obsidian$"#
+    match at-startup=true
+    default-column-width { proportion 0.6; }
+}
+
 // block out bitwarden from capture
 window-rule {
     match app-id=r#"^Bitwarden$"#
@@ -418,6 +454,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
@@ -443,8 +480,9 @@ binds {
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
     Mod+O repeat=false { toggle-overview; }
+    Mod+Tab repeat=false { toggle-overview; }
 
-    Mod+Q repeat=false { close-window; }
+    Mod+Q repeat=true { close-window; }
 
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-window-down; }
@@ -673,6 +711,10 @@ workspace "chat" {
     // {# if SYSTEM.hostname == "fog" #}
     //<yolk> open-on-output "DP-2"
 }
-
+workspace "steam" {
+    // always open on 4k
+    // {# if SYSTEM.hostname == "fog" #}
+    //<yolk> open-on-output "DP-2"
+}
 // clipboard { disable-primary; }
 

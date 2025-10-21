@@ -1,62 +1,82 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, inputs, ... }:
 
 {
-#niri shit
+  #niri shit
 
-  environment ={
+
+  environment = {
     pathsToLink = [ "/libexec" ];
     sessionVariables.NIXOS_OZONE_WL = "1"; # Apply Wayland flags to Electron apps where necessary
   };
 
   programs = {
     niri.enable = true;
-    waybar.enable = true;
+    # waybar.enable = true;
+    # waybar.package = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
     dconf.enable = true;
   };
 
-  services.xserver = {
-    enable = true;
-    # desktopManager = {
-    #   xterm.enable = false;
-    # };
- #   displayManager = {
- #     defaultSession = "none+i3";
- #   };
- 
-   windowManager.i3 = {
-    enable = true;
-      extraPackages = with pkgs; [
-        fuzzel
-        swaylock
-        wayland-utils
-        xwayland-satellite
-        swaybg
-        #betterlockscreen #prettyier might be nice
-      ];
-    };
+  environment.systemPackages = with pkgs; [
+    inputs.waybar.packages.${pkgs.system}.default
+    fuzzel
+    swaylock
+    wayland-utils
+    xwayland-satellite
+#    pkgs.adwaita-icon-theme
+    swaybg
+    #betterlockscreen #prettyier might be nice
+  ];
+
+  # this is needed for the application icons to load in. if theres an issue in the future I probably need a local to my user path set up or smth
+  systemd.user.services.waybar.serviceConfig = {
+    Environment = "\"PATH=$PATH:/run/current-system/sw/bin\"";
   };
 
-  # Init session with niri
-  greetd = {
-    enable = true;
-    settings = rec {
-      tuigreet_session =
+  # tty service config
+  systemd.services.greetd.serviceConfig = {
+    Type = "idle";
+    StandardInput = "tty";
+    StandardOutput = "tty";
+    StandardError = "journal";
+    TTYReset = true;
+    TTYVHangup = true;
+    TTYVTDisallocate = true;
+  };
+
+  services = {
+    greetd = {
+      enable = true;
+      settings.default_session =
+        /*
+          Return first binary executable name of the given derivation
+          Type:
+            exe :: Derivation -> String
+        */
         let
-          session = "${pkgs.niri-unstable}/bin/niri-session";
-          tuigreet = "${lib.exe pkgs.tuigreet}";
+          exe =
+            drv:
+            let
+              regFiles = lib.mapAttrsToList (f: _: f) (
+                lib.filterAttrs (_: t: t == "regular") (builtins.readDir "${drv}/bin")
+              );
+              mainProg = drv.meta.mainProgram or (lib.head regFiles);
+            in
+            "${drv}/bin/${mainProg}";
+
+          session = "${pkgs.niri}/bin/niri-session";
+          tuigreet = "${exe pkgs.tuigreet}";
         in
         {
           command = "${tuigreet} --time --remember --cmd ${session}";
           user = "greeter";
         };
-      default_session = tuigreet_session;
+      # default_session = tuigreet_session;
+    };
+
+    # GTK theme config
+    dbus = {
+      enable = true;
+      packages = [ pkgs.dconf ];
     };
   };
-  # GTK theme config
-  services.dbus = {
-    enable = true;
-    packages = [ pkgs.dconf ];
-  };
-
-
 }
