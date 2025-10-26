@@ -23,10 +23,10 @@
     "format": "{icon}",
     "on-click": "activate",
     "format-icons": {
-      "chat": "󰭹",
-      "osrs": "󰞇",
+      "chat":   "󰭹",
+      "osrs":   "󰞇",
       "gaming": "󰊖",
-      "steam": "",
+      "steam":  "",
     }
   },
   "niri/taskbar": {
@@ -40,6 +40,7 @@
   },
   "clock": {
     "timezone": "America/Los_Angeles",
+        "format": "{:%I:%M %p}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "format-alt": "{:%Y-%m-%d}",
   },

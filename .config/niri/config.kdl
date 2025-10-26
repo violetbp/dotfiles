@@ -70,8 +70,8 @@ input {
 }
 
 cursor {
-    xcursor-theme "whitesur_cursors"
-    xcursor-size 48
+    xcursor-theme "Bibata-Modern-Ice"
+    xcursor-size 22
 
     hide-when-typing
     hide-after-inactive-ms 1000
@@ -190,7 +190,7 @@ layout {
         // You can use any CSS linear-gradient tool on the web to set these up.
         // Changing the color space is also supported, check the wiki for more info.
         //
-        active-gradient from="#a466c8" to="#00000000" angle=170
+        active-gradient from="#5d75e9ff" to="#00000000" angle=170
 
         // You can also color the gradient relative to the entire view
         // of the workspace, rather than relative to just the window itself.
@@ -279,7 +279,6 @@ layout {
 // spawn-at-startup "xwayland-satellite" "-verbose"
 spawn-at-startup "waybar"
 spawn-at-startup "Telegram"
-
 spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
 // {% if SYSTEM.hostname == "fog" %}
 //<yolk> spawn-at-startup "bash" "-c" "swaybg -o DP-3 -i $HOME/Pictures/wallpapers/foggy-forest.jpg -m fill"
@@ -367,7 +366,7 @@ window-rule {
     open-floating true
 }
 
-// Open the Firefox picture-in-picture player as floating by default.
+// Open the Zen picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
@@ -375,12 +374,13 @@ window-rule {
     match app-id=r#"zen$"# title="^Picture-in-Picture$"
     open-floating true
 }
-// Open the Firefox picture-in-picture player as floating by default.
+// Open Zen Extensions as floating by default.
 window-rule {
     match app-id=r#"zen$"#  title="^Extension:.*"
     open-floating true
 }
-window-rule {
+
+window-rule { // fullscreen zen
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
@@ -715,6 +715,11 @@ workspace "steam" {
     // always open on 4k
     // {# if SYSTEM.hostname == "fog" #}
     //<yolk> open-on-output "DP-2"
+}
+workspace "gaming" {
+    // always open on ultrawide
+    // {# if SYSTEM.hostname == "fog" #}
+    //<yolk> open-on-output "DP-3"
 }
 // clipboard { disable-primary; }
 

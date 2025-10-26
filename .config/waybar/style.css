@@ -1,11 +1,11 @@
 @define-color text #cfcfcf;
 @define-color bg rgba(30, 30, 30, 0.5);
-@define-color fg #a466c8;
+@define-color fg #754ccc;
 /* @define-color fg #ed4082; */
 /* @define-color fg-alt #a466c8;*/
 @define-color fg-alt #d6316e;
 @define-color fg-notif #ffffff;
-@define-color fg-select #af6fcf;
+@define-color fg-select #6f9acf;
 
 /* @define-color fg-select #f58b40;*/
 

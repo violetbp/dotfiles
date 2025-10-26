@@ -15,87 +15,91 @@
   programs = {
     adb.enable = true;
     steam.enable = true;
+    steam.package = pkgs.steam.override {
+      extraArgs = "-system-composer";
+    };
   };
 
-  catppuccin = {
-    enable = true;
-    accent = "blue";
-    tty.enable = true;
-  };
+  # catppuccin = {
+  #   enable = true;
+  #   accent = "blue";
+  #   tty.enable = true;
+  # };
 
   environment.systemPackages = with pkgs; [
-    zsh
-    zoom-us
-    zip
-    xclip
-    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-    which
-    wget
-    vscode
-    vlc
-    vim
-    usbutils
-    unzip
-    udisks2
-    udiskie
-    transmission_3-qt
-    tmux
-    syslinux
-    stow
-    slack
-    signal-desktop
-    service-wrapper
-    screen
-    samba
-    prismlauncher
-    plex-desktop
-    playerctl
-    pavucontrol # gui sound manager from pulseaudio
-    pamixer # volume
-    p3x-onenote
-    openconnect
-    obsidian
-    ntfs3g
-    nnn
-    nixfmt
-    nix-prefetch-scripts
-    networkmanagerapplet
-    neofetch
-    nemo
-    ncdu
-    nano
-    maim # screenshots
-    lutris
-    libreoffice
-    krb5
-    kitty
-    kdePackages.kate
-    jq
-    jdk17_headless
-    imagemagick
-    htop
-    gparted
-    google-chrome
-    glib
-    gjs
-    git
-    gcc
-    firefox
-    feh # image viewer
-    emacs
-    efibootmgr
-    discord
-    brightnessctl
-    bat
-    bashmount
-    automake
-    rsyslog
-    autoconf # make i think?
-    arandr # gui diplay manager
-    ansible
     anki
+    ansible
+    arandr # gui diplay manager
+    autoconf # make i think?
+    automake
+    bashmount
+    bat
+    brightnessctl
+    discord
+    efibootmgr
+    emacs
+    feh # image viewer
+    firefox
+    gcc
+    git
+    gjs
+    glib
+    google-chrome
+    gparted
+    ghostty
+    htop
+    imagemagick
+    jdk17_headless
+    jq
+    kdePackages.kate
+    kitty
+    krb5
+    libreoffice
+    lutris
+    maim # screenshots
+    nano
+    ncdu
+    nemo-with-extensions
+    nemo-preview
+    neofetch
+    networkmanagerapplet
+    nix-prefetch-scripts
+    nixfmt
+    nnn
+    ntfs3g
+    obsidian
+    openconnect
+    p3x-onenote
+    pamixer # volume
+    pavucontrol # gui sound manager from pulseaudio
+    playerctl
+    plex-desktop
+    prismlauncher
+    rsyslog
+    samba
+    screen
+    service-wrapper
+    signal-desktop
+    slack
+    stow
+    syslinux
+    tmux
+    transmission_3-qt
+    udiskie
+    udisks2
+    unzip
+    usbutils
+    vim
+    vlc
+    vscode
+    wget
+    which
+    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+    xclip
+    zip
+    zoom-us
+    zsh
     #(import "/home/vboysepe/.config/nixos/remctl.nix")
-    # whitesur-cursors
     #  nushell
     #  mlocate defined in service
     #  geticons    # CLI tool for locating icons
@@ -108,6 +112,10 @@
   ];
 
   services = {
+    gvfs = {
+      enable = true;
+      # package = pkgs.gnome.gvfs;
+    };
     locate = {
       enable = true;
       package = pkgs.mlocate;

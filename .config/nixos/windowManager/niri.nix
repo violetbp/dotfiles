@@ -22,7 +22,9 @@
     swaylock
     wayland-utils
     xwayland-satellite
-#    pkgs.adwaita-icon-theme
+    pkgs.adwaita-icon-theme
+    yaru-theme
+
     swaybg
     #betterlockscreen #prettyier might be nice
   ];

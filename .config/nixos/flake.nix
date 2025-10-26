@@ -1,15 +1,15 @@
 
 {
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs;
+    nixpkgs.url = "nixpkgs/nixos-25.05";
     home-manager = {
       url = "github:nix-community/home-manager";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with
       # the `inputs.nixpkgs` of the current flake,
       # to avoid problems caused by different versions of nixpkgs.
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };    home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-schemas.url = github:DeterminateSystems/flake-schemas;
     waybar.url = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
     catppuccin.url = "github:catppuccin/nix/release-25.05";
@@ -35,7 +35,7 @@
         modules = [ 
           /etc/nixos/configuration.nix 
 
-          catppuccin.nixosModules.catppuccin
+          # catppuccin.nixosModules.catppuccin
 
           nix-index-database.nixosModules.nix-index
            { programs.nix-index-database.comma.enable = true; } # comma to install and run

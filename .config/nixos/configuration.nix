@@ -3,7 +3,11 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 {
-  config,  lib,  pkgs,  inputs,  ...
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
 }:
 
 {
@@ -12,16 +16,26 @@
     ./starship.nix
     ./misc.nix
   ];
+  nix.settings = { download-buffer-size = 524288000; # 500 MiB
+   }; 
 
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
 
-  # hibernation?
-  # boot.kernelParams = [  "resume=/dev/mapper/nixos--vg-root"];# "resume_offset=450560" ];
-  # this is unnessicary i have lvm swap?? swapDevices = [ { device = "/var/swapfile"; size = 16384; } ];
-  boot.resumeDevice = "/dev/mapper/nixos--vg-swap";
+  # hibernation stuff
+  boot.kernelParams = [
+    # "resume=/dev/mapper/nixos--vg-root"
+    "resume_offset=24887296"
+  ];
+  swapDevices = [
+    {
+      device = "/var/swapfile";
+      size = 16 * 1024; # 16GB in MB
+    }
+  ];
+  boot.resumeDevice = "/dev/mapper/nixos--vg-root";
 
   #  xdg.portal.enable = true;
 
@@ -62,11 +76,50 @@
       #10.147.19.1    orlana
       #10.147.19.164  nova
       #10.241.172.176 artemis
-      10.241.172.176 plex
-      #192.168.1.245 orlanahome
+      10.0.0.125      artemis
+      10.241.172.176  plex
+      10.0.0.3 orlanahome
       10.0.0.7 haos
     '';
 
+  };
+  environment.sessionVariables.DEFAULT_BROWSER = "/var/lib/flatpak/exports/bin/app.zen_browser.zen";
+
+  xdg.mime.defaultApplications = {
+    "text/html" = "app.zen_browser.zen";
+    "x-scheme-handler/http" = "app.zen_browser.zen";
+    "x-scheme-handler/https" = "app.zen_browser.zen";
+    "x-scheme-handler/about" = "app.zen_browser.zen";
+    "x-scheme-handler/unknown" = "app.zen_browser.zen";
+  };
+
+  #laptop stuff
+  services.thermald.enable = true;
+  powerManagement.enable = true;
+  powerManagement.powertop.enable = true;
+  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.settings = {
+    battery = {
+      governor = "powersave";
+      turbo = "never";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+  };
+
+  services.logind = {
+    lidSwitch = "suspend";
+    # SleepOperation = "suspend";
+    # IdleAction = "suspend";
+
+    powerKey = "suspend";
+    # extraConfig = ''
+    #   HandlePowerKey=ignore
+    #   HandleSuspendKey=ignore
+    #   HandleHibernateKey=ignore
+    # '';
   };
 
   services.openssh = {
@@ -133,6 +186,14 @@
       "adbusers"
     ]; # Enable ‘sudo’ for the user.
   };
-
+  security.sudo.extraRules = [
+    {
+      groups = [ "wheel" ];
+      commands = [ 
+        { command = "/run/current-system/sw/bin/nixos-rebuild"; options = [ "NOPASSWD" ]; } 
+        { command = "/run/current-system/sw/bin/nix-collect-garbage"; options = [ "NOPASSWD" ]; }
+        ];
+    }
+  ];
   hardware.graphics.enable = true;
 }

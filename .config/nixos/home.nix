@@ -20,34 +20,25 @@
   #     xxx
   # '';
 
-  # set cursor size and dpi for 4k monitor
-  # xresources.properties = {
-  #   "Xcursor.size" = 30;
-  #   "Xft.dpi" = 172;
-  # };
+  # set cursor size and (not) dpi for 4k monitor
+  xresources.properties = {
+    "Xcursor.size" = 22;
+    # "Xft.dpi" = 172;
+  };
+  xdg.portal = {
+    # example with hyprland
+    configPackages = [ pkgs.niri ];
+    # has a file with /nix/store/...-hyprland-.../share/xdg-desktop-portal/hyprland-portals.conf
+    # 1 │ [preferred]
+    # 2 │ default=hyprland;gtk
+  };
 
-  home.pointerCursor = 
-    let 
-      getFrom = url: hash: name: {
-          gtk.enable = true;
-          x11.enable = true;
-          name = name;
-          size = 48;
-          package = 
-            pkgs.runCommand "moveUp" {} ''
-              mkdir -p $out/share/icons
-              ln -s ${pkgs.fetchzip {
-                url = url;
-                hash = hash;
-              }} $out/share/icons/${name}
-          '';
-        };
-    in
-      getFrom 
-        "https://github.com/ful1e5/fuchsia-cursor/releases/download/v2.0.0/Fuchsia-Pop.tar.gz"
-        "sha256-BvVE9qupMjw7JRqFUj1J0a4ys6kc9fOLBPx2bGaapTk="
-        "Fuchsia-Pop";
-
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+    size = 22;
+  };
 
 
   # Packages that should be installed to the user profile.
@@ -119,11 +110,54 @@
     usbutils # lsusb
   ];
 
+  xdg.mimeApps = {
+    enable = true;
+    
+    defaultApplications = {
+      "text/html"                 = "app.zen_browser.zen";
+      "x-scheme-handler/http"     = "app.zen_browser.zen";
+      "x-scheme-handler/https"    = "app.zen_browser.zen";
+      "x-scheme-handler/about"    = "app.zen_browser.zen";
+      "x-scheme-handler/unknown"  = "app.zen_browser.zen";
+      "x-scheme-handler/chrome"   = "app.zen_browser.zen";
+
+      "application/x-extension-htm"   = "app.zen_browser.zen";
+      "application/x-extension-html"  = "app.zen_browser.zen";
+      "application/x-extension-shtml" = "app.zen_browser.zen";
+      "application/xhtml+xml"         = "app.zen_browser.zen";
+      "application/x-extension-xhtml" = "app.zen_browser.zen";
+      "application/x-extension-xht"   = "app.zen_browser.zen";
+      "x-scheme-handler/webcal"       = "app.zen_browser.zen";
+      "x-scheme-handler/mailto"       = "app.zen_browser.zen";
+
+
+      "text/plain"                      = "org.kde.kwrite.desktop";
+      "x-scheme-handler/tg"             = "org.telegram.desktop.desktop";
+      "x-scheme-handler/tonsite"        = "org.telegram.desktop.desktop";
+      "x-scheme-handler/sgnl"           = "signal.desktop";
+      "x-scheme-handler/signalcaptcha"  = "signal.desktop";
+      "image/jpeg"    ="feh.desktop";
+      "image/png"     ="feh.desktop";
+      "image/gif"     ="feh.desktop";
+      "image/svg+xml" ="feh.desktop";
+      "image/tiff"    ="feh.desktop";
+      "image/avif"    ="feh.desktop";
+      "image/webp"    ="feh.desktop";
+      "image/jp2"     ="feh.desktop";
+      
+    };
+  };
+
+
+
+
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
-    userName = "Vivian Boyse-Peacor";
-    userEmail = "mookbot@gmail.com";
+    settings.user = {
+      name = "Vivian Boyse-Peacor";
+      email = "mookbot@gmail.com";
+    };
   };
 
   # starship - an customizable prompt for any shell
