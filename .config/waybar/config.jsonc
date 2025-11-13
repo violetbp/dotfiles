@@ -24,9 +24,12 @@
     "on-click": "activate",
     "format-icons": {
       "chat":   "󰭹",
-      "osrs":   "󰞇",
-      "gaming": "󰊖",
+      "zen":    "",
+      "code":   "󰨞",
       "steam":  "",
+      // "osrs":   "󰞇",
+      // "gaming": "󰊖",
+
     }
   },
   "niri/taskbar": {
@@ -82,6 +85,7 @@
   "pulseaudio": {
     "format": "{volume}% {icon} {format_source}",
     "on-click": "pavucontrol",
+    "reverse-scrolling": true,
     "format-muted": " {format_source}",
     "format-source": "{volume}% ",
     "format-source-muted": "",

@@ -120,7 +120,7 @@ cursor {
 layout {
     // Set gaps around windows in logical pixels.
     gaps 7
-
+    background-color "transparent"
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
     //   or right edge of the screen.
@@ -279,7 +279,9 @@ layout {
 // spawn-at-startup "xwayland-satellite" "-verbose"
 spawn-at-startup "waybar"
 spawn-at-startup "Telegram"
+
 spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
+
 // {% if SYSTEM.hostname == "fog" %}
 //<yolk> spawn-at-startup "bash" "-c" "swaybg -o DP-3 -i $HOME/Pictures/wallpapers/foggy-forest.jpg -m fill"
 //<yolk> spawn-at-startup "bash" "-c" "swaybg -o DP-2 -i $HOME/Pictures/wallpapers/foggy-forest-2.jpg -m fill"
@@ -294,7 +296,7 @@ spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-    // skip-at-startup
+    skip-at-startup
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -371,23 +373,23 @@ window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    match app-id=r#"^app\.zen_browser\.zen$"# title="^Picture-in-Picture$"
     open-floating true
 }
 // Open Zen Extensions as floating by default.
 window-rule {
-    match app-id=r#"zen$"#  title="^Extension:.*"
+    match app-id=r#"^app\.zen_browser\.zen$"#  title="Extension"
     open-floating true
 }
 
-window-rule { // fullscreen zen
-    // This app-id regular expression will work for both:
-    // - host Firefox (app-id is "firefox")
-    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"zen$"# 
-    default-column-width { proportion 1.0; }
+// window-rule { // fullscreen zen
+//     // This app-id regular expression will work for both:
+//     // - host Firefox (app-id is "firefox")
+//     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
+//     match app-id=r#"zen$"# 
+//     default-column-width { proportion 1.0; }
 
-}
+// }
 
 window-rule {
 // open steam notifications in the corner
@@ -397,6 +399,7 @@ window-rule {
 window-rule {
     match app-id=r#"^org\.telegram\.desktop$"#
     match at-startup=true
+    open-on-workspace "chat"
     default-column-width { proportion 0.6; }
 }
 
@@ -431,12 +434,16 @@ window-rule {
 
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
-/-window-rule {
-    geometry-corner-radius 12
+window-rule {
+    geometry-corner-radius 4
     clip-to-geometry true
 }
 
 binds {
+    Mod+Shift+V { spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"; }
+
+
+
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
     // like wev.
@@ -621,7 +628,7 @@ binds {
     // Mod+Ctrl+1 { move-window-to-workspace 1; }
 
     // Switches focus between the current and the previous workspace.
-    // Mod+Tab { focus-workspace-previous; }
+    Mod+Shift+Tab { focus-workspace-previous; }
 
     // The following binds move the focused window in and out of a column.
     // If the window is alone, they will consume it into the nearby column to the side.
@@ -659,8 +666,8 @@ binds {
     // * adjust width as a percentage of screen width: "-10%" or "+10%"
     // Pixel sizes use logical, or scaled, pixels. I.e. on an output with scale 2.0,
     // set-column-width "100" will make the column occupy 200 physical screen pixels.
-    Mod+Minus { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
+    Mod+Minus { set-column-width "-33.333333%"; }
+    Mod+Equal { set-column-width "+33.333333%"; }
 
     // Finer height adjustments when in column with other windows.
     Mod+Shift+Minus { set-window-height "-10%"; }
@@ -668,7 +675,7 @@ binds {
 
     // Move the focused window between the floating and the tiling layout.
     Mod+V       { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    // Mod+Shift+V { switch-focus-between-floating-and-tiling; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
@@ -711,15 +718,39 @@ workspace "chat" {
     // {# if SYSTEM.hostname == "fog" #}
     //<yolk> open-on-output "DP-2"
 }
-workspace "steam" {
-    // always open on 4k
-    // {# if SYSTEM.hostname == "fog" #}
-    //<yolk> open-on-output "DP-2"
+workspace "zen" {
 }
-workspace "gaming" {
-    // always open on ultrawide
-    // {# if SYSTEM.hostname == "fog" #}
-    //<yolk> open-on-output "DP-3"
+workspace "code" {
 }
+// workspace "steam" {
+// }
+
 // clipboard { disable-primary; }
 
+
+
+window-rule {
+    match at-startup=true app-id=r#"^app\.zen_browser\.zen$"#
+         
+    // {# if SYSTEM.hostname == "fog" #}
+    //<yolk> open-on-output "DP-1"
+    open-on-workspace "zen"
+}
+window-rule {
+    match at-startup=true app-id=r#"^code$"#
+
+    default-column-width { proportion 1.0; }
+    open-on-workspace "code"
+}
+
+spawn-at-startup "bash" "-c" "sleep 0.5; app.zen_browser.zen"
+spawn-at-startup "bash" "-c" "sleep 0.5; code"
+
+layer-rule { // wallpaper goes behind the task view
+  match namespace="^wallpaper$"
+  place-within-backdrop true
+}
+
+spawn-at-startup "bash" "-c" "swaybg -i '/home/vboysepe/Pictures/bgnew.jpg' -m fill"
+
+spawn-at-startup "upower-notify"

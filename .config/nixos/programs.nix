@@ -5,7 +5,7 @@
 {
   config,
   pkgs,
-  waybar,
+  inputs,
   ...
 }:
 {
@@ -20,11 +20,11 @@
     };
   };
 
-  # catppuccin = {
-  #   enable = true;
-  #   accent = "blue";
-  #   tty.enable = true;
-  # };
+  catppuccin = {
+    enable = true;
+    accent = "blue";
+    tty.enable = true;
+  };
 
   environment.systemPackages = with pkgs; [
     anki
@@ -35,7 +35,9 @@
     bashmount
     bat
     brightnessctl
+    cliphist
     discord
+    bolt-launcher # runescape
     efibootmgr
     emacs
     feh # image viewer
@@ -49,22 +51,26 @@
     ghostty
     htop
     imagemagick
+    inotify-tools
     jdk17_headless
     jq
     kdePackages.kate
     kitty
     krb5
     libreoffice
-    lutris
+    # lutris
     maim # screenshots
     nano
+    nautilus
     ncdu
     nemo-with-extensions
     nemo-preview
     neofetch
+    neovim
     networkmanagerapplet
     nix-prefetch-scripts
-    nixfmt
+    # nixfmt
+    nixfmt-rfc-style
     nnn
     ntfs3g
     obsidian
@@ -76,6 +82,7 @@
     plex-desktop
     prismlauncher
     rsyslog
+    runelite # cuz i love my girlfriends
     samba
     screen
     service-wrapper
@@ -104,8 +111,10 @@
     #  mlocate defined in service
     #  geticons    # CLI tool for locating icons
     #(import (fetchTarball "channel:nixos-unstable") {}).polymc
-    (import (fetchTarball "channel:nixos-unstable") { }).tdesktop # tdesktop need to fetch unstable
+    (import (fetchTarball "channel:nixos-unstable") { }).telegram-desktop # tdesktop need to fetch unstable
   ];
+
+  system.rebuild.enableNg = true;
 
   fonts.packages = with pkgs; [
     nerd-fonts.recursive-mono
@@ -125,5 +134,13 @@
     #gvfs.enable = true;   # this enables network fileshares such as samba to be used with nemo but doesnt seem to work :(
     tailscale.enable = true;
     zerotierone.enable = true;
+    power-profiles-daemon.enable = true; #waybar needs this
+    upower = {
+      enable = true;
+      criticalPowerAction = "HybridSleep";
+      percentageLow = 14;
+      usePercentageForPolicy = true;
+    };
+    geoclue2.enable = true;
   };
 }

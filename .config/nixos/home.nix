@@ -114,21 +114,20 @@
     enable = true;
     
     defaultApplications = {
-      "text/html"                 = "app.zen_browser.zen";
-      "x-scheme-handler/http"     = "app.zen_browser.zen";
-      "x-scheme-handler/https"    = "app.zen_browser.zen";
-      "x-scheme-handler/about"    = "app.zen_browser.zen";
-      "x-scheme-handler/unknown"  = "app.zen_browser.zen";
-      "x-scheme-handler/chrome"   = "app.zen_browser.zen";
-
-      "application/x-extension-htm"   = "app.zen_browser.zen";
-      "application/x-extension-html"  = "app.zen_browser.zen";
-      "application/x-extension-shtml" = "app.zen_browser.zen";
-      "application/xhtml+xml"         = "app.zen_browser.zen";
-      "application/x-extension-xhtml" = "app.zen_browser.zen";
-      "application/x-extension-xht"   = "app.zen_browser.zen";
-      "x-scheme-handler/webcal"       = "app.zen_browser.zen";
-      "x-scheme-handler/mailto"       = "app.zen_browser.zen";
+      "text/html"                       = "app.zen_browser.zen.desktop";
+      "x-scheme-handler/http"           = "app.zen_browser.zen.desktop";
+      "x-scheme-handler/https"          = "app.zen_browser.zen.desktop";
+      "x-scheme-handler/about"          = "app.zen_browser.zen.desktop";
+      "x-scheme-handler/unknown"        = "app.zen_browser.zen.desktop";
+      "x-scheme-handler/chrome"         = "app.zen_browser.zen.desktop";
+      "application/x-extension-htm"     = "app.zen_browser.zen.desktop";
+      "application/x-extension-html"    = "app.zen_browser.zen.desktop";
+      "application/x-extension-shtml"   = "app.zen_browser.zen.desktop";
+      "application/xhtml+xml"           = "app.zen_browser.zen.desktop";
+      "application/x-extension-xhtml"   = "app.zen_browser.zen.desktop";
+      "application/x-extension-xht"     = "app.zen_browser.zen.desktop";
+      "x-scheme-handler/webcal"         = "app.zen_browser.zen.desktop";
+      "x-scheme-handler/mailto"         = "app.zen_browser.zen.desktop";
 
 
       "text/plain"                      = "org.kde.kwrite.desktop";
@@ -136,28 +135,213 @@
       "x-scheme-handler/tonsite"        = "org.telegram.desktop.desktop";
       "x-scheme-handler/sgnl"           = "signal.desktop";
       "x-scheme-handler/signalcaptcha"  = "signal.desktop";
-      "image/jpeg"    ="feh.desktop";
-      "image/png"     ="feh.desktop";
-      "image/gif"     ="feh.desktop";
-      "image/svg+xml" ="feh.desktop";
-      "image/tiff"    ="feh.desktop";
-      "image/avif"    ="feh.desktop";
-      "image/webp"    ="feh.desktop";
-      "image/jp2"     ="feh.desktop";
+      "image/jpeg"                      = "feh.desktop";
+      "image/png"                       = "feh.desktop";
+      "image/gif"                       = "feh.desktop";
+      "image/svg+xml"                   = "feh.desktop";
+      "image/tiff"                      = "feh.desktop";
+      "image/avif"                      = "feh.desktop";
+      "image/webp"                      = "feh.desktop";
+      "image/jp2"                       = "feh.desktop";
+            
+      "video/1d-interleaved-parityfec" 		= "vlc.desktop";					
+      "video/3gpp" 						            = "vlc.desktop";
+      "video/3gpp2" 					            = "vlc.desktop";
+      "video/3gpp-tt" 				            = "vlc.desktop";
+      "video/AV1" 						            = "vlc.desktop";
+      "video/BMPEG" 					            = "vlc.desktop";
+      "video/BT656" 					            = "vlc.desktop";
+      "video/CelB" 						            = "vlc.desktop";
+      "video/DV" 						              = "vlc.desktop";
+      "video/encaprtp" 				            = "vlc.desktop";
+      "video/evc" 						            = "vlc.desktop";
+      "video/example" 				            = "vlc.desktop";
+      "video/FFV1" 						            = "vlc.desktop";
+      "video/flexfec" 				            = "vlc.desktop";
+      "video/H261" 						            = "vlc.desktop";
+      "video/H263" 						            = "vlc.desktop";
+      "video/H263-1998" 			            = "vlc.desktop";
+      "video/H263-2000" 			            = "vlc.desktop";
+      "video/H264" 						            = "vlc.desktop";
+      "video/H264-RCDO" 			            = "vlc.desktop";
+      "video/H264-SVC" 				            = "vlc.desktop";
+      "video/H265" 						            = "vlc.desktop";
+      "video/H266" 						            = "vlc.desktop";
+      "video/iso.segment" 		            = "vlc.desktop";
+      "video/JPEG" 						            = "vlc.desktop";
+      "video/jpeg2000" 				            = "vlc.desktop";
+      "video/jpeg2000-scl" 		            = "vlc.desktop";
+      "video/jxsv" 						            = "vlc.desktop";
+      "video/lottie+json" 		            = "vlc.desktop";
+      "video/matroska" 				            = "vlc.desktop";
+      "video/matroska-3d" 		            = "vlc.desktop";
+      "video/mj2" 						            = "vlc.desktop";
+      "video/MP1S" 						            = "vlc.desktop";
+      "video/MP2P" 					              = "vlc.desktop";
+      "video/MP2T" 						            = "vlc.desktop";
+      "video/mp4" 						            = "vlc.desktop";
+      "video/MP4V-ES" 				            = "vlc.desktop";
+      "video/MPV" 						            = "vlc.desktop";
+      "video/mpeg" 						            = "vlc.desktop";
+      "video/mpeg4-generic" 	            = "vlc.desktop";
+      "video/nv" 						              = "vlc.desktop";
+      "video/ogg" 						            = "vlc.desktop";
+      "video/parityfec" 			            = "vlc.desktop";
+      "video/pointer" 				            = "vlc.desktop";
+      "video/quicktime" 			            = "vlc.desktop";
+      "video/raptorfec" 			            = "vlc.desktop";
+      "video/raw" 						            = "vlc.desktop";
+      "video/rtp-enc-aescm128"            = "vlc.desktop";
+      "video/rtploopback" 		            = "vlc.desktop";
+      "video/rtx" 						            = "vlc.desktop";
+      "video/scip" 						            = "vlc.desktop";
+      "video/smpte291" 				            = "vlc.desktop";
+      "video/SMPTE292M" 			            = "vlc.desktop";
+      "video/ulpfec" 					            = "vlc.desktop";
+      "video/vc1" 						            = "vlc.desktop";
+      "video/vc2" 						            = "vlc.desktop";
+      "video/vnd.blockfact.factv" 				= "vlc.desktop";			
+      "video/vnd.CCTV" 							      = "vlc.desktop";
+      "video/vnd.dece.hd" 					  		= "vlc.desktop";
+      "video/vnd.dece.mobile" 			  		= "vlc.desktop";
+      "video/vnd.dece.mp4" 						  	= "vlc.desktop";
+      "video/vnd.dece.pd" 						  	= "vlc.desktop";
+      "video/vnd.dece.sd" 							  = "vlc.desktop";
+      "video/vnd.dece.video" 							= "vlc.desktop";
+      "video/vnd.directv.mpeg" 						= "vlc.desktop";
+      "video/vnd.directv.mpeg-tts" 				= "vlc.desktop";
+      "video/vnd.dlna.mpeg-tts" 					= "vlc.desktop";
+      "video/vnd.dvb.file" 					  		= "vlc.desktop";
+      "video/vnd.fvt" 							      = "vlc.desktop";
+      "video/vnd.hns.video" 							= "vlc.desktop";
+      "video/vnd.iptvforum.1dparityfec-1010" 	 = "vlc.desktop";
+      "video/vnd.iptvforum.1dparityfec-2005" 	 = "vlc.desktop";
+      "video/vnd.iptvforum.2dparityfec-1010" 	 = "vlc.desktop";
+      "video/vnd.iptvforum.2dparityfec-2005" 	 = "vlc.desktop";
+      "video/vnd.iptvforum.ttsavc"             = "vlc.desktop";
+      "video/vnd.iptvforum.ttsmpeg2"           = "vlc.desktop";
+      "video/vnd.motorola.video"               = "vlc.desktop";
+      "video/vnd.motorola.videop"              = "vlc.desktop";
+      "video/vnd.mpegurl"                      = "vlc.desktop";
+      "video/vnd.ms-playready.media.pyv"       = "vlc.desktop";
+      "video/vnd.nokia.interleaved-multimedia" = "vlc.desktop";
+      "video/vnd.nokia.mp4vr"                  = "vlc.desktop";
+      "video/vnd.nokia.videovoip"              = "vlc.desktop";
+      "video/vnd.objectvideo"                  = "vlc.desktop";
+      "video/vnd.planar"                       = "vlc.desktop";
+      "video/vnd.radgamettools.bink"           = "vlc.desktop";
+      "video/vnd.radgamettools.smacker"        = "vlc.desktop";
+      "video/vnd.sealed.mpeg1"                 = "vlc.desktop";
+      "video/vnd.sealed.mpeg4"                 = "vlc.desktop";
+      "video/vnd.sealed.swf"                   = "vlc.desktop";
+      "video/vnd.sealedmedia.softseal.mov"     = "vlc.desktop";
+      "video/vnd.uvvu.mp4"                     = "vlc.desktop";
+      "video/vnd.youtube.yt"                   = "vlc.desktop";
+      "video/vnd.vivo"                         = "vlc.desktop";
+      "video/VP8"                              = "vlc.desktop";
+      "video/VP9"                              = "vlc.desktop";
       
+
     };
   };
 
+  # niri notifications
+  services.swaync = {
+      enable = true;
+      settings = {
+        positionX = "right";
+        positionY = "top";
+        layer = "overlay";
+        control-center-layer = "top";
+        layer-shell = true;
+        cssPriority = "application";
+        control-center-margin-top = 0;
+        control-center-margin-bottom = 0;
+        control-center-margin-right = 0;
+        control-center-margin-left = 0;
+        notification-2fa-action = true;
+        notification-inline-replies = false;
+        notification-icon-size = 64;
+        notification-body-image-height = 100;
+        notification-body-image-width = 200;
+      };
+
+      style = ''
+        .notification-row {
+          outline: none;
+        }
+        
+        .notification-row:focus,
+        .notification-row:hover {
+          background: @noti-bg-focus;
+        }
+        
+        .notification {
+          border-radius: 12px;
+          margin: 6px 12px;
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.7),
+            0 2px 6px 2px rgba(0, 0, 0, 0.3);
+          padding: 0;
+        }
+      '';
+    };
+  # services.mako = {
+  #   enable = true;
+  #   settings = {
+  #     actions = true;
+  #     anchor = "top-right";
+  #     background-color = "#000000";
+  #     border-color = "#FFFFFF";
+  #     border-radius = 0;
+  #     default-timeout = 3000;
+  #     font = "monospace 10";
+  #     height = 100;
+  #     icons = true;
+  #     ignore-timeout = false;
+  #     layer = "top";
+  #     margin = 10;
+  #     markup = true;
+  #     width = 300;
+  #     "actionable=true" = {
+  #       anchor = "top-left";
+  #     };
+  #     "urgency=low" = {
+  #       border-color="#b8bb26";
+  #     };
+  #     "urgency=high" = {
+  #       border-color="#ff0000ff";
+  #       background-color = "#ca5757ff";
+  #     };
+  #   };
+  #   # extraConfig = ''
+  #   #   [urgency=low]
+  #   #   border-color=#b8bb26
+  #   # '';
+  # };
 
 
+  xdg.desktopEntries = {
+    feh = {
+      name="Feh";
+      genericName="Image viewer";
+      comment="Image viewer and cataloguer";
+      exec="feh -F.Z --start-at %u";
+      terminal=false;
+      type="Application";
+      icon="feh";
+      categories= [ "Graphics" "2DGraphics" "Viewer" ];
+      mimeType=["image/bmp" "image/gif" "image/jpeg" "image/jpg" "image/pjpeg" "image/png" "image/tiff" "image/webp" "image/x-bmp" "image/x-pcx" "image/x-png" "image/x-portable-anymap" "image/x-portable-bitmap" "image/x-portable-graymap" "image/x-portable-pixmap" "image/x-tga" "image/x-xbitmap" "image/heic" ];
+      noDisplay=true;
+    };
+  };
 
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
-    settings.user = {
-      name = "Vivian Boyse-Peacor";
-      email = "mookbot@gmail.com";
-    };
+    # settings.user = {
+    #   name = "Vivian Boyse-Peacor";
+    #   email = "mookbot@gmail.com";
+    # };
   };
 
   # starship - an customizable prompt for any shell

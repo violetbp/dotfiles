@@ -6,8 +6,8 @@
   "WINDOW_BOUNDS": {
     "x": 0,
     "y": 0,
-    "width": 1028,
-    "height": 849
+    "width": 940,
+    "height": 804
   },
   "chromiumSwitches": {},
   "offloadAdmControls": true,

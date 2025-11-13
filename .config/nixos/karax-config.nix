@@ -17,16 +17,12 @@
       preLVM = true;
     };
   };
-
+  boot.initrd.availableKernelModules = [
+    # trimmed irrelevant ones
+    "thinkpad_acpi"
+  ];
   # virtualisation.virtualbox.host.enable = false;
   # users.extraGroups.vboxusers.members = [ "vboysepe" ];
   # virtualisation.virtualbox.host.enableExtensionPack = true;
   
-  services.actkbd = {
-    enable = true;
-    bindings = [
-      { keys = [ 225 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -A 10"; }
-      { keys = [ 224 ]; events = [ "key" ]; command = "/run/current-system/sw/bin/light -U 10"; }
-    ];
-  };
 }

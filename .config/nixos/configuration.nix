@@ -7,6 +7,7 @@
   lib,
   pkgs,
   inputs,
+  refind,
   ...
 }:
 
@@ -14,10 +15,12 @@
   imports = [
     ./programs.nix
     ./starship.nix
+    ./laptop.nix
     ./misc.nix
   ];
-  nix.settings = { download-buffer-size = 524288000; # 500 MiB
-   }; 
+  # nix.settings = { 
+  #   download-buffer-size = 524288000; # 500 MiB
+  #  }; 
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -85,42 +88,60 @@
   };
   environment.sessionVariables.DEFAULT_BROWSER = "/var/lib/flatpak/exports/bin/app.zen_browser.zen";
 
+  boot.loader.refind = {
+            enable = true;
+            maxGenerations = 10;
+        };
+
+
   xdg.mime.defaultApplications = {
-    "text/html" = "app.zen_browser.zen";
-    "x-scheme-handler/http" = "app.zen_browser.zen";
-    "x-scheme-handler/https" = "app.zen_browser.zen";
-    "x-scheme-handler/about" = "app.zen_browser.zen";
-    "x-scheme-handler/unknown" = "app.zen_browser.zen";
+    "text/html"                 = "app.zen_browser.zen";
+    "x-scheme-handler/http"     = "app.zen_browser.zen";
+    "x-scheme-handler/https"    = "app.zen_browser.zen";
+    "x-scheme-handler/about"    = "app.zen_browser.zen";
+    "x-scheme-handler/unknown"  = "app.zen_browser.zen";
+    "application/x-extension-htm"   = "app.zen_browser.zen";
+    "application/x-extension-html"  = "app.zen_browser.zen";
+    "application/x-extension-shtml" = "app.zen_browser.zen";
+    "application/xhtml+xml"         = "app.zen_browser.zen";
+    "application/x-extension-xhtml" = "app.zen_browser.zen";
+    "application/x-extension-xht"   = "app.zen_browser.zen";
+    "x-scheme-handler/webcal"       = "app.zen_browser.zen";
+    "x-scheme-handler/mailto"       = "app.zen_browser.zen";
+
   };
 
   #laptop stuff
-  services.thermald.enable = true;
-  powerManagement.enable = true;
-  powerManagement.powertop.enable = true;
-  services.auto-cpufreq.enable = true;
-  services.auto-cpufreq.settings = {
-    battery = {
-      governor = "powersave";
-      turbo = "never";
-    };
-    charger = {
-      governor = "performance";
-      turbo = "auto";
-    };
-  };
+  # services.thermald.enable = true;
+  # powerManagement.enable = true;
+  # powerManagement.powertop.enable = true;
+  # services.auto-cpufreq.enable = true;
+  # services.auto-cpufreq.settings = {
+  #   battery = {
+  #     governor = "performance";#powersave";
+  #     turbo = "auto";
+  #   };
+  #   charger = {
+  #     governor = "performance";
+  #     turbo = "auto";
+  #   };
+  # };
 
   services.logind = {
-    lidSwitch = "suspend";
+    lidSwitch = "suspend-then-hibernate";
     # SleepOperation = "suspend";
     # IdleAction = "suspend";
-
-    powerKey = "suspend";
+    extraConfig = ''
+      LidSwitchIgnoreInhibited=yes
+    '';
+    powerKey = "hibernate";
     # extraConfig = ''
     #   HandlePowerKey=ignore
     #   HandleSuspendKey=ignore
     #   HandleHibernateKey=ignore
     # '';
   };
+  # services.acpid.enable = true;
 
   services.openssh = {
     #enable = true;
@@ -134,9 +155,31 @@
   # time.timeZone = "America/New_York";
   time.timeZone = "US/Pacific";
 
+  ###### Printers ######
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  services.printing.drivers = [ pkgs.hplip ];
+  services.printing.drivers = [ pkgs.hplip pkgs.canon-cups-ufr2 ];
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "Canon-TS3100";
+        location = "Home";
+        deviceUri = "http://10.0.3.113/";
+        model = "drv:///sample.drv/generic.ppd";
+        ppdOptions = {
+          PageSize = "Letter";
+        };
+      }
+    ];
+    ensureDefaultPrinter = "Canon-TS3100";
+  };
+
+
 
   ###### Sound ######
   security.rtkit.enable = true;
@@ -153,7 +196,7 @@
       };
     };
   };
-
+  
   ###### BT ######
   services.blueman.enable = true;
   hardware.bluetooth = {
@@ -190,8 +233,8 @@
     {
       groups = [ "wheel" ];
       commands = [ 
-        { command = "/run/current-system/sw/bin/nixos-rebuild"; options = [ "NOPASSWD" ]; } 
-        { command = "/run/current-system/sw/bin/nix-collect-garbage"; options = [ "NOPASSWD" ]; }
+        { command = "${pkgs.nixos-rebuild-ng}/bin/nixos-rebuild-ng"; options = [ "NOPASSWD" ]; } 
+        { command = "${pkgs.nix}/bin/nix-collect-garbage"; options = [ "NOPASSWD" ]; }
         ];
     }
   ];
