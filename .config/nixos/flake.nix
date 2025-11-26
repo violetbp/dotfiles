@@ -57,7 +57,29 @@
         specialArgs = { inherit inputs; };
       
       };
-      
+	    blade = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ 
+          /home/vboysepe/.config/nixos/blade-config.nix 
+          refind-mod.nixosModules.refind
+          catppuccin.nixosModules.catppuccin
+
+          nix-index-database.nixosModules.nix-index
+           { programs.nix-index-database.comma.enable = true; } # comma to install and run
+
+
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.users.vboysepe = import ./home.nix;
+
+            # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+          }
+        ];
+        specialArgs = { inherit inputs; };
+
+      };      
     };
   };
 }

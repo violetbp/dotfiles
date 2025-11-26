@@ -88,10 +88,10 @@
   };
   environment.sessionVariables.DEFAULT_BROWSER = "/var/lib/flatpak/exports/bin/app.zen_browser.zen";
 
-  boot.loader.refind = {
-            enable = true;
-            maxGenerations = 10;
-        };
+#  boot.loader.refind = {
+#            enable = true;
+#            maxGenerations = 10;
+ #       };
 
 
   xdg.mime.defaultApplications = {
