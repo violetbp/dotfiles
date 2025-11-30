@@ -129,9 +129,9 @@
 
   services.openssh = {
     #enable = true;
-    enable = false;
+    enable = true;
     settings = {
-      permitRootLogin = "no";
+      PermitRootLogin = "no";
     };
   };
 
