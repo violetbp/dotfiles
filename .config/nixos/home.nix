@@ -285,40 +285,6 @@
         }
       '';
     };
-  # services.mako = {
-  #   enable = true;
-  #   settings = {
-  #     actions = true;
-  #     anchor = "top-right";
-  #     background-color = "#000000";
-  #     border-color = "#FFFFFF";
-  #     border-radius = 0;
-  #     default-timeout = 3000;
-  #     font = "monospace 10";
-  #     height = 100;
-  #     icons = true;
-  #     ignore-timeout = false;
-  #     layer = "top";
-  #     margin = 10;
-  #     markup = true;
-  #     width = 300;
-  #     "actionable=true" = {
-  #       anchor = "top-left";
-  #     };
-  #     "urgency=low" = {
-  #       border-color="#b8bb26";
-  #     };
-  #     "urgency=high" = {
-  #       border-color="#ff0000ff";
-  #       background-color = "#ca5757ff";
-  #     };
-  #   };
-  #   # extraConfig = ''
-  #   #   [urgency=low]
-  #   #   border-color=#b8bb26
-  #   # '';
-  # };
-
 
   xdg.desktopEntries = {
     feh = {
@@ -338,10 +304,9 @@
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
-    # settings.user = {
-    #   name = "Vivian Boyse-Peacor";
-    #   email = "mookbot@gmail.com";
-    # };
+      userName = "Vivian Boyse-Peacor";
+      userEmail = "mookbot@gmail.com";
+    
   };
 
   # starship - an customizable prompt for any shell

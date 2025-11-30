@@ -91,7 +91,7 @@
     stow
     syslinux
     tmux
-    transmission_3-qt
+    transmission_4-qt
     udiskie
     udisks2
     unzip
