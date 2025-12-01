@@ -1,6 +1,43 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
+  imports = [ ## remove this for back to waybar
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+    # inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
+    # inputs.niri-flake.homeModules.niri
+
+  ];
+
+  programs.dankMaterialShell = {
+    enable = true;
+    niri = {
+      enableKeybinds = true;   # Automatic keybinding configuration
+      enableSpawn = true;      # Auto-start DMS with niri
+    };
+    # systemd = {
+    #   enable = true;             # Systemd service for auto-start
+    #   restartIfChanged = true;   # Auto-restart dms.service when dankMaterialShell changes
+    # };
+    
+    # Core features
+    enableSystemMonitoring = true;     # System monitoring widgets (dgop)
+    enableClipboard = true;            # Clipboard history manager
+    enableVPN = false;                 # VPN management widget
+    enableBrightnessControl = true;    # Backlight/brightness controls
+    enableColorPicker = true;          # Color picker tool
+    enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
+    enableAudioWavelength = true;      # Audio visualizer (cava)
+    enableCalendarEvents = true;       # Calendar integration (khal)
+    enableSystemSound = true;          # System sound effects
+  };
+
+
+
+
+
+  ##done
+
+
   # TODO please change the username & home directory to your own
   home.username = "vboysepe";
   home.homeDirectory = "/home/vboysepe";

@@ -10,6 +10,7 @@
 
 
 
+
   environment = {
     pathsToLink = [ "/libexec" ];
     sessionVariables.NIXOS_OZONE_WL = "1"; # Apply Wayland flags to Electron apps where necessary
@@ -17,10 +18,13 @@
 
   programs = {
     niri.enable = true;
+    # niri.package = (import (fetchTarball "channel:nixos-unstable") { }).niri;
     # waybar.enable = true;
     # waybar.package = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
     dconf.enable = true;
   };
+  nixpkgs.overlays = [ inputs.niri-flake.overlays.niri ];
+  programs.niri.package = pkgs.niri-unstable;
 
   environment.systemPackages = with pkgs; [
     inputs.waybar.packages.${pkgs.system}.default

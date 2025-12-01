@@ -1,7 +1,7 @@
 {config, pkgs, ... }:
 {
   imports = [   
-    ./windowManager/niri.nix
+    # ./windowManager/niriDMS.nix
   ];
 
   networking.hostName = "karax";

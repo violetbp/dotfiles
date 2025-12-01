@@ -8,18 +8,30 @@
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with
       # the `inputs.nixpkgs` of the current flake,
       # to avoid problems caused by different versions of nixpkgs.
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    flake-schemas.url = github:DeterminateSystems/flake-schemas;
-    waybar.url = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
-    catppuccin.url = "github:catppuccin/nix/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    }; 
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";   
+    };
+    dgop = {
+      url = "github:AvengeMedia/dgop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    refind-mod.url = "github:GrandtheUK/refind-nix";
-  
-    nix-index-database.url = "github:nix-community/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+    dankMaterialShell = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.dgop.follows = "dgop";
+    };
+    flake-schemas.url = github:DeterminateSystems/flake-schemas;
+    waybar.url        = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
+    catppuccin.url    = "github:catppuccin/nix/release-25.05";
+    niri-flake.url    = "github:sodiboo/niri-flake";
+    refind-mod.url    = "github:GrandtheUK/refind-nix";
+
   };
-  outputs = inputs@{ self, home-manager, nixpkgs, nix-index-database, catppuccin, refind-mod, ... }: 
+  outputs = inputs@{ self, home-manager, nixpkgs, nix-index-database, catppuccin, refind-mod, niri-flake, ... }: 
   {
         
 
@@ -38,7 +50,7 @@
           /etc/nixos/configuration.nix 
           refind-mod.nixosModules.refind
           catppuccin.nixosModules.catppuccin
-
+          niri-flake.nixosModules.niri
           nix-index-database.nixosModules.nix-index
            { programs.nix-index-database.comma.enable = true; } # comma to install and run
           

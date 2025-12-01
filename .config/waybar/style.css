@@ -7,6 +7,7 @@
 @define-color fg-notif #ffffff;
 @define-color fg-select #0f31c9;
 @define-color bg-active-workspace rgba(0, 72, 255, 0.277);
+@define-color bg-active-workspace-border rgb(168, 3, 250);
 
 /* @define-color fg-select #f58b40;*/
 
@@ -72,8 +73,10 @@ image {
 }
 
 #workspace .active{
+	border: 1pt solid;
 	background-color: @bg-active-workspace;
 	border-radius: .5em;
+	border-color: @bg-active-workspace-border;
 }
 
 #workspaces button:not(:last-child),
