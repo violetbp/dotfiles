@@ -1,7 +1,9 @@
 {config, pkgs, ... }:
 {
   imports = [   
-    # ./windowManager/niriDMS.nix
+    ../windowManager/niri.nix
+    ../configuration.nix
+    ../hardwareConfig/karax-hw.nix
   ];
 
   networking.hostName = "karax";
@@ -24,5 +26,7 @@
   # virtualisation.virtualbox.host.enable = false;
   # users.extraGroups.vboxusers.members = [ "vboysepe" ];
   # virtualisation.virtualbox.host.enableExtensionPack = true;
-  
+  system.stateVersion = "21.11";
+
+
 }

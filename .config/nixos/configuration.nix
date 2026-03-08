@@ -7,7 +7,7 @@
   lib,
   pkgs,
   inputs,
-  refind,
+  # refind,
   ...
 }:
 
@@ -17,12 +17,21 @@
     ./starship.nix
     ./laptop.nix
     ./misc.nix
+    ./printers.nix
+    
   ];
-  # nix.settings = { 
-  #   download-buffer-size = 524288000; # 500 MiB
-  #  }; 
+  # stdenv.hostPlatform.system = inputs.system;
 
-
+  # audio stuff
+  security.pam.loginLimits = [
+    { domain = "@audio"; item = "memlock"; type = "-"; value = "unlimited"; }
+    { domain = "@audio"; item = "rtprio"; type = "-"; value = "99"; }
+    { domain = "@audio"; item = "nofile"; type = "soft"; value = "99999"; }
+    { domain = "@audio"; item = "nofile"; type = "hard"; value = "99999"; }
+  ];
+  # musnix = {
+  #   enable = true;
+  # };
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -43,6 +52,27 @@
   ];
   boot.resumeDevice = "/dev/mapper/nixos--vg-root";
 
+  nix = {
+    settings.download-buffer-size = 500000000;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
+    optimise = {
+      automatic = true;
+      dates = [ "weekly" ];
+    };
+  };
+
+  home-manager = { 
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "backup";
+    users.vboysepe = import ./home.nix;
+    extraSpecialArgs = { inherit inputs; };
+
+  };
   #  xdg.portal.enable = true;
 
   # services.openafsClient.enable = true;
@@ -79,12 +109,12 @@
     # };
 
     extraHosts = ''
-      #10.147.19.1    orlana
-      #10.147.19.164  nova
+      # 10.147.19.1   orlana
+      # 10.147.19.164 nova
       10.0.0.125      plex
       10.241.172.176  artemis
-      10.0.0.3 orlanahome
-      10.0.0.7 haos
+      10.0.0.3        orlanahome
+      10.0.0.7        haos
     '';
 
   };
@@ -94,97 +124,40 @@
   ];
   environment.sessionVariables.DEFAULT_BROWSER = "/var/lib/flatpak/exports/bin/app.zen_browser.zen";
 
-  # boot.loader.refind = {
-  #           enable = true;
-  #           maxGenerations = 10;
-  #       };
+#  boot.loader.refind = {
+#            enable = true;
+#            maxGenerations = 10;
+ #       };
 
 
-  xdg.mime.defaultApplications = {
-    "text/html"                 = "app.zen_browser.zen";
-    "x-scheme-handler/http"     = "app.zen_browser.zen";
-    "x-scheme-handler/https"    = "app.zen_browser.zen";
-    "x-scheme-handler/about"    = "app.zen_browser.zen";
-    "x-scheme-handler/unknown"  = "app.zen_browser.zen";
-    "application/x-extension-htm"   = "app.zen_browser.zen";
-    "application/x-extension-html"  = "app.zen_browser.zen";
-    "application/x-extension-shtml" = "app.zen_browser.zen";
-    "application/xhtml+xml"         = "app.zen_browser.zen";
-    "application/x-extension-xhtml" = "app.zen_browser.zen";
-    "application/x-extension-xht"   = "app.zen_browser.zen";
-    "x-scheme-handler/webcal"       = "app.zen_browser.zen";
-    "x-scheme-handler/mailto"       = "app.zen_browser.zen";
+  # xdg.mime.defaultApplications = {
+  #   "text/html"                 = "app.zen_browser.zen";
+  #   "x-scheme-handler/http"     = "app.zen_browser.zen";
+  #   "x-scheme-handler/https"    = "app.zen_browser.zen";
+  #   "x-scheme-handler/about"    = "app.zen_browser.zen";
+  #   "x-scheme-handler/unknown"  = "app.zen_browser.zen";
+  #   "application/x-extension-htm"   = "app.zen_browser.zen";
+  #   "application/x-extension-html"  = "app.zen_browser.zen";
+  #   "application/x-extension-shtml" = "app.zen_browser.zen";
+  #   "application/xhtml+xml"         = "app.zen_browser.zen";
+  #   "application/x-extension-xhtml" = "app.zen_browser.zen";
+  #   "application/x-extension-xht"   = "app.zen_browser.zen";
+  #   "x-scheme-handler/webcal"       = "app.zen_browser.zen";
+  #   "x-scheme-handler/mailto"       = "app.zen_browser.zen";
 
-  };
-
-  #laptop stuff
-  # services.thermald.enable = true;
-  # powerManagement.enable = true;
-  # powerManagement.powertop.enable = true;
-  # services.auto-cpufreq.enable = true;
-  # services.auto-cpufreq.settings = {
-  #   battery = {
-  #     governor = "performance";#powersave";
-  #     turbo = "auto";
-  #   };
-  #   charger = {
-  #     governor = "performance";
-  #     turbo = "auto";
-  #   };
   # };
-
-  services.logind = {
-    lidSwitch = "suspend-then-hibernate";
-    # SleepOperation = "suspend";
-    # IdleAction = "suspend";
-    extraConfig = ''
-      LidSwitchIgnoreInhibited=yes
-    '';
-    powerKey = "hibernate";
-    # extraConfig = ''
-    #   HandlePowerKey=ignore
-    #   HandleSuspendKey=ignore
-    #   HandleHibernateKey=ignore
-    # '';
-  };
-  # services.acpid.enable = true;
 
   services.openssh = {
     #enable = true;
-    enable = false;
+    enable = true;
     settings = {
-      permitRootLogin = "no";
+      PermitRootLogin = "no";
     };
   };
 
-  # Set your time zone.
+  # Set time zone.
   # time.timeZone = "America/New_York";
   time.timeZone = "US/Pacific";
-
-  ###### Printers ######
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-  services.printing.drivers = [ pkgs.hplip pkgs.canon-cups-ufr2 ];
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "Canon-TS3100";
-        location = "Home";
-        deviceUri = "http://10.0.3.113/";
-        model = "drv:///sample.drv/generic.ppd";
-        ppdOptions = {
-          PageSize = "Letter";
-        };
-      }
-    ];
-    ensureDefaultPrinter = "Canon-TS3100";
-  };
-
 
 
   ###### Sound ######
@@ -194,6 +167,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
     extraConfig = {
       pipewire."99-silent-bell.conf" = {
         "context.properties" = {
@@ -267,7 +241,6 @@
     {
       groups = [ "wheel" ];
       commands = [ 
-        { command = "${pkgs.nixos-rebuild-ng}/bin/nixos-rebuild-ng"; options = [ "NOPASSWD" ]; } 
         { command = "${pkgs.nix}/bin/nix-collect-garbage"; options = [ "NOPASSWD" ]; }
         ];
     }

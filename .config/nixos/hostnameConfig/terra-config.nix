@@ -3,6 +3,7 @@
 {
   imports = [ 
     ./windowManager.nix
+    ../configuration.nix
   ];
 
    -### T495 specific stuff

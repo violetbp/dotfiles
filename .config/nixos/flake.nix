@@ -1,9 +1,10 @@
 
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-25.05";
+    nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with
       # the `inputs.nixpkgs` of the current flake,
@@ -31,45 +32,61 @@
     refind-mod.url    = "github:GrandtheUK/refind-nix";
 
   };
-  outputs = inputs@{ self, home-manager, nixpkgs, nix-index-database, catppuccin, refind-mod, niri-flake, ... }: 
+  outputs = inputs@{ self, home-manager, nixpkgs, dankMaterialShell, nix-index-database, catppuccin, refind-mod, niri-flake, ... }: 
   {
         
 
     nixosConfigurations = {
       terra = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ /etc/nixos/configuration.nix ];
+        modules = [ /home/vboysepe/.config/nixos/hostnameConfig/terra-config.nix   ];
       };
       tassadar = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ /etc/nixos/configuration.nix ];
+        modules = [ /home/vboysepe/.config/nixos/hostnameConfig/tassadar-config.nix ];
       };
       karax = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [ 
-          /etc/nixos/configuration.nix 
-          refind-mod.nixosModules.refind
+          /home/vboysepe/.config/nixos/hostnameConfig/karax-config.nix  
+          # refind-mod.nixosModules.refind
           catppuccin.nixosModules.catppuccin
           niri-flake.nixosModules.niri
           nix-index-database.nixosModules.nix-index
            { programs.nix-index-database.comma.enable = true; } # comma to install and run
           
+          
 
-          home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.users.vboysepe = import ./home.nix;
-
-            # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
-          }
+          home-manager.nixosModules.home-manager
+          # {
+          #   home-manager = {
+          #     # extraSpecialArgs = { inherit inputs; };
+          #     useGlobalPkgs = true;
+          #     useUserPackages = true;
+          #     backupFileExtension = "backup";
+          #     users.vboysepe = import ./home.nix;
+          #   };
+          # }
           
           
           ];
         specialArgs = { inherit inputs; };
       
       };
-      
+	    blade = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ 
+          /home/vboysepe/.config/nixos/hostnameConfig/blade-config.nix 
+          # refind-mod.nixosModules.refind
+          catppuccin.nixosModules.catppuccin
+          
+          nix-index-database.nixosModules.nix-index
+          { programs.nix-index-database.comma.enable = true; } # comma to install and run
+          home-manager.nixosModules.home-manager 
+        ];
+        specialArgs = { inherit inputs; };
+
+      };      
     };
   };
 }

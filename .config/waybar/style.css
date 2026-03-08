@@ -9,6 +9,12 @@
 @define-color bg-active-workspace rgba(0, 72, 255, 0.277);
 @define-color bg-active-workspace-border rgb(168, 3, 250);
 
+@define-color base #2cae5a;
+@define-color green #2cae5a;
+@define-color battery-critical-a #ff0000;
+@define-color battery-critical-b #f2ff00;
+
+
 /* @define-color fg-select #f58b40;*/
 
 /* Root */
@@ -124,18 +130,40 @@ image {
 
 #battery.charging,
 #battery.plugged {
-	color: @green;
+	color: @fg-notif;
+	animation-name: blink;
+	animation-duration: 1s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: 100;
+	animation-direction: alternate;
+}
+
+
+#battery.warning:not(.charging) {
+	color: @fg-notif;
+	animation-name: blinkwarn;
+	animation-duration: 0.5s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
+@keyframes blinkwarn {
+	75% {
+		color: @battery-critical-b; 
+	}
 }
   
-@keyframes blink {
-	to {
-		color: @fg-notif;
+@keyframes blinkcrit {
+	75% {
+		color: @battery-critical-a; 
+		background-color: @fg-notif;
 	}
 }
 
 #battery.critical:not(.charging) {
-	color: @fg-notif;
-	animation-name: blink;
+	color: @battery-critical-b;
+	animation-name: blinkcrit;
 	animation-duration: 0.5s;
 	animation-timing-function: ease-in-out;
 	animation-iteration-count: infinite;
@@ -145,4 +173,13 @@ image {
 #clock {
 }
 
+#power-profiles-daemon.performance {
+	 color: #a22222;
+}
 
+#power-profiles-daemon.balanced {
+	 color: #2c7eae;
+}
+#power-profiles-daemon.power-saver {
+	 color: #2cae5a;
+}

@@ -6,6 +6,7 @@
 #    ./xmonad.nix
     ./windowManager.nix
 #    ./kubernetes.nix
+../configuration.nix
   ];
   
   networking.hostName = "tassadar"; # Define your hostname.

@@ -1,39 +1,94 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ ## remove this for back to waybar
-    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
-    # inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
-    # inputs.niri-flake.homeModules.niri
+  # modules = [ ## remove this for back to waybar
+  #   # inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+  #   # inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
+  #   # inputs.niri-flake.homeModules.niri
 
-  ];
+  # ];
 
-  programs.dankMaterialShell = {
-    enable = true;
-    niri = {
-      enableKeybinds = true;   # Automatic keybinding configuration
-      enableSpawn = true;      # Auto-start DMS with niri
-    };
-    # systemd = {
-    #   enable = true;             # Systemd service for auto-start
-    #   restartIfChanged = true;   # Auto-restart dms.service when dankMaterialShell changes
-    # };
+  # programs.dankMaterialShell = {
+  #   enable = true;
+  #   # niri = {
+  #   #   enableKeybinds = true;   # Automatic keybinding configuration
+  #   #   enableSpawn = true;      # Auto-start DMS with niri
+  #   # };
+  #   # systemd = {
+  #   #   enable = true;             # Systemd service for auto-start
+  #   #   restartIfChanged = true;   # Auto-restart dms.service when dankMaterialShell changes
+  #   # };
     
-    # Core features
-    enableSystemMonitoring = true;     # System monitoring widgets (dgop)
-    enableClipboard = true;            # Clipboard history manager
-    enableVPN = false;                 # VPN management widget
-    enableBrightnessControl = true;    # Backlight/brightness controls
-    enableColorPicker = true;          # Color picker tool
-    enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
-    enableAudioWavelength = true;      # Audio visualizer (cava)
-    enableCalendarEvents = true;       # Calendar integration (khal)
-    enableSystemSound = true;          # System sound effects
-  };
+  #   # Core features
+  #   enableSystemMonitoring = true;     # System monitoring widgets (dgop)
+  #   enableClipboard = true;            # Clipboard history manager
+  #   enableVPN = false;                 # VPN management widget
+  #   enableBrightnessControl = true;    # Backlight/brightness controls
+  #   enableColorPicker = true;          # Color picker tool
+  #   enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
+  #   enableAudioWavelength = true;      # Audio visualizer (cava)
+  #   enableCalendarEvents = true;       # Calendar integration (khal)
+  #   enableSystemSound = true;          # System sound effects
+  # };
 
 
 
-
+services.
+    # lock
+    swayidle =
+      let
+        # Lock command
+        lock = "${pkgs.swaylock}/bin/swaylock --daemonize";
+        # TODO: modify "display" function based on your window manager
+        # Sway
+        # display = status: "${pkgs.sway}/bin/swaymsg 'output * power ${status}'";
+        # Hyprland
+        # display = status: "hyprctl dispatch dpms ${status}";
+        # Niri
+        display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
+      in
+      {
+        enable = true;
+        timeouts = [
+          {
+            timeout = 60*9; # in seconds
+            command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
+          }
+          {
+            timeout = 60*10;
+            command = lock;
+          }
+          {
+            timeout = 60*10;
+            command = display "off";
+            resumeCommand = display "on";
+          }
+          {
+            timeout = 60*20;
+            command = "${pkgs.systemd}/bin/systemctl suspend";
+          }
+        ];
+        events = [
+          {
+            event = "before-sleep";
+            # adding duplicated entries for the same event may not work
+            command = (display "off") + "; " + lock;
+          }
+          {
+            event = "after-resume";
+            command = display "on";
+          }
+          {
+            event = "lock";
+            command = (display "off") + "; " + lock;
+          }
+          {
+            event = "unlock";
+            command = display "on";
+          }
+        ];
+      };
+    
 
   ##done
 
@@ -41,16 +96,6 @@
   # TODO please change the username & home directory to your own
   home.username = "vboysepe";
   home.homeDirectory = "/home/vboysepe";
-
-  # link the configuration file in current directory to the specified location in home directory
-  # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
-
-  # link all files in `./scripts` to `~/.config/i3/scripts`
-  # home.file.".config/i3/scripts" = {
-  #   source = ./scripts;
-  #   recursive = true;   # link recursively
-  #   executable = true;  # make all files executable
-  # };
 
   # encode the file content in nix configuration file directly
   # home.file.".xxx".text = ''
@@ -165,6 +210,7 @@
       "application/x-extension-xht"     = "app.zen_browser.zen.desktop";
       "x-scheme-handler/webcal"         = "app.zen_browser.zen.desktop";
       "x-scheme-handler/mailto"         = "app.zen_browser.zen.desktop";
+      "application/pdf"                 = "app.zen_browser.zen.desktop";
 
 
       "text/plain"                      = "org.kde.kwrite.desktop";
@@ -320,42 +366,12 @@
             0 2px 6px 2px rgba(0, 0, 0, 0.3);
           padding: 0;
         }
+        .body {
+          font-size: 12px;
+          color: #ebdbb2;
+        }
       '';
     };
-  # services.mako = {
-  #   enable = true;
-  #   settings = {
-  #     actions = true;
-  #     anchor = "top-right";
-  #     background-color = "#000000";
-  #     border-color = "#FFFFFF";
-  #     border-radius = 0;
-  #     default-timeout = 3000;
-  #     font = "monospace 10";
-  #     height = 100;
-  #     icons = true;
-  #     ignore-timeout = false;
-  #     layer = "top";
-  #     margin = 10;
-  #     markup = true;
-  #     width = 300;
-  #     "actionable=true" = {
-  #       anchor = "top-left";
-  #     };
-  #     "urgency=low" = {
-  #       border-color="#b8bb26";
-  #     };
-  #     "urgency=high" = {
-  #       border-color="#ff0000ff";
-  #       background-color = "#ca5757ff";
-  #     };
-  #   };
-  #   # extraConfig = ''
-  #   #   [urgency=low]
-  #   #   border-color=#b8bb26
-  #   # '';
-  # };
-
 
   xdg.desktopEntries = {
     feh = {
@@ -375,10 +391,10 @@
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
-    # settings.user = {
-    #   name = "Vivian Boyse-Peacor";
-    #   email = "mookbot@gmail.com";
-    # };
+    settings.user = {
+      name = "Vivian Boyse-Peacor";
+      email = "mookbot@gmail.com";
+    };
   };
 
   # starship - an customizable prompt for any shell

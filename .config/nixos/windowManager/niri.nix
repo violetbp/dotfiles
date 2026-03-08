@@ -62,7 +62,7 @@
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd ${pkgs.niri}/bin/niri-session";
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd ${pkgs.niri}/bin/niri-session";
           user = "greeter";
         };
         initial_session = { # autologin with full disc encryption is based
@@ -71,38 +71,8 @@
         };
       };
     };
-    # greetd = {
-    #   enable = true;
-    #     # settings.default_session = {
-    #     #   command = "${pkgs.niri}/bin/niri ";
-    #     # };
-    #   settings.default_session =
-    #     /*
-    #       Return first binary executable name of the given derivation
-    #       Type:
-    #         exe :: Derivation -> String
-    #     */
-    #     let
-    #       # exe =
-    #       #   drv:
-    #       #   let
-    #       #     regFiles = lib.mapAttrsToList (f: _: f) (
-    #       #       lib.filterAttrs (_: t: t == "regular") (builtins.readDir "${drv}/bin")
-    #       #     );
-    #       #     mainProg = drv.meta.mainProgram or (lib.head regFiles);
-    #       #   in
-    #       #   "${drv}/bin/${mainProg}";
 
-    #       session = "${pkgs.niri}/bin/niri-session";
-    #       tuigreet = "${pkgs.tuigreet}/bin/tuigreet";
-    #       #"${exe pkgs.tuigreet}";
-    #     in
-    #     {
-    #       command = "${tuigreet} --time --remember --cmd ${session}";
-    #       user = "greeter";
-    #     };
-    #   # default_session = tuigreet_session;
-    # };
+
 
     # GTK theme config
     dbus = {
