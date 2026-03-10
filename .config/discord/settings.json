@@ -1,13 +1,13 @@
 {
-  "BACKGROUND_COLOR": "#2c2d32",
+  "BACKGROUND_COLOR": "#121214",
   "IS_MAXIMIZED": false,
   "IS_MINIMIZED": false,
   "SKIP_HOST_UPDATE": true,
   "WINDOW_BOUNDS": {
     "x": 0,
     "y": 0,
-    "width": 940,
-    "height": 804
+    "width": 1028,
+    "height": 849
   },
   "chromiumSwitches": {},
   "offloadAdmControls": true,
