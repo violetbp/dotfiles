@@ -6,11 +6,20 @@
   config,
   pkgs,
   inputs,
+  pkgsUnstable,
   ...
 }:
 {
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
+  # this allows you to access `pkgsUnstable` anywhere in your config https://discourse.nixos.org/t/mixing-stable-and-unstable-packages-on-flake-based-nixos-system/50351/4
+  _module.args.pkgsUnstable = import inputs.nixpkgs-unstable {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    inherit (config.nixpkgs) config;
+  };
 
   programs = {
     adb.enable = true;
@@ -48,6 +57,7 @@
     glib
     google-chrome
     gparted
+    gnome-disk-utility
     ghostty
     htop
     imagemagick
@@ -67,6 +77,7 @@
     nemo-preview
     neofetch
     neovim
+    libnotify
     networkmanagerapplet
     nix-prefetch-scripts
     # nixfmt
@@ -112,6 +123,8 @@
     #  geticons    # CLI tool for locating icons
     #(import (fetchTarball "channel:nixos-unstable") {}).polymc
     (import (fetchTarball "channel:nixos-unstable") { }).telegram-desktop # tdesktop need to fetch unstable
+    pkgsUnstable.pangolin-cli
+
   ];
 
   system.rebuild.enableNg = true;
