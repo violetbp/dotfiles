@@ -27,6 +27,12 @@
     steam.package = pkgs.steam.override {
       extraArgs = "-system-composer";
     };
+    nix-ld.enable = true;
+    nix-ld.libraries = with pkgs; [
+      # Add any missing dynamic libraries for unpackaged programs
+      # here, NOT in environment.systemPackages
+      uv
+    ];
   };
 
   catppuccin = {
@@ -45,6 +51,7 @@
     bat
     brightnessctl
     cliphist
+    clang-tools
     discord
     bolt-launcher # runescape
     efibootmgr
@@ -78,6 +85,7 @@
     neofetch
     neovim
     libnotify
+    kicad
     networkmanagerapplet
     nix-prefetch-scripts
     # nixfmt
@@ -92,6 +100,7 @@
     playerctl
     plex-desktop
     prismlauncher
+    python313
     rsyslog
     runelite # cuz i love my girlfriends
     samba
@@ -122,8 +131,10 @@
     #  mlocate defined in service
     #  geticons    # CLI tool for locating icons
     #(import (fetchTarball "channel:nixos-unstable") {}).polymc
-    (import (fetchTarball "channel:nixos-unstable") { }).telegram-desktop # tdesktop need to fetch unstable
+    pkgsUnstable.telegram-desktop #(import (fetchTarball "channel:nixos-unstable") { }).telegram-desktop # tdesktop need to fetch unstable
     pkgsUnstable.pangolin-cli
+    pkgsUnstable.code-cursor
+    pkgsUnstable.noctalia-shell
 
   ];
 

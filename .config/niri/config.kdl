@@ -173,7 +173,7 @@ layout {
     //
     // Alternatively, you can override it with a window rule called
     // `draw-border-with-background`.
-
+    
     // You can change how the focus ring looks.
     focus-ring {
         // Uncomment this line to disable the focus ring.
@@ -282,6 +282,7 @@ layout {
         // bottom 64
     }
 }
+prefer-no-csd
 
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
@@ -290,7 +291,7 @@ layout {
 
 // spawn-at-startup "alacritty" "-e" "fish"
 // spawn-at-startup "xwayland-satellite" "-verbose"
-spawn-at-startup "waybar"
+spawn-at-startup "noctalia-shell"
 spawn-at-startup "Telegram"
 
 spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
@@ -310,6 +311,12 @@ spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
+}
+
+
+debug {
+  // Allows notification actions and window activation from Noctalia.
+  honor-xdg-activation-with-invalid-serial
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -479,7 +486,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    // Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
@@ -490,16 +497,16 @@ binds {
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
     // Using spawn-sh allows to pass multiple arguments together with the command.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    // XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
+    // XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    // XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    // XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
     // Example brightness key mappings for brightnessctl.
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
     // but you need to manually put each argument in separate "" quotes.
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    // XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    // XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
@@ -730,6 +737,21 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
+
+
+
+    //noctalia binds
+    Mod+Space hotkey-overlay-title="Run an Application: noctalia" { spawn-sh "noctalia-shell ipc call launcher toggle"; }
+    Mod+S     hotkey-overlay-title="Open noctalia control center" { spawn-sh "noctalia-shell ipc call controlCenter toggle"; }
+    // Mod+Comma hotkey-overlay-title="Open noctalia settings" { spawn-sh "qs -c noctalia-shell ipc call settings toggle"; }
+
+    // Audio & Brightness
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "volume" "decrease"; }
+    XF86AudioMute allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "volume" "muteOutput"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "brightness" "increase"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "noctalia-shell" "ipc" "call" "brightness" "decrease"; }
+
 }
 workspace "chat" {
     // always open on 4k
@@ -778,3 +800,6 @@ environment {
 	_JAVA_AWT_WM_NONREPARENTING "1"
 	MOZ_ENABLE_WAYLAND "1"
 }
+
+include "./noctalia.kdl"
+

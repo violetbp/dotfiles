@@ -11,11 +11,7 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [ hplip canon-cups-ufr2 cnijfilter2 ];
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
+  
   hardware.printers = {
     ensurePrinters = [
       {

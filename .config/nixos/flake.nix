@@ -19,20 +19,31 @@
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    claude-desktop.url = "github:aaddrick/claude-desktop-debian";
 
-    dankMaterialShell = {
-      url = "github:AvengeMedia/DankMaterialShell";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.dgop.follows = "dgop";
-    };
+    # dankMaterialShell = {
+    #   url = "github:AvengeMedia/DankMaterialShell";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    #   inputs.dgop.follows = "dgop";
+    # };
     flake-schemas.url = github:DeterminateSystems/flake-schemas;
     waybar.url        = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
     catppuccin.url    = "github:catppuccin/nix/release-25.05";
     niri-flake.url    = "github:sodiboo/niri-flake";
-    refind-mod.url    = "github:GrandtheUK/refind-nix";
+    # refind-mod.url    = "github:GrandtheUK/refind-nix";
+    # noctalia = {
+    #   url = "github:noctalia-dev/noctalia-shell";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    #   inputs.noctalia-qs.follows = "noctalia-qs";
+    # };
 
+    # noctalia-qs = {
+    #   url = "github:noctalia-dev/noctalia-qs";
+    #   inputs.nixpkgs.follows = "nixpkgs-unstable";
+    # };
   };
-  outputs = inputs@{ self, home-manager, nixpkgs, dankMaterialShell, nix-index-database, catppuccin, refind-mod, niri-flake, ... }: 
+  outputs = inputs@{ self, home-manager, claude-desktop, nixpkgs, nix-index-database, catppuccin, niri-flake, ... }: 
+  # dankMaterialShell , refind-mod
   {
         
 
@@ -54,8 +65,11 @@
           niri-flake.nixosModules.niri
           nix-index-database.nixosModules.nix-index
            { programs.nix-index-database.comma.enable = true; } # comma to install and run
-          
-          
+            
+          ({ pkgs, ... }: {
+            nixpkgs.overlays = [ claude-desktop.overlays.default ];
+            environment.systemPackages = [ pkgs.claude-desktop ];
+          })
 
           home-manager.nixosModules.home-manager
           # {

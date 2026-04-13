@@ -1,93 +1,65 @@
 { config, pkgs, inputs, ... }:
 
 {
-  # modules = [ ## remove this for back to waybar
-  #   # inputs.dankMaterialShell.homeModules.dankMaterialShell.default
-  #   # inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
-  #   # inputs.niri-flake.homeModules.niri
-
+  # imports = [
+  #   ./homemanager/noctalia.nix
   # ];
 
-  # programs.dankMaterialShell = {
-  #   enable = true;
-  #   # niri = {
-  #   #   enableKeybinds = true;   # Automatic keybinding configuration
-  #   #   enableSpawn = true;      # Auto-start DMS with niri
-  #   # };
-  #   # systemd = {
-  #   #   enable = true;             # Systemd service for auto-start
-  #   #   restartIfChanged = true;   # Auto-restart dms.service when dankMaterialShell changes
-  #   # };
-    
-  #   # Core features
-  #   enableSystemMonitoring = true;     # System monitoring widgets (dgop)
-  #   enableClipboard = true;            # Clipboard history manager
-  #   enableVPN = false;                 # VPN management widget
-  #   enableBrightnessControl = true;    # Backlight/brightness controls
-  #   enableColorPicker = true;          # Color picker tool
-  #   enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
-  #   enableAudioWavelength = true;      # Audio visualizer (cava)
-  #   enableCalendarEvents = true;       # Calendar integration (khal)
-  #   enableSystemSound = true;          # System sound effects
-  # };
 
 
-
-services.
-    # lock
-    swayidle =
-      let
-        # Lock command
-        lock = "${pkgs.swaylock}/bin/swaylock --daemonize";
-        # TODO: modify "display" function based on your window manager
-        # Sway
-        # display = status: "${pkgs.sway}/bin/swaymsg 'output * power ${status}'";
-        # Hyprland
-        # display = status: "hyprctl dispatch dpms ${status}";
-        # Niri
-        display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
-      in
-      {
-        enable = true;
-        timeouts = [
-          {
-            timeout = 60*9; # in seconds
-            command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
-          }
-          {
-            timeout = 60*10;
-            command = lock;
-          }
-          {
-            timeout = 60*10;
-            command = display "off";
-            resumeCommand = display "on";
-          }
-          {
-            timeout = 60*20;
-            command = "${pkgs.systemd}/bin/systemctl suspend";
-          }
-        ];
-        events = [
-          {
-            event = "before-sleep";
-            # adding duplicated entries for the same event may not work
-            command = (display "off") + "; " + lock;
-          }
-          {
-            event = "after-resume";
-            command = display "on";
-          }
-          {
-            event = "lock";
-            command = (display "off") + "; " + lock;
-          }
-          {
-            event = "unlock";
-            command = display "on";
-          }
-        ];
-      };
+# services.swayidle =
+#       let
+#         # Lock command
+#         lock = "${pkgs.swaylock}/bin/swaylock --daemonize";
+#         # TODO: modify "display" function based on your window manager
+#         # Sway
+#         # display = status: "${pkgs.sway}/bin/swaymsg 'output * power ${status}'";
+#         # Hyprland
+#         # display = status: "hyprctl dispatch dpms ${status}";
+#         # Niri
+#         display = status: "${pkgs.niri}/bin/niri msg action power-${status}-monitors";
+#       in
+#       {
+#         enable = true;
+#         timeouts = [
+#           {
+#             timeout = 60*9; # in seconds
+#             command = "${pkgs.libnotify}/bin/notify-send 'Locking in 5 seconds' -t 5000";
+#           }
+#           {
+#             timeout = 60*10;
+#             command = lock;
+#           }
+#           {
+#             timeout = 60*10;
+#             command = display "off";
+#             resumeCommand = display "on";
+#           }
+#           {
+#             timeout = 60*20;
+#             command = "${pkgs.systemd}/bin/systemctl suspend";
+#           }
+#         ];
+#         events = [
+#           {
+#             event = "before-sleep";
+#             # adding duplicated entries for the same event may not work
+#             command = (display "off") + "; " + lock;
+#           }
+#           {
+#             event = "after-resume";
+#             command = display "on";
+#           }
+#           {
+#             event = "lock";
+#             command = (display "off") + "; " + lock;
+#           }
+#           {
+#             event = "unlock";
+#             command = display "on";
+#           }
+#         ];
+#       };
     
 
   ##done
