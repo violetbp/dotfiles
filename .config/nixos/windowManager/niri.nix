@@ -23,11 +23,11 @@
     # waybar.package = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
     dconf.enable = true;
   };
-  nixpkgs.overlays = [ inputs.niri-flake.overlays.niri ];
-  programs.niri.package = pkgs.niri-unstable;
-
+  # nixpkgs.overlays = [ inputs.niri-flake.overlays.niri ];
+  # programs.niri.package = pkgs.niri-unstable;
+  programs.niri.package = inputs.niri-flake.packages.${pkgs.system}.niri-unstable;
   environment.systemPackages = with pkgs; [
-    inputs.waybar.packages.${pkgs.system}.default
+    # inputs.waybar.packages.${pkgs.system}.default
     xdg-desktop-portal-gtk
     fuzzel
     swaylock

@@ -23,6 +23,10 @@
 
   programs = {
     adb.enable = true;
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;  # caches nix develop shells so they load instantly
+    };
     steam.enable = true;
     steam.package = pkgs.steam.override {
       extraArgs = "-system-composer";
@@ -53,6 +57,7 @@
     cliphist
     clang-tools
     discord
+    direnv
     bolt-launcher # runescape
     efibootmgr
     emacs
@@ -78,6 +83,7 @@
     # lutris
     maim # screenshots
     nano
+    nix-direnv
     nautilus
     ncdu
     nemo-with-extensions
@@ -126,15 +132,17 @@
     zip
     zoom-us
     zsh
-    #(import "/home/vboysepe/.config/nixos/remctl.nix")
+    #(import "./remctl.nix")
     #  nushell
     #  mlocate defined in service
     #  geticons    # CLI tool for locating icons
     #(import (fetchTarball "channel:nixos-unstable") {}).polymc
-    pkgsUnstable.telegram-desktop #(import (fetchTarball "channel:nixos-unstable") { }).telegram-desktop # tdesktop need to fetch unstable
+    pkgsUnstable.telegram-desktop 
     pkgsUnstable.pangolin-cli
     pkgsUnstable.code-cursor
     pkgsUnstable.noctalia-shell
+    # pkgsUnstable.esphome
+    pkgsUnstable.opencode
 
   ];
 

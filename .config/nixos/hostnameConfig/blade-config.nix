@@ -2,8 +2,6 @@
 {
   imports = [
     ../windowManager/niri.nix
-    /home/vboysepe/.config/nixos/configuration.nix
-    # /home/vboysepe/.config/nixos/blade-config.nix
     # ./hardware-configuration.nix
     "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
     ../nvidia.nix

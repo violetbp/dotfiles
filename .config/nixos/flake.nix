@@ -27,7 +27,7 @@
     #   inputs.dgop.follows = "dgop";
     # };
     flake-schemas.url = github:DeterminateSystems/flake-schemas;
-    waybar.url        = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
+    # waybar.url        = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
     catppuccin.url    = "github:catppuccin/nix/release-25.05";
     niri-flake.url    = "github:sodiboo/niri-flake";
     # refind-mod.url    = "github:GrandtheUK/refind-nix";
@@ -50,27 +50,35 @@
     nixosConfigurations = {
       terra = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ /home/vboysepe/.config/nixos/hostnameConfig/terra-config.nix   ];
+        modules = [ 
+          ./hostnameConfig/terra-config.nix   
+          ./configuration.nix
+          ];
       };
       tassadar = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ /home/vboysepe/.config/nixos/hostnameConfig/tassadar-config.nix ];
+        modules = [ ./hostnameConfig/tassadar-config.nix 
+                  ./configuration.nix
+];
       };
       karax = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [ 
-          /home/vboysepe/.config/nixos/hostnameConfig/karax-config.nix  
+          ./hostnameConfig/karax-config.nix  
+          ./configuration.nix
           # refind-mod.nixosModules.refind
           catppuccin.nixosModules.catppuccin
           niri-flake.nixosModules.niri
           nix-index-database.nixosModules.nix-index
            { programs.nix-index-database.comma.enable = true; } # comma to install and run
             
-          ({ pkgs, ... }: {
-            nixpkgs.overlays = [ claude-desktop.overlays.default ];
-            environment.systemPackages = [ pkgs.claude-desktop ];
+          # ({ pkgs, ... }: {
+          #   nixpkgs.overlays = [ claude-desktop.overlays.default ];
+          #   environment.systemPackages = [ pkgs.claude-desktop ];
+          # })
+          ({ ... }: {
+            environment.systemPackages = [ claude-desktop.packages.x86_64-linux.claude-desktop ];
           })
-
           home-manager.nixosModules.home-manager
           # {
           #   home-manager = {
@@ -90,7 +98,8 @@
 	    blade = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [ 
-          /home/vboysepe/.config/nixos/hostnameConfig/blade-config.nix 
+          ./hostnameConfig/blade-config.nix 
+          ./configuration.nix
           # refind-mod.nixosModules.refind
           catppuccin.nixosModules.catppuccin
           

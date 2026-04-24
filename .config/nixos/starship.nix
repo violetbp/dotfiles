@@ -28,6 +28,9 @@ in
     enableCompletion = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
+    interactiveShellInit = ''
+      eval "$(direnv hook zsh)"
+    '';
 
     shellAliases = {
       ll = "ls -l";
