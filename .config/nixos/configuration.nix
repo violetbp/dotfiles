@@ -39,9 +39,11 @@
   ];
 
   # hibernation stuff
+  # sudo filefrag -v /var/swapfile | head
+  # sudo filefrag -v /var/swapfile | awk 'NR==4{print $4}' | cut -d. -f1     
   boot.kernelParams = [
     # "resume=/dev/mapper/nixos--vg-root"
-    "resume_offset=24887296" # TODO fix this and move it to karax-config
+    "resume_offset=4294656" # TODO fix this and move it to karax-config
     "mitigations=off"
   ];
   swapDevices = [
@@ -72,19 +74,11 @@
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCUSeBc="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
   };
 
-  home-manager = { 
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    backupFileExtension = "backup";
-    users.vboysepe = import ./home.nix;
-    extraSpecialArgs = { inherit inputs; };
-
-  };
   #  xdg.portal.enable = true;
 
   # services.openafsClient.enable = true;
@@ -114,6 +108,7 @@
       }
     ]; # google cast firewall rules
 
+    firewall.allowedTCPPorts = [ 8080 ];
     firewall.enable = true;
     nftables.enable = true;
     # systemd.services.NetworkManager = {
@@ -171,6 +166,11 @@
       PermitRootLogin = "no";
     };
   };
+  programs.ssh.extraConfig = ''
+    Host 10.0.*
+      StrictHostKeyChecking no
+      UserKnownHostsFile /dev/null
+  '';
 
   # Set time zone.
   # time.timeZone = "America/New_York";

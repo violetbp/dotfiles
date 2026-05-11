@@ -39,16 +39,10 @@
     ];
   };
 
-  catppuccin = {
-    enable = true;
-    accent = "blue";
-    tty.enable = true;
-  };
-
   environment.systemPackages = with pkgs; [
     anki
     ansible
-    arandr # gui diplay manager
+    inputs.humble-manager.packages.${pkgs.stdenv.system}.humble-manager    arandr # gui diplay manager
     autoconf # make i think?
     automake
     bashmount
@@ -56,6 +50,8 @@
     brightnessctl
     cliphist
     clang-tools
+    claude-code
+    claude-monitor
     discord
     direnv
     bolt-launcher # runescape
@@ -72,6 +68,7 @@
     gnome-disk-utility
     ghostty
     htop
+    fontforge-gtk
     imagemagick
     inotify-tools
     jdk17_headless
@@ -90,6 +87,7 @@
     nemo-preview
     neofetch
     neovim
+    nixos-anywhere
     libnotify
     kicad
     networkmanagerapplet
@@ -108,12 +106,14 @@
     prismlauncher
     python313
     rsyslog
+    # rustup in dev shells
     runelite # cuz i love my girlfriends
     samba
     screen
     service-wrapper
     signal-desktop
     slack
+    sops
     stow
     syslinux
     tmux
