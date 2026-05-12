@@ -1,9 +1,10 @@
 {config, pkgs, ... }:
 {
-  imports = [   
+  imports = [
     ../windowManager/niri.nix
     ../configuration.nix
     ../hardwareConfig/karax-hw.nix
+    ../buildClient.nix
   ];
 
   networking.hostName = "karax";

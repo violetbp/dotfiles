@@ -38,6 +38,7 @@ alias nixgens='sudo nix-env -p /nix/var/nix/profiles/system --list-generations'
 # ── Aliases: dotfile config ───────────────────────────────────────────────────
 # Bare-repo git wrapper for dotfiles tracked in ~/.cfg
 alias config='/run/current-system/sw/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+compdef config=git
 
 # Convenience shortcuts for opening NixOS configs in editors
 alias chpkg='${EDITOR:-nano} ~/.config/nixos/programs.nix'

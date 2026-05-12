@@ -125,7 +125,7 @@ in
         disabled = false;
         time_format = "%R"; # Hour:Minute Format
         style = "bg:#1d2230";
-        format = "[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)";
+        format = "[[ 󰕔 $time ](fg:#a0a9cb bg:#1d2230)]($style)";
       };
     };
   };
