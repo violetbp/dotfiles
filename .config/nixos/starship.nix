@@ -1,7 +1,7 @@
 
 
 
-{ pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   nix-inspect = pkgs.writeShellScriptBin "nix-inspect" ''
     read -ra EXCLUDED <<< "$@"
@@ -20,6 +20,13 @@ let
     read -ra PROGRAMS <<< "''${PROGRAMS[@]}"
     echo "''${PROGRAMS[@]}"
   '';
+  hostColors = {
+    karax    = "#56b6c2";
+    terra    = "#98c379";
+    kerrigan = "#e06c75";
+    blade    = "#e5c07b";
+  };
+  hostColor = hostColors.${config.networking.hostName} or "#a3aed2";
 in
 {
   
@@ -59,10 +66,16 @@ in
       add_newline = true;
       command_timeout = 1300;
       scan_timeout = 50;
-      format = "[░▒▓](#a3aed2)[  ](bg:#a3aed2 fg:#090c0c)[](bg:#769ff0 fg:#a3aed2)$directory[](fg:#769ff0 bg:#394260)$git_branch$git_status[](fg:#394260 bg:#212736)$nodejs$rust$golang$php[](fg:#212736 bg:#1d2230)$time[ ](fg:#1d2230)\n$character\n";
+      format = "[░▒▓](#a3aed2)[  ](bg:#a3aed2 fg:#090c0c)$hostname$directory[](fg:#769ff0 bg:#394260)$git_branch$git_status[](fg:#394260 bg:#212736)$nodejs$rust$golang$php[](fg:#212736 bg:#1d2230)$time[ ](fg:#1d2230)\n$character\n";
       character = {
         success_symbol = "[](bold green) ";
         error_symbol = "[✗](bold red) ";
+      };
+      hostname = {
+        ssh_only = false;
+        disabled = false;
+        style = "bg:${hostColor} fg:#e3e5e5";
+        format = "[](fg:#a3aed2 bg:${hostColor})[ 󰒋 $hostname ](bg:${hostColor} fg:#090c0c)[](fg:${hostColor} bg:#769ff0)";
       };
       directory = {
         format = "[ $path ]($style)([$read_only ]($read_only_style))";
