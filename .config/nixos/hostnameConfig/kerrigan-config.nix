@@ -3,7 +3,8 @@
   imports = [
     ../configuration.nix
     ../buildServer.nix
-    # ../hardwareConfig/kerrigan-hw.nix  # TODO: generate with nixos-generate-config
+    ../hardwareConfig/kerrigan-hw.nix
+    ../hardwareConfig/kerrigan-disk.nix
   ];
 
   networking.hostName = "kerrigan";
