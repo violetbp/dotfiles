@@ -1,9 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.networking.networkmanager;
+
+  wifiCfg = config.networkPresets.wifiNetworks;
 
   getFileName = stringAsChars (x: if x == " " then "-" else x);
 
@@ -29,8 +36,21 @@ let
     };
   };
 
-  keyFiles = mapAttrs' createWifi config.networking.wireless.networks;
+  keyFiles = mapAttrs' createWifi wifiCfg;
 in {
+  options.networkPresets.wifiNetworks = mkOption {
+    description = "Wi‑Fi networks to predefine as NetworkManager connection files (does not enable legacy networking.wireless).";
+    type = types.attrsOf (
+      types.submodule {
+        options.psk = mkOption {
+          type = types.nullOr types.str;
+          default = null;
+        };
+      }
+    );
+    default = {};
+  };
+
   config = mkIf cfg.enable {
     environment.etc = keyFiles;
 

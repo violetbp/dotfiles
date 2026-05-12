@@ -1,15 +1,8 @@
-# This module defines a small NixOS installation CD.  It does not
-# contain any graphical stuff.
-{config, pkgs, ...}:
+# Customization for a small NixOS installation CD (no desktop).
+# Import after installation-cd-minimal.nix — see flake.nix.
+{ config, pkgs, ... }:
 {
-  imports = [
-    <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix>
-
-    # Provide an initial copy of the NixOS channel so that the user
-    # doesn't need to run "nix-channel --update" first.
-    <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
-    ./network.nix
-  ];
+  imports = [ ./network.nix ];
   # services.xserver =  {
   #   enable = true;
   #   displayManager.sddm.enable = true;
@@ -39,20 +32,20 @@
 
 
   networking.networkmanager.enable = true;
-  networking.wireless.networks."You know, what." = { psk = "Do not feed the geese bread."; };
+  networking.wireless.enable = false;
 
+  networkPresets.wifiNetworks."You know, what." = { psk = "Do not feed the geese bread."; };
+
+  # GUI apps (Kate, GParted, nm-applet, arandr) were dropped from here — they inflate the ISO a lot.
+  # Wi‑Fi: use `nmtui` (ships with NetworkManager).
   environment.systemPackages = with pkgs; [
-    arandr    # gui diplay manager
     bashmount
-    efibootmgr
     curl
+    efibootmgr
     git
-    gparted
     htop
-    kdePackages.kate
     nano
     neofetch
-    networkmanagerapplet
     nix-prefetch-scripts
     nixos-install
     nixos-install-tools

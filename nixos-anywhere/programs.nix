@@ -130,6 +130,7 @@
       package = pkgs.mlocate;
       interval = "hourly";
     };
+    
     flatpak.enable = true;
     #gvfs.enable = true;   # this enables network fileshares such as samba to be used with nemo but doesnt seem to work :(
     tailscale.enable = true;

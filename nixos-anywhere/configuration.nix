@@ -40,7 +40,7 @@
   ];
   boot.resumeDevice = "/dev/mapper/nixos--vg-root";
 
-  #  xdg.portal.enable = true;
+  xdg.portal.enable = true;
 
   # services.openafsClient.enable = true;
   # services.openafsClient.cellName = "cs.cmu.edu";
