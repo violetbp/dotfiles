@@ -65,10 +65,10 @@
           command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd ${pkgs.niri}/bin/niri-session";
           user = "greeter";
         };
-        # initial_session = { # autologin with full disc encryption is based
-        #   command = "${pkgs.niri}/bin/niri-session";
-        #   user = "vboysepe";
-        # };
+        initial_session = { # autologin with full disc encryption is based
+          command = "${pkgs.niri}/bin/niri-session";
+          user = "vboysepe";
+        };
       };
     };
 

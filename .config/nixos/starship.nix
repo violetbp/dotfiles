@@ -35,7 +35,6 @@ in
     shellAliases = {
       ll = "ls -l";
       edit = "sudo -e";
-      update = "sudo nixos-rebuild switch";
     };
 
     histSize = 10000;

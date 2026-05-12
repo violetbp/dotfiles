@@ -15,16 +15,16 @@
   hardware.printers = {
     ensurePrinters = [
       {
-        name = "Canon-TS3100";
+        name = "Canon-TS3100-nixconfig";
         location = "Home";
-        deviceUri = "http://10.0.3.113/wsd/pnpx-metadata.cgi";
+        deviceUri = "http://10.0.0.233/wsd/pnpx-metadata.cgi";
         model = "canonts3100.ppd"; #drv:///sample.drv/generic.ppd 
         ppdOptions = {
           PageSize = "Letter";
         };
       }
     ];
-    ensureDefaultPrinter = "Canon-TS3100";
+    ensureDefaultPrinter = "Canon-TS3100-nixconfig";
   };
 
 }
