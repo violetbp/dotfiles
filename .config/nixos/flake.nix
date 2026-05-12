@@ -43,6 +43,8 @@
     # };
     humble-manager.url = "github:violetbp/humble-manager";
     humble-manager.inputs.nixpkgs.follows = "nixpkgs";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = inputs@{ self, humble-manager, home-manager, claude-desktop, nixpkgs, nix-index-database, catppuccin, niri-flake, ... }: 
   # dankMaterialShell , refind-mod
@@ -112,6 +114,15 @@
         specialArgs = { inherit inputs; };
 
       };      
+      kerrigan = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          inputs.disko.nixosModules.disko
+          ./hostnameConfig/kerrigan-config.nix
+          ./configuration.nix
+        ];
+      };
     };
   };
 }
