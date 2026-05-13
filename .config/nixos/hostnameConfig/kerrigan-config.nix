@@ -2,7 +2,7 @@
 {
   imports = [
     ../configuration.nix
-    ../buildServer.nix
+    ../buildServer2.nix
     ../hardwareConfig/kerrigan-hw.nix
     ../hardwareConfig/kerrigan-disk.nix
   ];
