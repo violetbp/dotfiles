@@ -681,7 +681,7 @@
     },
     "wallpaper": {
         "automationEnabled": false,
-        "directory": "/home/vboysepe/Pictures",
+        "directory": "/home/vboysepe/Pictures/Wallpapers",
         "enableMultiMonitorDirectories": false,
         "enabled": false,
         "favorites": [

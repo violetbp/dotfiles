@@ -89,7 +89,7 @@
     neovim
     nixos-anywhere
     libnotify
-    kicad
+    # kicad
     networkmanagerapplet
     nix-prefetch-scripts
     # nixfmt

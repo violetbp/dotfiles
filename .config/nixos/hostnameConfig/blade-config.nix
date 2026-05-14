@@ -1,12 +1,11 @@
 { config, lib, pkgs, modulesPath, ... }:
 {
   imports = [
-    ../windowManager/niri.nix
     # ./hardware-configuration.nix
     #"${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
-    ../nvidia.nix
-    (modulesPath + "/installer/scan/not-detected.nix") # hardware config
-    ../buildClient.nix
+    
+    # (modulesPath + "/installer/scan/not-detected.nix") # hardware config
+    
 
   ];
 

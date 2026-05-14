@@ -49,27 +49,28 @@
   outputs = inputs@{ self, humble-manager, home-manager, claude-desktop, nixpkgs, nix-index-database, catppuccin, niri-flake, ... }: 
   # dankMaterialShell , refind-mod
   {
-        
-
     nixosConfigurations = {
       terra = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [ 
           ./hostnameConfig/terra-config.nix   
           ./configuration.nix
-          ];
+        ];
       };
       tassadar = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [ ./hostnameConfig/tassadar-config.nix 
-                  ./configuration.nix
-];
+          ./configuration.nix
+        ];
       };
       karax = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [ 
           ./hostnameConfig/karax-config.nix  
           ./configuration.nix
+          ./windowManager/niri.nix
+          ./hardwareConfig/karax-hw.nix
+          ./buildClient.nix
           # refind-mod.nixosModules.refind
           catppuccin.nixosModules.catppuccin
           niri-flake.nixosModules.niri
@@ -83,19 +84,8 @@
           ({ ... }: {
             environment.systemPackages = [ claude-desktop.packages.x86_64-linux.claude-desktop ];
           })
-          home-manager.nixosModules.home-manager
-          # {
-          #   home-manager = {
-          #     # extraSpecialArgs = { inherit inputs; };
-          #     useGlobalPkgs = true;
-          #     useUserPackages = true;
-          #     backupFileExtension = "backup";
-          #     users.vboysepe = import ./home.nix;
-          #   };
-          # }
-          
-          
-          ];
+          home-manager.nixosModules.home-manager            
+        ];
         specialArgs = { inherit inputs; };
       
       };
@@ -104,9 +94,17 @@
         modules = [ 
           ./hostnameConfig/blade-config.nix 
           ./configuration.nix
+          ./windowManager/niri.nix
+          ./nvidia.nix
+          ./buildClient.nix
           # refind-mod.nixosModules.refind
           catppuccin.nixosModules.catppuccin
+          inputs.disko.nixosModules.disko
+          niri-flake.nixosModules.niri
           
+           ({ ... }: {
+            environment.systemPackages = [ claude-desktop.packages.x86_64-linux.claude-desktop ];
+          })
           nix-index-database.nixosModules.nix-index
           { programs.nix-index-database.comma.enable = true; } # comma to install and run
           home-manager.nixosModules.home-manager 

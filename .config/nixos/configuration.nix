@@ -122,6 +122,7 @@
       10.241.172.176  artemis
       10.0.0.3        orlanahome
       10.0.0.7        haos
+      10.0.1.177      kerrigan
     '';
 
   };
