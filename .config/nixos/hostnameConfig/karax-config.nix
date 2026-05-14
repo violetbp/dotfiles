@@ -5,6 +5,9 @@
   ];
 
   networking.hostName = "karax";
+  boot.kernelParams = [ "resume_offset=4294656" ];
+  boot.resumeDevice = "/dev/mapper/nixos--vg-root";
+  swapDevices = [{ device = "/var/swapfile"; size = 24 * 1024; }];
 
   #IIO stands for the Industrial I/O subsystem of the Linux Kernel
   #I dont actually think this machine has one anymore ()

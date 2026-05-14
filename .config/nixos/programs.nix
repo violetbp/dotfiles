@@ -89,7 +89,7 @@
     neovim
     nixos-anywhere
     libnotify
-    # kicad
+    kicad
     networkmanagerapplet
     nix-prefetch-scripts
     # nixfmt
@@ -132,11 +132,11 @@
     zip
     zoom-us
     zsh
-    #(import "./remctl.nix")
+    #  (import "./remctl.nix")
     #  nushell
     #  mlocate defined in service
     #  geticons    # CLI tool for locating icons
-    #(import (fetchTarball "channel:nixos-unstable") {}).polymc
+    #  (import (fetchTarball "channel:nixos-unstable") {}).polymc
     pkgsUnstable.telegram-desktop 
     pkgsUnstable.pangolin-cli
     pkgsUnstable.code-cursor
@@ -153,7 +153,7 @@
   ];
 
   services = {
-    gvfs = {
+    gvfs = { # this enables network fileshares such as samba to be used with nemo but doesnt seem to work :(
       enable = true;
       # package = pkgs.gnome.gvfs;
     };
@@ -162,8 +162,6 @@
       package = pkgs.mlocate;
       interval = "hourly";
     };
-    flatpak.enable = true;
-    #gvfs.enable = true;   # this enables network fileshares such as samba to be used with nemo but doesnt seem to work :(
     tailscale.enable = true;
     zerotierone.enable = true;
     power-profiles-daemon.enable = true; #waybar needs this

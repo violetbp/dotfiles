@@ -15,44 +15,17 @@
   imports = [
     ./programs.nix
     ./starship.nix
-    ./laptop.nix
     ./misc.nix
     ./printers.nix
-    
   ];
   # stdenv.hostPlatform.system = inputs.system;
-
-  # audio stuff
-  security.pam.loginLimits = [
-    { domain = "@audio"; item = "memlock"; type = "-"; value = "unlimited"; }
-    { domain = "@audio"; item = "rtprio"; type = "-"; value = "99"; }
-    { domain = "@audio"; item = "nofile"; type = "soft"; value = "99999"; }
-    { domain = "@audio"; item = "nofile"; type = "hard"; value = "99999"; }
-  ];
-  # musnix = {
-  #   enable = true;
-  # };
 
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
 
-  # hibernation stuff
-  # sudo filefrag -v /var/swapfile | head
-  # sudo filefrag -v /var/swapfile | awk 'NR==4{print $4}' | cut -d. -f1     
-  boot.kernelParams = [
-    # "resume=/dev/mapper/nixos--vg-root"
-    "resume_offset=4294656" # TODO fix this and move it to karax-config
-    "mitigations=off"
-  ];
-  swapDevices = [
-    {
-      device = "/var/swapfile";
-      size = 24 * 1024; # 16GB in MB
-    }
-  ];
-  boot.resumeDevice = "/dev/mapper/nixos--vg-root";
+  boot.kernelParams = [ "mitigations=off" ];
 
   nix = {
     settings.download-buffer-size = 500000000;
@@ -78,8 +51,6 @@
       ];
     };
   };
-
-  xdg.portal.enable = true;
 
   # services.openafsClient.enable = true;
   # services.openafsClient.cellName = "cs.cmu.edu";
@@ -135,8 +106,6 @@
     # change this to your ssh key
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDEM5j07kBTjfN6kAShtpux5oxHUtQPQiQyxUNKzV6Ytrj6DlFD/3UXkilagDX2zEPzDOLBp59WTpIMDVp+Jaqf5Iv1WYNXQPN5qNbHutCiDJGwYaCoynUW0dsG419eZgUsKc3tyQucKXRnopzJ0xBJN4k+JU4eHc6dk4Jgfp8fNh7tN5onuTjcHnfeKE9GR/tMWoNxz+wxo9ymBsu/3Jiu/NJGNH9437Kke+w7IaRq8tbxZSsrEm8XgR/QW8iOJog2JOuBN1eqrGtJ6x5xJPZS753akzCVJXFIhiwNbhNOtJKq9Glh6aOFlMF/lKLSUxPwQpmnr9LeEFSdn4JQo9/eYPOvFz0cjjubFXFlhZRu+PErkYBV5Fn+0LCXG+aic99eK6Jvu8k7dKPv7ROCTZdPSS1IOzRalUKoB6ZuAKiYFVafNv6qUjPUnVP5J69Po03nDtzM/E+BwgquW8SJrsmxebYQzn4TzULmKPYOcGwJsrmQKR2jDyK5JnolJUYmAbs= vboysepe@terra"
   ];
-  environment.sessionVariables.DEFAULT_BROWSER = "/var/lib/flatpak/exports/bin/app.zen_browser.zen";
-
 #  boot.loader.refind = {
 #            enable = true;
 #            maxGenerations = 10;
@@ -177,68 +146,6 @@
   # time.timeZone = "America/New_York";
   time.timeZone = "US/Pacific";
 
-
-  ###### Sound ######
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-    extraConfig = {
-      pipewire."99-silent-bell.conf" = {
-        "context.properties" = {
-          "module.x11.bell" = false;
-        };
-      };
-    };
-  };
-  services.pipewire.wireplumber.extraConfig."10-bluez" = {
-    "monitor.bluez.properties" = {
-      "bluez5.enable-sbc-xq" = true;
-      "bluez5.enable-msbc" = true;
-      "bluez5.enable-hw-volume" = true;
-      "bluez5.roles" = [
-        "hsp_hs"
-        "hsp_ag"
-        "hfp_hf"
-        "hfp_ag"
-      ];
-    };
-  };
-  ###### BT ######
-  services.blueman.enable = true;
-  # hardware.bluetooth = {
-  #   enable = true;
-  #   settings = {
-  #     General = {
-  #       Enable = "Source,Sink,Media,Socket";
-  #     };
-  #   };
-  # };
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings = {
-      General = {
-        #mew ControllerMode = "bredr"; # Fix frequent Bluetooth audio dropouts
-        Experimental = true;
-        #mew FastConnectable = true;
-        #mew Enable = "Source,Sink,Media,Socket";
-
-      };
-      Policy = {
-        AutoEnable = true;
-      };
-    };
-  };
-
-  services.gnome.gnome-keyring.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
-  services.libinput.touchpad.naturalScrolling = true;
 
   ###### User ######
   users.users.vboysepe = {
