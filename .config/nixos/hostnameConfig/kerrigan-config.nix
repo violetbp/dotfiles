@@ -10,5 +10,7 @@
 
   networking.hostName = "kerrigan";
 
+  nix.settings.tarball-ttl = 86400;
+
   system.stateVersion = "25.11";
 }
