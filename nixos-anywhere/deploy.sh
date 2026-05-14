@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# deploy2.sh — bootstrap a new machine then apply the real NixOS config from dotfiles.
+# deploy.sh — bootstrap a new machine then apply the real NixOS config from dotfiles.
 #
-# Usage: ./deploy2.sh <target-ip> <hostname>
-#   target-ip    IP of the target (must be booted from the installer ISO)
-#   hostname     The new machine's hostname (e.g. terra, luna)
-#                Creates hostnameconfig/<hostname>.nix if it doesn't exist.
+# Usage: ./deploy.sh [--skip-nixos-anywhere] <target-ip> <hostname>
+#   --skip-nixos-anywhere  Skip the nixos-anywhere partitioning/install step and
+#                          go straight to dotfiles setup. Use after a failed first run.
+#   target-ip              IP of the target (must be booted from the installer ISO)
+#   hostname               The new machine's hostname (e.g. terra, luna)
 #
 # Prerequisites:
 #   - secrets/secrets.yaml exists and is sops-encrypted
@@ -18,6 +19,8 @@ DOTFILES_REPO="https://github.com/violetbp/dotfiles.git"
 DOTFILES_USER="vboysepe"
 AGE_KEY_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/sops/age/keys.txt"
 
+# ── Phase 0: parse args ────────────────────────────────────────────────────────
+
 SKIP_NIXOS_ANYWHERE=0
 if [[ "${1:-}" == "--skip-nixos-anywhere" ]]; then
   SKIP_NIXOS_ANYWHERE=1
@@ -30,7 +33,8 @@ HOSTNAME="${2:-}"
 [[ -z "$TARGET_IP" ]] && read -rp "Target IP: " TARGET_IP
 [[ -z "$HOSTNAME"  ]] && read -rp "Hostname: " HOSTNAME
 
-# Validate prerequisites
+# ── Phase 1: validate prerequisites ───────────────────────────────────────────
+
 if [[ ! -f "$AGE_KEY_FILE" ]]; then
   echo "ERROR: age key not found at $AGE_KEY_FILE"
   echo "  Run: age-keygen -o $AGE_KEY_FILE"
@@ -43,7 +47,10 @@ if [[ ! -f "$SCRIPT_DIR/secrets/secrets.yaml" ]]; then
   exit 1
 fi
 
-# Create hostnameconfig/<hostname>.nix if it doesn't already exist.
+# ── Phase 2: nixos-anywhere bootstrap ─────────────────────────────────────────
+
+# Ensure a per-hostname stub exists in hostnameconfig/ so the local bootstrap
+# flake (flake.nix) can expose .#<hostname> for nixos-anywhere to target.
 HOSTNAME_NIX="$SCRIPT_DIR/hostnameconfig/${HOSTNAME}.nix"
 if [[ ! -f "$HOSTNAME_NIX" ]]; then
   echo "==> Creating $HOSTNAME_NIX"
@@ -51,12 +58,16 @@ if [[ ! -f "$HOSTNAME_NIX" ]]; then
   printf '{ networking.hostName = "%s"; }\n' "$HOSTNAME" > "$HOSTNAME_NIX"
 fi
 
-# Inject the age key into a temp dir for nixos-anywhere --extra-files.
+# Stage the age private key in a temp dir so nixos-anywhere can upload it to
+# /var/lib/sops-nix/age-key.txt on the target — required for sops-nix to
+# decrypt secrets (wifi PSK, user password) on first boot.
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 install -Dm600 "$AGE_KEY_FILE" "$TMP/var/lib/sops-nix/age-key.txt"
 
 if [[ "$SKIP_NIXOS_ANYWHERE" -eq 0 ]]; then
+  # Partition the disk (via disko), install the bootstrap NixOS config, and
+  # reboot the target. Also generates hardware-configuration.nix locally.
   echo "==> Bootstrapping $HOSTNAME onto $TARGET_IP..."
   nixos-anywhere \
     --flake "$SCRIPT_DIR#${HOSTNAME}" \
@@ -74,24 +85,53 @@ if [[ "$SKIP_NIXOS_ANYWHERE" -eq 0 ]]; then
     sleep 5
   done
   echo
+
+  # Fix EFI boot order so the internal disk boots first, not the USB.
+  # Identifies the correct "Linux Boot Manager" entry by matching the PARTUUID
+  # of the ESP (/boot) against the device paths in efibootmgr -v output.
+  echo "==> Fixing EFI boot order on ${TARGET_IP}..."
+  ssh -o StrictHostKeyChecking=no root@"${TARGET_IP}" '
+    ESP_PART=$(findmnt -no SOURCE /boot)
+    PART_GUID=$(blkid -s PARTUUID -o value "$ESP_PART" | tr "[:upper:]" "[:lower:]")
+
+    BOOTNUM=$(efibootmgr -v \
+      | grep -i "Linux Boot Manager" \
+      | grep -i "$PART_GUID" \
+      | grep -oP "Boot\K[0-9]+" \
+      | head -1)
+
+    if [[ -z "$BOOTNUM" ]]; then
+      echo "WARNING: could not identify correct EFI entry — boot order unchanged"
+    else
+      CURRENT_ORDER=$(efibootmgr | grep "^BootOrder:" | awk "{print \$2}")
+      NEW_ORDER="${BOOTNUM},${CURRENT_ORDER//${BOOTNUM},/}"
+      efibootmgr -o "$NEW_ORDER" >/dev/null
+      echo "EFI boot order updated: Boot${BOOTNUM} (internal disk) is now first"
+    fi
+  '
 else
   echo "==> Skipping nixos-anywhere deployment (--skip-nixos-anywhere)."
 fi
 
-# --- Local dotfiles edits ---
+# ── Phase 3: update local dotfiles ────────────────────────────────────────────
+# Commit the machine-specific hardware + disk configs and flake entry into the
+# dotfiles repo so the target can pull a complete, buildable config.
+
 LOCAL_NIXOS="$HOME/.config/nixos"
 LOCAL_GIT="git --git-dir=$HOME/.cfg --work-tree=$HOME"
 
 echo "==> Updating local dotfiles config for $HOSTNAME..."
 
-# Copy hardware config into dotfiles repo
+# Copy the freshly generated hardware config (kernel modules, CPU microcode, etc.)
 mkdir -p "$LOCAL_NIXOS/hardwareConfig"
 cp "$SCRIPT_DIR/hardware-configuration.nix" "$LOCAL_NIXOS/hardwareConfig/${HOSTNAME}-hw.nix"
 
-# Copy disk config into dotfiles repo
+# Copy the disko disk layout (partition table + LVM config) — the disko module
+# on the target will use this to generate fileSystems.* at build time.
 cp "$SCRIPT_DIR/disk-config.nix" "$LOCAL_NIXOS/hostnameConfig/${HOSTNAME}-disk.nix"
 
-# Create the hostname config wrapper if not already present
+# Create a wrapper module that imports both configs and sets the hostname.
+# This is what the dotfiles flake's nixosConfiguration for this host will import.
 HOST_CONFIG="$LOCAL_NIXOS/hostnameConfig/${HOSTNAME}-config.nix"
 if [[ ! -f "$HOST_CONFIG" ]]; then
   cat > "$HOST_CONFIG" << EOF
@@ -108,7 +148,8 @@ if [[ ! -f "$HOST_CONFIG" ]]; then
 EOF
 fi
 
-# Add hostname to flake.nix if not present
+# Patch the dotfiles flake.nix to add a nixosSystem entry for this hostname
+# if one doesn't already exist.
 FLAKE="$LOCAL_NIXOS/flake.nix"
 if ! grep -q "${HOSTNAME} =" "$FLAKE" 2>/dev/null; then
   awk '
@@ -129,27 +170,36 @@ inConfigs && /^    };/ && !done {
 ' "$FLAKE" > /tmp/flake.tmp && mv /tmp/flake.tmp "$FLAKE"
 fi
 
-# Commit and push via local bare repo
+# Stage and push all new/changed files so the target can pull them.
 echo "==> Committing and pushing dotfiles..."
 $LOCAL_GIT add \
   "$LOCAL_NIXOS/hardwareConfig/${HOSTNAME}-hw.nix" \
   "$LOCAL_NIXOS/hostnameConfig/${HOSTNAME}-disk.nix" \
   "$LOCAL_NIXOS/hostnameConfig/${HOSTNAME}-config.nix" \
   "$LOCAL_NIXOS/flake.nix"
-$LOCAL_GIT commit -m "deploy: add ${HOSTNAME} nixos config"
-$LOCAL_GIT push
+if $LOCAL_GIT diff --cached --quiet; then
+  echo "==> No dotfiles changes to commit, continuing..."
+else
+  $LOCAL_GIT commit -m "deploy: add ${HOSTNAME} nixos config"
+  $LOCAL_GIT push
+fi
 
-# --- Target-side apply ---
+# ── Phase 4: apply real config on target ──────────────────────────────────────
+# Write a setup script to the target, then run it as a detached systemd unit
+# so it survives the SSH disconnect that nixos-rebuild switch causes when it
+# restarts dbus mid-apply.
+
 echo "==> Writing setup script to ${TARGET_IP}..."
 ssh -o StrictHostKeyChecking=no root@"${TARGET_IP}" 'cat > /tmp/nixos-setup.sh && chmod +x /tmp/nixos-setup.sh' << ENDSSH
 #!/usr/bin/env bash
 set -e
 export PATH=/run/current-system/sw/bin:/run/wrappers/bin:/nix/var/nix/profiles/default/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# Clone dotfiles bare repo using HTTPS (no SSH key needed for public repo)
+# Clone dotfiles bare repo via HTTPS (no SSH key needed for a public repo).
 git clone --bare ${DOTFILES_REPO} /home/${DOTFILES_USER}/.cfg
 
-# Back up any files that would conflict with checkout, then check out
+# Checkout dotfiles into the home directory. If any files conflict, back them
+# up to ~/.cfg-backup/ and retry.
 conflicts=\$(git --git-dir=/home/${DOTFILES_USER}/.cfg --work-tree=/home/${DOTFILES_USER} checkout 2>&1 \
   | grep -E '^\s+' | awk '{print \$1}' || true)
 if [[ -n "\$conflicts" ]]; then
@@ -164,16 +214,28 @@ git --git-dir=/home/${DOTFILES_USER}/.cfg --work-tree=/home/${DOTFILES_USER} \
 
 chown -R ${DOTFILES_USER}:users /home/${DOTFILES_USER}
 
-# Switch to the real NixOS configuration
+# Switch to the real NixOS configuration from dotfiles.
 nixos-rebuild switch --flake /home/${DOTFILES_USER}/.config/nixos#${HOSTNAME}
 
 echo "==> Setup complete."
 ENDSSH
 
+# Stop any leftover nixos-apply unit from a previous run to avoid a "unit
+# already exists" error from systemd-run.
+echo "==> Stopping previous nixos-apply service on ${TARGET_IP} (if present)..."
+ssh -o StrictHostKeyChecking=no root@"${TARGET_IP}" '
+  if systemctl list-units --all --no-legend nixos-apply.service 2>/dev/null | grep -q nixos-apply; then
+    systemctl stop nixos-apply 2>/dev/null || true
+    systemctl reset-failed nixos-apply 2>/dev/null || true
+  fi
+'
+
 echo "==> Launching setup on ${TARGET_IP} (detached)..."
 ssh -o StrictHostKeyChecking=no root@"${TARGET_IP}" \
   'systemd-run --unit=nixos-apply --no-block bash /tmp/nixos-setup.sh'
 
+# Follow the journal on the target. The remote shell kills the tail and exits
+# automatically once the nixos-apply unit finishes.
 echo "==> Following logs (Ctrl-C is safe — setup continues on target)..."
 ssh -o StrictHostKeyChecking=no root@"${TARGET_IP}" '
   journalctl -u nixos-apply -f --no-pager &

@@ -405,7 +405,7 @@ window-rule {
 window-rule {
     match app-id=r#"^app\.zen_browser\.zen$"#  title="Extension"
     open-floating true
-}
+} 
 
 window-rule {
     match  title="Baseball Tracker Simulator"
