@@ -35,7 +35,7 @@
   networking.wireless.enable = lib.mkForce false;
 
   networkPresets.wifiNetworks."You know, what." = { psk = "Do not feed the geese bread."; };
-  networkPresets.wifiNetworks."KittyCafe" = { psk = "gokittygo6560roll"; };
+  # networkPresets.wifiNetworks."KittyCafe" = { psk = "gokittygo6560roll"; };
 
   # GUI apps (Kate, GParted, nm-applet, arandr) were dropped from here — they inflate the ISO a lot.
   # Wi‑Fi: use `nmtui` (ships with NetworkManager).
@@ -46,7 +46,7 @@
     git
     htop
     nano
-    neofetch
+    fastfetch
     nix-prefetch-scripts
     nixos-install
     nixos-install-tools

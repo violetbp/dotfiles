@@ -13,7 +13,7 @@ nix store delete "${STORE_PATH}" 2>/dev/null \
   && echo "Deleted." \
   || echo "Could not delete (path has live references — try a leaf package like htop)."
 
-echo "Rebuilding (should fetch from kerrigan:5000 if cache is warm)..."
-time nix build "nixpkgs#${PACKAGE}" --no-link -v 2>&1 | grep -E "copying|fetching|building|real"
+# echo "Rebuilding (should fetch from kerrigan:5000 if cache is warm)..."
+# time nix build "nixpkgs#${PACKAGE}" --no-link -v 2>&1 | grep -E "copying|fetching|building|real"
 
-echo "Done: ${STORE_PATH}"
+# echo "Done: ${STORE_PATH}"

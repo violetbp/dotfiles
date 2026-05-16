@@ -119,6 +119,7 @@
           inputs.disko.nixosModules.disko
           ./hostnameConfig/kerrigan-config.nix
           ./configuration.nix
+          ./htpc.nix
         ];
       };
     };
