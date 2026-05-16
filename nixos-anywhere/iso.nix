@@ -1,6 +1,6 @@
 # Customization for a small NixOS installation CD (no desktop).
 # Import after installation-cd-minimal.nix — see flake.nix.
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
   imports = [ ./network.nix ];
   # services.xserver =  {
@@ -32,9 +32,10 @@
 
 
   networking.networkmanager.enable = true;
-  networking.wireless.enable = false;
+  networking.wireless.enable = lib.mkForce false;
 
   networkPresets.wifiNetworks."You know, what." = { psk = "Do not feed the geese bread."; };
+  networkPresets.wifiNetworks."KittyCafe" = { psk = "gokittygo6560roll"; };
 
   # GUI apps (Kate, GParted, nm-applet, arandr) were dropped from here — they inflate the ISO a lot.
   # Wi‑Fi: use `nmtui` (ships with NetworkManager).

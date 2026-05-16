@@ -13,6 +13,18 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+#  boot.loader.refind = {
+#            enable = true;
+#            maxGenerations = 10;
+ #       };
+
+
+  # services.openafsClient.enable = true;
+  # services.openafsClient.cellName = "cs.cmu.edu";
+
+  # # Container/VM
+  # virtualisation.lxd.enable = false;
+  # virtualisation.docker.enable = true;
 
 
  fonts.fonts = with pkgs; [

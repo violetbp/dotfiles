@@ -54,12 +54,7 @@
     };
   };
 
-  # services.openafsClient.enable = true;
-  # services.openafsClient.cellName = "cs.cmu.edu";
 
-  # # Container/VM
-  # virtualisation.lxd.enable = false;
-  # virtualisation.docker.enable = true;
 
   ###### Boot ######
   # Use the systemd-boot EFI boot loader.
@@ -108,28 +103,7 @@
     # change this to your ssh key
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDEM5j07kBTjfN6kAShtpux5oxHUtQPQiQyxUNKzV6Ytrj6DlFD/3UXkilagDX2zEPzDOLBp59WTpIMDVp+Jaqf5Iv1WYNXQPN5qNbHutCiDJGwYaCoynUW0dsG419eZgUsKc3tyQucKXRnopzJ0xBJN4k+JU4eHc6dk4Jgfp8fNh7tN5onuTjcHnfeKE9GR/tMWoNxz+wxo9ymBsu/3Jiu/NJGNH9437Kke+w7IaRq8tbxZSsrEm8XgR/QW8iOJog2JOuBN1eqrGtJ6x5xJPZS753akzCVJXFIhiwNbhNOtJKq9Glh6aOFlMF/lKLSUxPwQpmnr9LeEFSdn4JQo9/eYPOvFz0cjjubFXFlhZRu+PErkYBV5Fn+0LCXG+aic99eK6Jvu8k7dKPv7ROCTZdPSS1IOzRalUKoB6ZuAKiYFVafNv6qUjPUnVP5J69Po03nDtzM/E+BwgquW8SJrsmxebYQzn4TzULmKPYOcGwJsrmQKR2jDyK5JnolJUYmAbs= vboysepe@terra"
   ];
-#  boot.loader.refind = {
-#            enable = true;
-#            maxGenerations = 10;
- #       };
 
-
-  # xdg.mime.defaultApplications = {
-  #   "text/html"                 = "app.zen_browser.zen";
-  #   "x-scheme-handler/http"     = "app.zen_browser.zen";
-  #   "x-scheme-handler/https"    = "app.zen_browser.zen";
-  #   "x-scheme-handler/about"    = "app.zen_browser.zen";
-  #   "x-scheme-handler/unknown"  = "app.zen_browser.zen";
-  #   "application/x-extension-htm"   = "app.zen_browser.zen";
-  #   "application/x-extension-html"  = "app.zen_browser.zen";
-  #   "application/x-extension-shtml" = "app.zen_browser.zen";
-  #   "application/xhtml+xml"         = "app.zen_browser.zen";
-  #   "application/x-extension-xhtml" = "app.zen_browser.zen";
-  #   "application/x-extension-xht"   = "app.zen_browser.zen";
-  #   "x-scheme-handler/webcal"       = "app.zen_browser.zen";
-  #   "x-scheme-handler/mailto"       = "app.zen_browser.zen";
-
-  # };
 
   services.openssh = {
     #enable = true;
