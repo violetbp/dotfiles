@@ -3,7 +3,13 @@
 #
 # programs.niri.settings is declared by niri-flake's settings module (not the main nixos niri module).
 
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   imports = [ inputs.niri-flake.lib.internal.settings-module ];
 
@@ -26,5 +32,11 @@
     [
       (mkKiosk "launch-mlb" "https://www.mlb.tv")
       (mkKiosk "launch-f1" "https://f1tv.formula1.com")
+      bluetui
+      bluez
     ];
+
+  
+
+  
 }

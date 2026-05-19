@@ -86,7 +86,7 @@
     extraHosts = ''
       # 10.147.19.1   orlana
       # 10.147.19.164 nova
-      10.0.0.125      plex
+      10.0.0.215      plex
       10.241.172.176  artemis
       10.0.0.3        orlanahome
       10.0.0.7        haos

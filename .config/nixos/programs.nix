@@ -22,10 +22,11 @@
   };
 
   programs = {
+    nix-index-database.comma.enable = true;
     adb.enable = true;
     direnv = {
       enable = true;
-      nix-direnv.enable = true;  # caches nix develop shells so they load instantly
+      nix-direnv.enable = true; # caches nix develop shells so they load instantly
     };
     steam.enable = true;
     steam.package = pkgs.steam.override {
@@ -37,12 +38,35 @@
       # here, NOT in environment.systemPackages
       uv
     ];
+
+    ###### 1password ######
+
+    _1password.enable = true;
+    _1password-gui = {
+      enable = true;
+      # Certain features, including CLI integration and system authentication support,
+      # require enabling PolKit integration on some desktop environments (e.g. Plasma).
+      polkitPolicyOwners = [ "yourUsernameHere" ];
+    };
+
   };
+  environment.etc = {
+    "1password/custom_allowed_browsers" = {
+      text = ''
+        vivaldi-bin
+        wavebox
+      '';
+      mode = "0755";
+    };
+  };
+
+  ###### Mass Packages ######
 
   environment.systemPackages = with pkgs; [
     anki
     ansible
-    inputs.humble-manager.packages.${pkgs.stdenv.system}.humble-manager    arandr # gui diplay manager
+    inputs.humble-manager.packages.${pkgs.stdenv.system}.humble-manager
+    arandr # gui diplay manager
     autoconf # make i think?
     automake
     bashmount
@@ -50,8 +74,10 @@
     brightnessctl
     cliphist
     clang-tools
+    coreutils-full
     claude-code
     claude-monitor
+    dig
     discord
     direnv
     bolt-launcher # runescape
@@ -137,7 +163,7 @@
     #  mlocate defined in service
     #  geticons    # CLI tool for locating icons
     #  (import (fetchTarball "channel:nixos-unstable") {}).polymc
-    pkgsUnstable.telegram-desktop 
+    pkgsUnstable.telegram-desktop
     pkgsUnstable.pangolin-cli
     pkgsUnstable.code-cursor
     pkgsUnstable.noctalia-shell
@@ -153,7 +179,8 @@
   ];
 
   services = {
-    gvfs = { # this enables network fileshares such as samba to be used with nemo but doesnt seem to work :(
+    gvfs = {
+      # this enables network fileshares such as samba to be used with nemo but doesnt seem to work :(
       enable = true;
       # package = pkgs.gnome.gvfs;
     };
@@ -162,9 +189,9 @@
       package = pkgs.mlocate;
       interval = "hourly";
     };
-    tailscale.enable = true;
-    zerotierone.enable = true;
-    power-profiles-daemon.enable = true; #waybar needs this
+    # tailscale.enable = true;
+    # zerotierone.enable = true;
+    power-profiles-daemon.enable = true; # waybar needs this
     upower = {
       enable = true;
       criticalPowerAction = "HybridSleep";
