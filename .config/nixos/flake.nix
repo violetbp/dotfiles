@@ -46,8 +46,8 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = inputs@{ self, humble-manager, home-manager, claude-desktop, nixpkgs, nix-index-database, catppuccin, niri-flake, ... }: 
-  # dankMaterialShell , refind-mod
+  outputs = inputs@{ self, humble-manager, home-manager, claude-desktop, nixpkgs,  catppuccin, niri-flake, ... }: 
+  # dankMaterialShell , refind-mod, nix-index-database,
   {
     nixosConfigurations = {
       terra = nixpkgs.lib.nixosSystem {
@@ -71,12 +71,13 @@
           ./windowManager/niri.nix
           ./hardwareConfig/karax-hw.nix
           ./buildClient.nix
+          ./desktop.nix
+          ./laptop.nix
           # refind-mod.nixosModules.refind
           catppuccin.nixosModules.catppuccin
           niri-flake.nixosModules.niri
-          nix-index-database.nixosModules.nix-index
-           { programs.nix-index-database.comma.enable = true; } # comma to install and run
-            
+          inputs.nix-index-database.nixosModules.nix-index
+          
           # ({ pkgs, ... }: {
           #   nixpkgs.overlays = [ claude-desktop.overlays.default ];
           #   environment.systemPackages = [ pkgs.claude-desktop ];
@@ -101,12 +102,11 @@
           catppuccin.nixosModules.catppuccin
           inputs.disko.nixosModules.disko
           niri-flake.nixosModules.niri
+          inputs.nix-index-database.nixosModules.nix-index
           
            ({ ... }: {
             environment.systemPackages = [ claude-desktop.packages.x86_64-linux.claude-desktop ];
           })
-          nix-index-database.nixosModules.nix-index
-          { programs.nix-index-database.comma.enable = true; } # comma to install and run
           home-manager.nixosModules.home-manager 
         ];
         specialArgs = { inherit inputs; };
@@ -117,10 +117,35 @@
         specialArgs = { inherit inputs; };
         modules = [
           inputs.disko.nixosModules.disko
+          inputs.nix-index-database.nixosModules.nix-index
           ./hostnameConfig/kerrigan-config.nix
           ./configuration.nix
           ./htpc.nix
+          ./buildServer2.nix
+          ./harmonia.nix
         ];
+      };
+      talandar = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          inputs.disko.nixosModules.disko
+          inputs.nix-index-database.nixosModules.nix-index
+          catppuccin.nixosModules.catppuccin
+          inputs.disko.nixosModules.disko
+          niri-flake.nixosModules.niri
+          inputs.nix-index-database.nixosModules.nix-index
+          
+          ({ ... }: {
+            environment.systemPackages = [ claude-desktop.packages.x86_64-linux.claude-desktop ];
+          })
+          home-manager.nixosModules.home-manager 
+          ./hostnameConfig/talandar-config.nix
+          ./configuration.nix
+          ./laptop.nix
+          ./desktop.nix
+        ];
+        
       };
     };
   };
