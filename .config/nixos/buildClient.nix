@@ -1,6 +1,11 @@
 { ... }:
 {
   nix.distributedBuilds = true;
+  nix.extraOptions = ''
+    builders-use-substitutes = true
+    connect-timeout = 5
+    fallback = true
+  '';
   nix.buildMachines = [{
     hostName = "kerrigan";
     system = "x86_64-linux";

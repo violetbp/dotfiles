@@ -1,10 +1,10 @@
 
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs.url = "nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with
       # the `inputs.nixpkgs` of the current flake,
@@ -15,10 +15,10 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";   
     };
-    dgop = {
-      url = "github:AvengeMedia/dgop";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # dgop = {
+    #   url = "github:AvengeMedia/dgop";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     claude-desktop.url = "github:aaddrick/claude-desktop-debian";
 
     # dankMaterialShell = {
@@ -28,7 +28,7 @@
     # };
     flake-schemas.url = github:DeterminateSystems/flake-schemas;
     # waybar.url        = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
-    catppuccin.url    = "github:catppuccin/nix/release-25.05";
+    # catppuccin.url    = "github:catppuccin/nix/release-25.05";
     niri-flake.url    = "github:sodiboo/niri-flake";
     # refind-mod.url    = "github:GrandtheUK/refind-nix";
     # noctalia = {
@@ -41,12 +41,12 @@
     #   url = "github:noctalia-dev/noctalia-qs";
     #   inputs.nixpkgs.follows = "nixpkgs-unstable";
     # };
-    humble-manager.url = "github:violetbp/humble-manager";
-    humble-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # humble-manager.url = "github:violetbp/humble-manager";
+    # humble-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = inputs@{ self, humble-manager, home-manager, claude-desktop, nixpkgs,  catppuccin, niri-flake, ... }: 
+  outputs = inputs@{ self, home-manager, claude-desktop, nixpkgs, niri-flake, ... }: 
   # dankMaterialShell , refind-mod, nix-index-database,
   {
     nixosConfigurations = {
@@ -74,7 +74,7 @@
           ./desktop.nix
           ./laptop.nix
           # refind-mod.nixosModules.refind
-          catppuccin.nixosModules.catppuccin
+          # catppuccin.nixosModules.catppuccin
           niri-flake.nixosModules.niri
           inputs.nix-index-database.nixosModules.nix-index
           
@@ -99,7 +99,7 @@
           ./nvidia.nix
           ./buildClient.nix
           # refind-mod.nixosModules.refind
-          catppuccin.nixosModules.catppuccin
+          # catppuccin.nixosModules.catppuccin
           inputs.disko.nixosModules.disko
           niri-flake.nixosModules.niri
           inputs.nix-index-database.nixosModules.nix-index
@@ -131,7 +131,7 @@
         modules = [
           inputs.disko.nixosModules.disko
           inputs.nix-index-database.nixosModules.nix-index
-          catppuccin.nixosModules.catppuccin
+          # catppuccin.nixosModules.catppuccin
           inputs.disko.nixosModules.disko
           niri-flake.nixosModules.niri
           inputs.nix-index-database.nixosModules.nix-index

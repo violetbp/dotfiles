@@ -59,4 +59,5 @@
     libinput.touchpad.naturalScrolling = true;
   };
   environment.sessionVariables.DEFAULT_BROWSER = "/var/lib/flatpak/exports/bin/app.zen_browser.zen";
+  environment.sessionVariables.DIRENV_LOG_FORMAT = "";
 }

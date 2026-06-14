@@ -65,7 +65,7 @@
   environment.systemPackages = with pkgs; [
     anki
     ansible
-    inputs.humble-manager.packages.${pkgs.stdenv.system}.humble-manager
+    # inputs.humble-manager.packages.${pkgs.stdenv.system}.humble-manager
     arandr # gui diplay manager
     autoconf # make i think?
     automake
@@ -79,6 +79,7 @@
     claude-monitor
     dig
     discord
+    dgop # another top replacement
     direnv
     bolt-launcher # runescape
     efibootmgr
@@ -89,6 +90,7 @@
     git
     gjs
     glib
+    geeqie
     google-chrome
     gparted
     gnome-disk-utility
@@ -107,6 +109,7 @@
     maim # screenshots
     nano
     nix-direnv
+    nixd
     nautilus
     ncdu
     nemo-with-extensions
@@ -155,6 +158,7 @@
     which
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     xclip
+    xprop
     zip
     zoom-us
     zsh

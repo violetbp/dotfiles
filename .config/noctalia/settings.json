@@ -454,11 +454,11 @@
     },
     "location": {
         "analogClockInCalendar": false,
-        "autoLocate": false,
+        "autoLocate": true,
         "firstDayOfWeek": -1,
         "hideWeatherCityName": false,
         "hideWeatherTimezone": false,
-        "name": "Tokyo",
+        "name": "Seattle",
         "showCalendarEvents": true,
         "showCalendarWeather": true,
         "showWeekNumberInCalendar": false,

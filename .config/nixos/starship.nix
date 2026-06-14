@@ -48,6 +48,7 @@ in
     histFile = "$HOME/.zsh_history";
     setOptions = [
       "HIST_IGNORE_ALL_DUPS"
+      "HIST_IGNORE_SPACE"
     ];
     ohMyZsh = {
       enable = true;
