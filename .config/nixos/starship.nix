@@ -42,6 +42,7 @@ in
     shellAliases = {
       ll = "ls -l";
       edit = "sudo -e";
+      neofetch = "neowofetch";
     };
 
     histSize = 10000;

@@ -26,7 +26,7 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     #   inputs.dgop.follows = "dgop";
     # };
-    flake-schemas.url = github:DeterminateSystems/flake-schemas;
+    flake-schemas.url = "github:DeterminateSystems/flake-schemas";
     # waybar.url        = "github:Nitepone/Waybar?ref=dev/niri-taskbar";
     # catppuccin.url    = "github:catppuccin/nix/release-25.05";
     niri-flake.url    = "github:sodiboo/niri-flake";
@@ -37,7 +37,7 @@
     #   inputs.noctalia-qs.follows = "noctalia-qs";
     # };
 
-    # noctalia-qs = {
+    # noctalia-qs = { 
     #   url = "github:noctalia-dev/noctalia-qs";
     #   inputs.nixpkgs.follows = "nixpkgs-unstable";
     # };
@@ -45,6 +45,10 @@
     # humble-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-bigscreen = {
+      url = "path:/home/vboysepe/projects/plasmabigscreen";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
   outputs = inputs@{ self, home-manager, claude-desktop, nixpkgs, niri-flake, ... }: 
   # dankMaterialShell , refind-mod, nix-index-database,
@@ -104,7 +108,7 @@
           niri-flake.nixosModules.niri
           inputs.nix-index-database.nixosModules.nix-index
           
-           ({ ... }: {
+          ({ ... }: {
             environment.systemPackages = [ claude-desktop.packages.x86_64-linux.claude-desktop ];
           })
           home-manager.nixosModules.home-manager 
@@ -121,8 +125,10 @@
           ./hostnameConfig/kerrigan-config.nix
           ./configuration.nix
           ./htpc.nix
-          ./buildServer2.nix
-          ./harmonia.nix
+          # ./windowManager/niri.nix/
+          ./nvidia.nix
+          inputs.nix-index-database.nixosModules.nix-index
+          { programs.nix-index-database.comma.enable = true; }
         ];
       };
       talandar = nixpkgs.lib.nixosSystem {

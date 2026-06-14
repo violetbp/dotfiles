@@ -1,6 +1,8 @@
 { ... }:
 {
-  imports = [    
+  imports = [
+    ../buildServer2.nix
+    ../harmonia.nix
     ../hardwareConfig/kerrigan-hw.nix
     ../hardwareConfig/kerrigan-disk.nix
   ];

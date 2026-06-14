@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  services.harmonia = {
+  services.harmonia.cache = {
     enable = true;
     signKeyPaths = [ "/etc/nix/signing-key.sec" ];
     settings.bind = "[::]:5000";

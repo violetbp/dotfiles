@@ -47,7 +47,7 @@
           modules = [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
             # Omit channel.nix — it embeds a full nixpkgs tree (~hundreds of MB). Use flakes or nix-channel after boot if needed.
-            sops-nix.nixosModules.sops
+            # sops-nix.nixosModules.sops
             ./iso.nix
           ];
         };

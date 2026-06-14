@@ -140,6 +140,7 @@
       "adbusers"
       "dialout" #next two are for serial stuff
       "uucp"
+      "ydotool"
     ]; 
   };
   security.sudo.extraRules = [
