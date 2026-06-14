@@ -10,6 +10,8 @@ in
     sddm.wayland.enable = true;
     sessionPackages = [ plasmaBigscreenPkg ];
   };
+  programs.ydotool.enable = true;
+
 
   environment.systemPackages =
     let

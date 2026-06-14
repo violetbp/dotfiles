@@ -1,0 +1,11 @@
+.android
+.bundle
+.cache
+.cfg
+
+.config (another copy)
+.config (copy)
+.config-ah
+.config/nixos/flake.lock
+
+

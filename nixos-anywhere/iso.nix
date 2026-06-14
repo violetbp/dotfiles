@@ -34,6 +34,23 @@
   networking.networkmanager.enable = true;
   networking.wireless.enable = lib.mkForce false;
 
+  networking.extraHosts = "10.0.1.177 kerrigan";
+
+  nix.settings = {
+    substituters = [
+      "http://kerrigan:5000?priority=10"
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+      "https://niri.cachix.org"
+    ];
+    trusted-public-keys = [
+      "kerrigan.local:fg3tlyeJqGWEzz355TcSE6zuEQmm137FiSEjLPAaZoQ="
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+    ];
+  };
+
   networkPresets.wifiNetworks."You know, what." = { psk = "Do not feed the geese bread."; };
   # networkPresets.wifiNetworks."KittyCafe" = { psk = "gokittygo6560roll"; };
 
