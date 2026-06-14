@@ -22,7 +22,7 @@
   };
 
   programs = {
-    adb.enable = true;
+    ydotool.enable = true;
     direnv = {
       enable = true;
       nix-direnv.enable = true;  # caches nix develop shells so they load instantly
@@ -40,8 +40,10 @@
   };
 
   environment.systemPackages = with pkgs; [
+    kdePackages.plasma-workspace    
     anki
     ansible
+    # android-tools # adb
     inputs.humble-manager.packages.${pkgs.stdenv.system}.humble-manager    arandr # gui diplay manager
     autoconf # make i think?
     automake
@@ -85,15 +87,16 @@
     ncdu
     nemo-with-extensions
     nemo-preview
-    neofetch
+    bluetui
+    bluez
+    hyfetch
     neovim
     nixos-anywhere
     libnotify
     kicad
     networkmanagerapplet
     nix-prefetch-scripts
-    # nixfmt
-    nixfmt-rfc-style
+    nixfmt
     nnn
     ntfs3g
     obsidian
@@ -103,6 +106,7 @@
     pavucontrol # gui sound manager from pulseaudio
     playerctl
     plex-desktop
+    pciutils
     prismlauncher
     python313
     rsyslog
@@ -114,7 +118,8 @@
     signal-desktop
     slack
     sops
-    stow
+    stow    
+    nixfmt
     syslinux
     tmux
     transmission_4-qt
@@ -146,7 +151,6 @@
 
   ];
 
-  system.rebuild.enableNg = true;
 
   fonts.packages = with pkgs; [
     nerd-fonts.recursive-mono

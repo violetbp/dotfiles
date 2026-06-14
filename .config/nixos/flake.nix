@@ -1,10 +1,10 @@
 
 {
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs.url = "nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with
       # the `inputs.nixpkgs` of the current flake,
@@ -37,7 +37,7 @@
     #   inputs.noctalia-qs.follows = "noctalia-qs";
     # };
 
-    # noctalia-qs = {
+    # noctalia-qs = { 
     #   url = "github:noctalia-dev/noctalia-qs";
     #   inputs.nixpkgs.follows = "nixpkgs-unstable";
     # };
@@ -45,6 +45,10 @@
     humble-manager.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-bigscreen = {
+      url = "path:/home/vboysepe/projects/plasmabigscreen";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
   outputs = inputs@{ self, humble-manager, home-manager, claude-desktop, nixpkgs, nix-index-database, catppuccin, niri-flake, ... }: 
   # dankMaterialShell , refind-mod
@@ -120,6 +124,10 @@
           ./hostnameConfig/kerrigan-config.nix
           ./configuration.nix
           ./htpc.nix
+          # ./windowManager/niri.nix/
+          ./nvidia.nix
+          nix-index-database.nixosModules.nix-index
+          { programs.nix-index-database.comma.enable = true; }
         ];
       };
     };

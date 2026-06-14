@@ -61,12 +61,14 @@
     greetd = {
       enable = true;
       settings = {
+        # services.displayManager.defaultSession = "steam-gamescope";
+
         default_session = {
           command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd ${pkgs.niri}/bin/niri-session";
           user = "greeter";
         };
         initial_session = { # autologin with full disc encryption is based
-          command = "${pkgs.niri}/bin/niri-session";
+          command = "${pkgs.steam}/bin/steam-gamescope";
           user = "vboysepe";
         };
       };
